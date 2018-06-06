@@ -1,10 +1,11 @@
-"""Defining all horizontal, vertical, and coronal contours and 10XX systems."""
+"""Defining all horizontal, sagittal, and coronal contours and 10XX systems."""
 # Copyright (c) 2018, Stefan Appelhoff
 # See LICENSE for license details
 
-# For horizontal and vertical contours note the variable name to know
+# For horizontal and sagittal contours note the variable name to know
 # from where the contour starts, over which electrode is crosses half-way
-# and at which electrode position it ends.
+# and at which electrode position it ends. We also need the "mid" coronal
+# contour to draw the horizontal contours.
 horizontal_Fpz_T8_Oz = ['Fpz', 'Fp2h', 'Fp2', 'AFp8', 'AF8', 'AFF8', 'F8',
                         'FFT8', 'FT8', 'FTT8', 'T8', 'TTP8', 'TP8', 'TPP8',
                         'P8', 'PPO8', 'PO8', 'POO8', 'O2', 'O2h', 'Oz']

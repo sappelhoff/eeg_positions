@@ -52,7 +52,6 @@ if __name__ == '__main__':
         p3 = get_xyz(df, contour[-1])
 
         # Calculate all other points at fractions of distance
-        # The overall distance should always be divided into 20 parts
         # see `contour_labels.py` and `test_contour_labels.py`
         other_points = {}
         for i, label in enumerate(contour):
