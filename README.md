@@ -48,9 +48,9 @@ positions in 3D for the 10-20, 10-10, or even 10-05 system.
 You can also just download the precomputed electrode positions in tab-separated
 data format.
 
- - [standard_1020](../data/standard_1020.tsv)
- - [standard_1010](../data/standard_1010.tsv)
- - [standard_1005](../data/standard_1005.tsv)
+ - [standard_1020](eeg_positions/data/standard_1020.tsv)
+ - [standard_1010](eeg_positions/data/standard_1010.tsv)
+ - [standard_1005](eeg_positions/data/standard_1005.tsv)
 
 # Examples
 
