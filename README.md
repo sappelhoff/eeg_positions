@@ -3,28 +3,27 @@
 When recording electroencephalography (EEG) data, electrodes are usually placed
 according to an international standard. The 10-20, and by extension the 10-10
 and 10-05 systems are established sets of rules for this case [1]. Even when
-the actual electrode positions have not been empirically measured during the
+the actual electrode locations have not been empirically measured during the
 recording, an approximation  of these positions is important for for plotting
 topographies or visualizing locations of sensors with the help of analysis
 software.
 
-While standard positions are available in many places such as from Robert
+While standard locations are available in many places such as from Robert
 Oostenveld's [blog](http://robertoostenveld.nl/electrode/) or directly from
-electrode cap manufacturers such as Easycap; with this repository I tried very
-hard to provide an explicit and obvious documentation on how to obtain these
-coordinates.
+electrode cap manufacturers such as Easycap, it is seldom specified how these
+electrode locations are calculated.
 
-This repository contains all you need to compute the standard EEG electrode
-positions in 3D for the 10-20, 10-10, or even 10-05 system.
+This repository contains code to compute the standard EEG electrode locations
+in 3D for the 10-20, 10-10, or even 10-05 system. There are also utility
+functions to project the 3D locations to 2D space and plot them.
 
 #### At a glance
 
-- The coordinates are computed on a geometrical sphere centered on the origin and
-  with radius 1.
-- At its core, the function uses an algorithm to compute positions at fractions
-  along contour lines defined by three points.
-- The electrode positions can be plotted in 3D or in 2D using a stereographic
-  projection.
+- The electrode locations are computed on a geometrical sphere centered on the
+  origin and with radius 1 (arbitrary units).
+- The function uses an algorithm to compute positions at fractions along
+  contour lines defined by three points: See `find_point_at_fraction` in
+  `eeg_positions/utils.py`
 
 #### How to work with it
 
@@ -32,20 +31,23 @@ positions in 3D for the 10-20, 10-10, or even 10-05 system.
 - `cd eeg_positions`
 - Using your python environment of choice, install the package locally using
   `pip install -e .`
-- Run the tests using `pytest`
+- Run the tests using `pytest` (you might have to `pip install pytest` first)
 - Calculate and plot electrodes by calling `python eeg_positions.py` in the
   `eeg_positions/eeg_positions` directory
 - Check out `contour_labels.py` for the order how electrodes are computed
-- ... and see `utilities.py` for the `find_point_at_fraction` function that is
+- ... and see `utils.py` for the `find_point_at_fraction` function that is
   the core of the computations.
 
 #### References
-[1] [Oostenveld, R., & Praamstra, P. (2001). The five percent electrode system for high-resolution EEG and ERP measurements. Clinical neurophysiology, 112(4), 713-719.](https://www.biosemi.com/publications/pdf/Oostenveld2001b.pdf)
+> [1] Oostenveld, R., & Praamstra, P. (2001). The five percent electrode system
+  for high-resolution EEG and ERP measurements. Clinical neurophysiology,
+  112(4), 713-719. doi:
+  [10.1016/S1388-2457(00)00527-7](https://www.biosemi.com/publications/pdf/Oostenveld2001b.pdf)
 
 -------------------------------------------------------------------------------
 # EEG Electrode Position Data
 
-You can also just download the precomputed electrode positions in tab-separated
+You can also just download the pre-computed electrode positions in tab-separated
 data format.
 
 ## 3D
