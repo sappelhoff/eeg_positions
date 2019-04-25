@@ -74,26 +74,26 @@ if __name__ == '__main__':
     # First in 3D
     idx = df.label.isin(system1020)
     df_1020 = df.loc[idx, :]
-    fname = './data/standard_1020.tsv'
+    fname = '../data/standard_1020.tsv'
     df_1020.to_csv(fname, sep='\t', na_rep='n/a', index=False,
                    float_format='%.4f')
 
     idx = df.label.isin(system1010)
     df_1010 = df.loc[idx, :]
-    fname = './data/standard_1010.tsv'
+    fname = '../data/standard_1010.tsv'
     df_1010.to_csv(fname, sep='\t', na_rep='n/a', index=False,
                    float_format='%.4f')
 
     idx = df.label.isin(system1005)
     df_1005 = df.loc[idx, :]
-    fname = './data/standard_1005.tsv'
+    fname = '../data/standard_1005.tsv'
     df_1005.to_csv(fname, sep='\t', na_rep='n/a', index=False,
                    float_format='%.4f')
 
     # Now in 2D using stereographic projection
-    fnames = ['./data/standard_1020_2D.tsv',
-              './data/standard_1010_2D.tsv',
-              './data/standard_1005_2D.tsv']
+    fnames = ['../data/standard_1020_2D.tsv',
+              '../data/standard_1010_2D.tsv',
+              '../data/standard_1005_2D.tsv']
 
     for df, fname in zip([df_1020, df_1010, df_1005], fnames):
         xs, ys = stereographic_projection(df.values[:, 1],

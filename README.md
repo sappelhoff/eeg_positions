@@ -51,14 +51,14 @@ You can also just download the pre-computed electrode positions in tab-separated
 data format.
 
 ## 3D
- - [standard_1020](eeg_positions/data/standard_1020.tsv)
- - [standard_1010](eeg_positions/data/standard_1010.tsv)
- - [standard_1005](eeg_positions/data/standard_1005.tsv)
+ - [standard_1020](./data/standard_1020.tsv)
+ - [standard_1010](./data/standard_1010.tsv)
+ - [standard_1005](./data/standard_1005.tsv)
 
 ## 2D via a stereographic projection from 3D
-- [standard_1020](eeg_positions/data/standard_1020_2D.tsv)
-- [standard_1010](eeg_positions/data/standard_1010_2D.tsv)
-- [standard_1005](eeg_positions/data/standard_1005_2D.tsv)
+- [standard_1020](./data/standard_1020_2D.tsv)
+- [standard_1010](./data/standard_1010_2D.tsv)
+- [standard_1005](./data/standard_1005_2D.tsv)
 
 # Examples
 
