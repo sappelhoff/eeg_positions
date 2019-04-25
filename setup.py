@@ -10,7 +10,7 @@ with io.open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='eeg_positions',
-      version='0.1.0',
+      version='0.1.1',
       description=('Functions and data to compute and plot standard EEG'
                    ' electrode positions.'),
       long_description=long_description,
@@ -31,7 +31,7 @@ setup(name='eeg_positions',
                         'pandas>=0.23.0'],
       python_requires='>=3',
       extras_require={
-        'test': ['nose>=1.3.7']
+        'test': ['pytest']
       },
       project_urls={
         'Bug Reports': 'https://github.com/sappelhoff/eeg_positions/issues',
