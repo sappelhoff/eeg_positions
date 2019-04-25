@@ -1,6 +1,6 @@
 """Defining all horizontal, sagittal, and coronal contours and 10XX systems."""
 # Copyright (c) 2018, Stefan Appelhoff
-# See LICENSE for license details
+# BSD-3-Clause
 
 # For horizontal and sagittal contours note the variable name to know
 # from where the contour starts, over which electrode is crosses half-way

@@ -1,6 +1,6 @@
 """Functions to calculate and plot standard EEG electrode position systems."""
 # Copyright (c) 2018, Stefan Appelhoff
-# See LICENSE for license details
+# BSD-3-Clause
 
 import numpy as np
 import matplotlib.pyplot as plt
