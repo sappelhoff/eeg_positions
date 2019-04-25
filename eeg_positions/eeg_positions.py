@@ -5,8 +5,8 @@ See README for information about assumptions.
 # Copyright (c) 2018, Stefan Appelhoff
 # BSD-3-Clause
 
-from utilities import (get_xyz, find_point_at_fraction, plot_spherical_head,
-                       plot_2d_head, stereographic_projection)
+from utils import (get_xyz, find_point_at_fraction, plot_spherical_head,
+                   plot_2d_head, stereographic_projection)
 
 from contour_labels import all_contours, system1020, system1010, system1005
 
