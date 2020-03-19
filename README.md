@@ -52,7 +52,7 @@ functions to project the 3D locations to 2D space and plot them.
 
 ## Read the data into [MNE-Python](https://mne.tools)
 
-- NOTE: Please download the 3D `10-05` data from [here]([standard_1005](./data/standard_1005.tsv))
+- NOTE: Please download the 3D `10-05` data from [here](./data/standard_1005.tsv)
   and save as `standard_1005.tsv`.
 
 ```Python
@@ -140,8 +140,7 @@ sphere:
 
 Hence, the equator of the sphere goes through T9, T10, and Nz.
 
-**Note that these are ASSUMPTIONS**. It would be equally valid to assume
-that the equator going through T7, T8, and Fpz.
+**Note that these are ASSUMPTIONS**. It would be equally valid to assume the equator going through T7, T8, and Fpz.
 
 # EEG Electrode Position Data
 
