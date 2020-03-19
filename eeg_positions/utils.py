@@ -4,7 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
 
 def find_point_at_fraction(p1, p2, p3, f):
@@ -15,13 +15,12 @@ def find_point_at_fraction(p1, p2, p3, f):
     distance on an arc spanning from `p1` over `p2` to `p3`. Given this
     assumption, for fractions of zero, `p` will equal `p1`; for fractions of
     one, `p` will equal `p3`; and for fractions of one half, `p` will equal
-    `p2` [1].
+    `p2` [1]_.
 
     Parameters
     ----------
     p1, p2, p3 : tuple
         Each tuple containing x, y, z cartesian coordinates.
-
     f : float
         Fraction of distance from `p1` to `p3` over p2` at which
         to find coordinates of `p`.
@@ -143,10 +142,9 @@ def get_xyz(df, label):
 
     Parameters
     ----------
-    df : DataFrame
+    df : pandas.DataFrame
         Data frame with (at least) columns x, y, z, label
-
-    label : string
+    label : str
         Electrode label for which to get x, y, z
 
     Returns
@@ -229,7 +227,7 @@ def plot_spherical_head():
 def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180/20):
     """Get the cartesian coordinates [x,y] for a number of points on a circle.
 
-    Assume that top of circle is 0 degrees
+    Assume that top of circle is 0 degrees.
 
     Parameters
     ----------
@@ -243,7 +241,6 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180/20):
         spacing between evenly spaced points on the
         circle in degrees, default: 9 (360 degrees
         divided into 40 parts, i.e., 5 percent parts)
-
 
     Returns
     -------
@@ -282,10 +279,8 @@ def stereographic_projection(x, y, z, scale=1.):
     ----------
     x, y, z : float
         x, y, z 3D positions of electrodes on a unit sphere
-
     scale : scale to change the projection point. Defaults
             to one, which is on the sphere.
-
 
     Returns
     -------
@@ -333,7 +328,3 @@ def plot_2d_head():
     ax.set_ylim([-head_radius*1.6, head_radius*1.6])
 
     return fig, ax
-
-
-if __name__ == '__main__':
-    pass

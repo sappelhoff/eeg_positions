@@ -4,17 +4,13 @@ See README for information about assumptions.
 """
 # Copyright (c) 2018, Stefan Appelhoff
 # BSD-3-Clause
+import os
+
+import pandas as pd
 
 from utils import (get_xyz, find_point_at_fraction, plot_spherical_head,
                    plot_2d_head, stereographic_projection)
-
 from contour_labels import all_contours, system1020, system1010, system1005
-
-import pandas as pd
-import matplotlib
-
-matplotlib.use('GTK')
-import matplotlib.pyplot as plt  # noqa
 
 
 if __name__ == '__main__':
@@ -71,52 +67,35 @@ if __name__ == '__main__':
 
     # Save The positions as files for the three main standard systems
     # ---------------------------------------------------------------
-    # First in 3D
-    idx = df.label.isin(system1020)
-    df_1020 = df.loc[idx, :]
-    fname = '../data/standard_1020.tsv'
-    df_1020.to_csv(fname, sep='\t', na_rep='n/a', index=False,
-                   float_format='%.4f')
+    fpath = os.path.dirname(os.path.realpath(__file__))
+    fname_template = os.path.join(fpath, '..', 'data', 'standard_{}.tsv')
 
-    idx = df.label.isin(system1010)
-    df_1010 = df.loc[idx, :]
-    fname = '../data/standard_1010.tsv'
-    df_1010.to_csv(fname, sep='\t', na_rep='n/a', index=False,
-                   float_format='%.4f')
+    # First in 3D, then in 2D for each system
+    for system, fmt in zip([system1020, system1010, system1005],
+                           ['1020', '1010', '1005']):
 
-    idx = df.label.isin(system1005)
-    df_1005 = df.loc[idx, :]
-    fname = '../data/standard_1005.tsv'
-    df_1005.to_csv(fname, sep='\t', na_rep='n/a', index=False,
-                   float_format='%.4f')
+        idx = df.label.isin(system)
+        system_df = df.loc[idx, :]
+        system_df.sort_values(by='label', inplace=True)
+        system_df.to_csv(fname_template.format(fmt), sep='\t', na_rep='n/a',
+                         index=False, float_format='%.4f')
 
-    # Now in 2D using stereographic projection
-    fnames = ['../data/standard_1020_2D.tsv',
-              '../data/standard_1010_2D.tsv',
-              '../data/standard_1005_2D.tsv']
-
-    for df, fname in zip([df_1020, df_1010, df_1005], fnames):
-        xs, ys = stereographic_projection(df.values[:, 1],
-                                          df.values[:, 2],
-                                          df.values[:, 3])
-
-        df_2d = pd.DataFrame({'label': df.label.tolist(), 'x': xs, 'y': ys})
-        df_2d.to_csv(fname, sep='\t', na_rep='n/a', index=False,
-                     float_format='%.4f')
+        # Now in 2D using stereographic projection
+        xs, ys = stereographic_projection(system_df.values[:, 1],
+                                          system_df.values[:, 2],
+                                          system_df.values[:, 3])
+        system_df = system_df.loc[:, ['label', 'x', 'y']]
+        system_df['x'] = xs
+        system_df['x'] = ys
+        system_df.to_csv(fname_template.format(fmt + '_2D'), sep='\t',
+                         na_rep='n/a', index=False, float_format='%.4f')
 
     # Plot for each standard system
     # -----------------------------
     system = input('Which system do you want to plot? (1020/1010/1005/None)\n')
-    if system == '1020':
-        df = df_1020
-    elif system == '1010':
-        df = df_1010
-    elif system == '1005':
-        df = df_1005
-    else:
-        df = None
+    if system in ['1020', '1010', '1005']:
+        df = pd.read_csv(fname_template.format(system), sep='\t')
 
-    if df is not None:
         # 3D
         fig, ax = plot_spherical_head()
 

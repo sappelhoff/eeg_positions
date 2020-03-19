@@ -139,7 +139,3 @@ system1010 = system1020 + ['Nz', 'AF7', 'AFz', 'AF8', 'F9', 'F5', 'F1', 'F2',
 
 system1005 = list(set([label for contour in all_contours
                        for label in contour]))
-
-
-if __name__ == '__main__':
-    pass
