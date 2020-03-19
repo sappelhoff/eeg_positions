@@ -52,16 +52,16 @@ def test_find_point_at_fraction():
     p1 = (1., 0., 0.)
     p2 = (0., 0., 1.)
     p3 = (-1., 0., 0.)
-    p = find_point_at_fraction(p1, p2, p3, f=0.)
-    assert p == p1
-    p = find_point_at_fraction(p1, p2, p3, f=1.)
-    assert p == p3
-    p = find_point_at_fraction(p1, p2, p3, f=0.5)
-    assert p == p2
+    point = find_point_at_fraction(p1, p2, p3, frac=0.)
+    assert point == p1
+    point = find_point_at_fraction(p1, p2, p3, frac=1.)
+    assert point == p3
+    point = find_point_at_fraction(p1, p2, p3, frac=0.5)
+    assert point == p2
 
     # Assert error when equal points
     with pytest.raises(ValueError):
-        find_point_at_fraction(p1, p1, p3, 0.5)
+        find_point_at_fraction(p1, p1, p3, frac=0.5)
 
 
 def test_stereographic_projection():
@@ -73,7 +73,7 @@ def test_stereographic_projection():
     df = pd.DataFrame(data)
 
     # We know where Cz and Nz should be in 2D:
-    xs, ys = stereographic_projection(df.x, df.y, df.z)
+    xs, ys = stereographic_projection(df['x'], df['y'], df['z'])
     np.testing.assert_allclose(xs, np.array((0, 0)))
     np.testing.assert_allclose(ys, np.array((0, 1)))
 

@@ -114,7 +114,7 @@ contour_POO = ['POO7', 'POO7h', 'POO5', 'POO5h',
                'POO8']
 
 # List of lists. Note the specific ordering.
-all_contours = [sagittal_Nz_Cz_Iz,
+ALL_CONTOURS = [sagittal_Nz_Cz_Iz,
                 horizontal_Nz_T10_Iz, horizontal_Nz_T9_Iz,
                 coronal_T9_Cz_T10,
                 horizontal_NFpz_T10h_OIz, horizontal_NFpz_T9h_OIz,
@@ -125,11 +125,11 @@ all_contours = [sagittal_Nz_Cz_Iz,
                 contour_PO, contour_POO]
 
 # Defining which electrodes belong into which standard system
-system1020 = ['Fp1', 'Fpz', 'Fp2', 'F7', 'F3', 'Fz', 'F4', 'F8',
+SYSTEM1020 = ['Fp1', 'Fpz', 'Fp2', 'F7', 'F3', 'Fz', 'F4', 'F8',
               'T7', 'C3', 'Cz', 'C4', 'T8', 'P7', 'P3', 'Pz', 'P4', 'P8',
               'O1', 'Oz', 'O2']
 
-system1010 = system1020 + ['Nz', 'AF7', 'AFz', 'AF8', 'F9', 'F5', 'F1', 'F2',
+SYSTEM1010 = SYSTEM1020 + ['Nz', 'AF7', 'AFz', 'AF8', 'F9', 'F5', 'F1', 'F2',
                            'F6', 'F10', 'FT9', 'FT7', 'FC5', 'FC3', 'FC1',
                            'FCz', 'FC2', 'FC4', 'FC6', 'FT8', 'FT10', 'T9',
                            'C5', 'C1', 'C2', 'C6', 'T10', 'TP7', 'CP5', 'CP3',
@@ -137,5 +137,8 @@ system1010 = system1020 + ['Nz', 'AF7', 'AFz', 'AF8', 'F9', 'F5', 'F1', 'F2',
                            'P5', 'P1', 'P2', 'P6', 'P10', 'PO9', 'PO7', 'POz',
                            'PO8', 'PO10', 'I1', 'Iz', 'I2']
 
-system1005 = list(set([label for contour in all_contours
-                       for label in contour]))
+SYSTEM1005 = list()
+for contour in ALL_CONTOURS:
+    for label in contour:
+        if label not in SYSTEM1005:
+            SYSTEM1005.append(label)

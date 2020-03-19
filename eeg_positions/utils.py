@@ -7,28 +7,28 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
 
-def find_point_at_fraction(p1, p2, p3, f):
+def find_point_at_fraction(p1, p2, p3, frac):
     """Find a point on an arc spanned by three points.
 
     Given three points `p1`, `p2` and `p3` on a sphere with origin (0, 0, 0),
-    find the coordinates of a point `p` at a fraction `f` of the overall
+    find the coordinates of a `point` at a fraction `frac` of the overall
     distance on an arc spanning from `p1` over `p2` to `p3`. Given this
-    assumption, for fractions of zero, `p` will equal `p1`; for fractions of
-    one, `p` will equal `p3`; and for fractions of one half, `p` will equal
-    `p2` [1]_.
+    assumption, for fractions of zero, `point` will equal `p1`; for fractions
+    of one, `point` will equal `p3`; and for fractions of one half, `point`
+    will equal `p2` [1]_.
 
     Parameters
     ----------
     p1, p2, p3 : tuple
         Each tuple containing x, y, z cartesian coordinates.
-    f : float
+    frac : float
         Fraction of distance from `p1` to `p3` over p2` at which
         to find coordinates of `p`.
 
     Returns
     -------
-    p : tuple
-     Containing x, y, z cartesian coordinates.
+    point : tuple
+        Containing x, y, z cartesian coordinates.
 
     Notes
     -----
@@ -45,13 +45,16 @@ def find_point_at_fraction(p1, p2, p3, f):
 
     Examples
     --------
-    >>> find_point_at_fraction((1., 0., 0.), (0., 0., 1.), (-1., 0., 0.), f=0.)
+    >>> p1 = (1., 0., 0.)
+    >>> p2 = (0., 0., 1.)
+    >>> p3 = (-1., 0., 0.)
+    >>> find_point_at_fraction(p1, p2, p3, frac=0.)
     (1., 0., 0.)
-    >>> find_point_at_fraction((1., 0., 0.), (0., 0., 1.), (-1., 0., 0.), f=.5)
+    >>> find_point_at_fraction(p1, p2, p3, frac=.5)
     (0., 0., 1.)
-    >>> find_point_at_fraction((1., 0., 0.), (0., 0., 1.), (-1., 0., 0.), f=1.)
+    >>> find_point_at_fraction(p1, p2, p3, frac=1.)
     (-1., 0., 0.)
-    >>> find_point_at_fraction((1., 0., 0.), (0., 0., 1.), (-1., 0., 0.), f=.3)
+    >>> find_point_at_fraction(p1, p2, p3, frac=.3)
     (0.5878, 0.0, 0.809)
 
     """
@@ -126,14 +129,14 @@ def find_point_at_fraction(p1, p2, p3, f):
         theta = theta + 2*np.pi
 
     # Now calculate coordinates at fraction
-    x = xc + xu * np.cos(f*theta) + xv*np.sin(f*theta)
-    y = yc + yu * np.cos(f*theta) + yv*np.sin(f*theta)
-    z = zc + zu * np.cos(f*theta) + zv*np.sin(f*theta)
+    x = xc + xu * np.cos(frac*theta) + xv*np.sin(frac*theta)
+    y = yc + yu * np.cos(frac*theta) + yv*np.sin(frac*theta)
+    z = zc + zu * np.cos(frac*theta) + zv*np.sin(frac*theta)
 
     # Round to 4 decimals and collect the points in tuple
-    p = np.asarray((x, y, z))
-    p = tuple(p.round(decimals=4))
-    return p
+    point = np.asarray((x, y, z))
+    point = tuple(point.round(decimals=4))
+    return point
 
 
 # Convenient helper function to access xyz coordinates from df

@@ -8,9 +8,11 @@ import os
 
 import pandas as pd
 
-from utils import (get_xyz, find_point_at_fraction, plot_spherical_head,
-                   plot_2d_head, stereographic_projection)
-from contour_labels import all_contours, system1020, system1010, system1005
+from eeg_positions.utils import (get_xyz, find_point_at_fraction,
+                                 plot_spherical_head, plot_2d_head,
+                                 stereographic_projection)
+from eeg_positions.contour_labels import (ALL_CONTOURS, SYSTEM1020, SYSTEM1010,
+                                          SYSTEM1005)
 
 
 if __name__ == '__main__':
@@ -32,7 +34,7 @@ if __name__ == '__main__':
 
     # Calculate all positions
     # -----------------------
-    for contour in all_contours:
+    for contour in ALL_CONTOURS:
 
         if len(contour) == 21:
             midpoint_idx = 10
@@ -49,15 +51,15 @@ if __name__ == '__main__':
 
         # Calculate all other points at fractions of distance
         # see `contour_labels.py` and `test_contour_labels.py`
-        other_points = {}
+        other_ps = {}
         for i, label in enumerate(contour):
-            other_points[label] = find_point_at_fraction(p1,
-                                                         p2,
-                                                         p3,
-                                                         f=i/(len(contour)-1))
+            other_ps[label] = find_point_at_fraction(p1,
+                                                     p2,
+                                                     p3,
+                                                     frac=i/(len(contour)-1))
 
         # Append to data frame
-        tmp = pd.DataFrame.from_dict(other_points, orient='index')
+        tmp = pd.DataFrame.from_dict(other_ps, orient='index')
         tmp.columns = ['x', 'y', 'z']
         tmp['label'] = tmp.index
         df = df.append(tmp, ignore_index=True, sort=True)
@@ -71,19 +73,19 @@ if __name__ == '__main__':
     fname_template = os.path.join(fpath, '..', 'data', 'standard_{}.tsv')
 
     # First in 3D, then in 2D for each system
-    for system, fmt in zip([system1020, system1010, system1005],
+    for system, fmt in zip([SYSTEM1020, SYSTEM1010, SYSTEM1005],
                            ['1020', '1010', '1005']):
 
         idx = df.label.isin(system)
         system_df = df.loc[idx, :]
-        system_df.sort_values(by='label', inplace=True)
+        system_df = system_df.sort_values(by='label')
         system_df.to_csv(fname_template.format(fmt), sep='\t', na_rep='n/a',
                          index=False, float_format='%.4f')
 
         # Now in 2D using stereographic projection
-        xs, ys = stereographic_projection(system_df.values[:, 1],
-                                          system_df.values[:, 2],
-                                          system_df.values[:, 3])
+        xs, ys = stereographic_projection(system_df.to_numpy()[:, 1],
+                                          system_df.to_numpy()[:, 2],
+                                          system_df.to_numpy()[:, 3])
         system_df = system_df.loc[:, ['label', 'x', 'y']]
         system_df['x'] = xs
         system_df['x'] = ys
@@ -108,11 +110,11 @@ if __name__ == '__main__':
         # 2D
         fig2, ax2 = plot_2d_head()
 
-        xs, ys = stereographic_projection(df.x, df.y, df.z)
+        xs, ys = stereographic_projection(df['x'], df['y'], df['z'])
 
         ax2.scatter(xs, ys, marker='.', color='r')
 
-        for lab, x, y in zip(list(df.label), xs, ys):
+        for lab, x, y in zip(list(df['label']), xs, ys):
             ax2.annotate(lab, xy=(x, y), fontsize=5)
 
         ax2.set_title('standard_{}'.format(system))

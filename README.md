@@ -28,16 +28,15 @@ functions to project the 3D locations to 2D space and plot them.
 
 ## How to work with it
 
-- `git clone` the repository (or download as .zip and unpack)
+- `git clone` the repository (or download as `.zip` and unpack)
 - `cd eeg_positions`
 - Using your python environment of choice, install the package and its
   dependencies locally using `pip install -e .`
 - Run the tests using `pytest` (you might have to `pip install pytest` first)
-- Calculate and plot electrodes by calling `python eeg_positions.py` in the
-  `eeg_positions/eeg_positions` directory
+- Calculate and plot electrodes by calling `python eeg_positions/calc_positions.py`
 - Check out `contour_labels.py` for the order how electrodes are computed
-- ... and see `utils.py` for the `find_point_at_fraction` function that is
-  the core of the computations.
+- ... and see `utils.py` for the `find_point_at_fraction` function that is the
+  core of the computations.
 
 ## References
 
@@ -45,6 +44,19 @@ functions to project the 3D locations to 2D space and plot them.
   for high-resolution EEG and ERP measurements. Clinical neurophysiology,
   112(4), 713-719. doi:
   [10.1016/S1388-2457(00)00527-7](https://www.biosemi.com/publications/pdf/Oostenveld2001b.pdf)
+
+## Acknowledgements
+
+Explicit thanks to:
+
+- Robert Oostenveld for writing his [blog post](http://robertoostenveld.nl/electrode/)
+  on electrodes
+- Ed Williams for the helpful correspondence and discussions about
+  "intermediate points on a great circle" (see his
+  [aviation formulary](http://www.edwilliams.org/avform.htm#Intermediate))
+- "N. Bach" and "Nominal Animal" who helped me to figure out the math for
+  the `find_point_at_fraction` function (see this
+  [math.stackexchange.com post](https://math.stackexchange.com/questions/2800845/find-intermediate-points-on-small-circle-of-a-sphere/2805204#2805204))
 
 ---
 
@@ -89,13 +101,13 @@ montage.plot()
 
 ## Interactively viewing 3D coordinates
 
-reproduce by running `python eeg_positions.py`
+reproduce by running `python eeg_positions/calc_positions.py`
 
 ![img: coordinate system](./images/3d_view.png)
 
 ## Projections to 2D
 
-reproduce by running `python eeg_positions.py`
+reproduce by running `python eeg_positions/calc_positions.py`
 
 ### 10-20 system
 ![img: coordinate system](./images/1020.png)
@@ -115,8 +127,10 @@ reproduce by running `python eeg_positions.py`
 ### 3D Axes and Cartesian Coordinate System
 
 - Imagine the x-axis pointing roughly towards the viewer with increasing values
-- The y-axis is orthogonal to the x-axis, pointing to the right of the viewer with increasing values
-- The z-axis is orthogonal to the xy-plane and pointing vertically up with increasing values
+- The y-axis is orthogonal to the x-axis, pointing to the right of the viewer
+  with increasing values
+- The z-axis is orthogonal to the xy-plane and pointing vertically up with
+  increasing values
 
 ![img: coordinate system](./images/coords_cartesian.png)
 
@@ -132,15 +146,16 @@ sphere:
 
 ## Cartesian Coordinates
 
-- The left preauricular point = (-1, 0, 0) ... coincides with T9
-- The right preauricular point = (1, 0, 0) ... coincides with T10
-- The nasion = (0, 1, 0) ... coincides with Nz
-- The inion = (0, -1, 0) ... coincides with Iz
-- The vertex = (0, 0, 1) ... coincides with Cz
+- The left preauricular point = `(-1, 0, 0)` ... coincides with T9
+- The right preauricular point = `(1, 0, 0)` ... coincides with T10
+- The nasion = `(0, 1, 0)` ... coincides with Nz
+- The inion = `(0, -1, 0)` ... coincides with Iz
+- The vertex = `(0, 0, 1)` ... coincides with Cz
 
-Hence, the equator of the sphere goes through T9, T10, and Nz.
+Hence, the equator of the sphere goes through T9, T10, Nz and Iz.
 
-**Note that these are ASSUMPTIONS**. It would be equally valid to assume the equator going through T7, T8, and Fpz.
+**Note that these are ASSUMPTIONS**. It would be equally valid to assume the
+equator going through T7, T8, Fpz, and Oz.
 
 # EEG Electrode Position Data
 
