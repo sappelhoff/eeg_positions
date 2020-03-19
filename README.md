@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692)
+
 # eeg_positions
 
 When recording electroencephalography (EEG) data, electrodes are usually placed

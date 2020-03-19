@@ -1,0 +1,19 @@
+{
+  "title": "eeg_positions",
+  "description": "This repository contains code to compute the standard EEG electrode locations in 3D for the 10-20, 10-10, or even 10-05 system.",
+  "keywords": [
+    "EEG",
+    "electrodes",
+    "coordinates",
+    "positions",
+    "neuroscience"
+  ],
+  "license": "BSD-3-Clause",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Appelhoff, Stefan",
+      "orcid": "0000-0001-8002-0877"
+    }
+  ]
+}
