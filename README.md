@@ -143,7 +143,7 @@ the x-axis goes from the left ear through the right ear, the y-axis goes
 orthogonally to that from the inion through the nasion, and the z-axis goes
 orthogonally to that plane through the vertex of the scalp.
 
-We use the following anatomical landmarks to define the boundaries of th
+We use the following anatomical landmarks to define the boundaries of the
 sphere:
 
 ## Cartesian Coordinates
