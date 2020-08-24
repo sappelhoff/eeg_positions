@@ -1,6 +1,6 @@
 {
   "title": "eeg_positions",
-  "description": "This repository contains code to compute the standard EEG electrode locations in 3D for the 10-20, 10-10, or even 10-05 system.",
+  "description": "This repository contains code to compute the standard EEG electrode locations in 3D for the 10-20, 10-10, and 10-05 system.",
   "keywords": [
     "EEG",
     "electrodes",

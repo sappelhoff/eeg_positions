@@ -20,6 +20,12 @@ seldom specified how these electrode locations are calculated.
 in 3D for the `10-20`, `10-10`, or even `10-05` system.** There are also utility
 functions to project the 3D locations to 2D space and plot them.
 
+## Cite
+
+If you find this repository useful and want to cite it in your work, please go
+to the [Zenodo record](https://doi.org/10.5281/zenodo.3718568) and obtain the
+appropriate citation from the *"Cite as"* section there.
+
 ## At a glance
 
 - The electrode locations are computed on a geometrical sphere centered on the
