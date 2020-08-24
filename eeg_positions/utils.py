@@ -23,12 +23,12 @@ def find_point_at_fraction(p1, p2, p3, frac):
         Each tuple containing x, y, z cartesian coordinates.
     frac : float
         Fraction of distance from `p1` to `p3` over p2` at which
-        to find coordinates of `p`.
+        to find coordinates of `point`.
 
     Returns
     -------
     point : tuple
-        Containing x, y, z cartesian coordinates.
+        The x, y, z cartesian coordinates of the point at fraction.
 
     Notes
     -----
@@ -49,11 +49,11 @@ def find_point_at_fraction(p1, p2, p3, frac):
     >>> p2 = (0., 0., 1.)
     >>> p3 = (-1., 0., 0.)
     >>> find_point_at_fraction(p1, p2, p3, frac=0.)
-    (1., 0., 0.)
+    (1.0, 0.0, 0.0)
     >>> find_point_at_fraction(p1, p2, p3, frac=.5)
-    (0., 0., 1.)
+    (0.0, 0.0, 1.0)
     >>> find_point_at_fraction(p1, p2, p3, frac=1.)
-    (-1., 0., 0.)
+    (-1.0, 0.0, 0.0)
     >>> find_point_at_fraction(p1, p2, p3, frac=.3)
     (0.5878, 0.0, 0.809)
 
@@ -147,14 +147,14 @@ def get_xyz(df, label):
     Parameters
     ----------
     df : pandas.DataFrame
-        Data frame with (at least) columns x, y, z, label
+        Data frame with (at least) columns x, y, z, label.
     label : str
-        Electrode label for which to get x, y, z
+        Electrode label for which to get x, y, z from `df`.
 
     Returns
     -------
     x, y, z : float
-        x, y, z 3D positions of electrodes on a unit sphere
+        Positions of electrodes on a unit sphere.
 
     """
     # Check that all labels are present
@@ -181,6 +181,7 @@ def plot_spherical_head():
     Returns
     -------
     fig, ax : figure and axes objects
+        The figure and axes.
 
     """
     # Start new 3D figure
@@ -233,21 +234,20 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180 / 20):
 
     Parameters
     ----------
-    cx : int
-        x coordinate of origin of circle, default: 0
-    cy : int
-        y coordinate of origin of circle, default: 0
+    cx, cy : int
+        Coordinates (x and y) of origin of circle. Defaults
+        to 0 for x and y.
     r : int
-        radius of circle, default: 1
+        Radius of circle, defaults to 1.
     steps : int
-        spacing between evenly spaced points on the
-        circle in degrees, default: 9 (360 degrees
+        Spacing between evenly spaced points on the
+        circle in degrees. Defaults to 9 (360 degrees
         divided into 40 parts, i.e., 5 percent parts)
 
     Returns
     -------
-    coords : list
-        nested list of [[x1,y1], [x2,y2], ...]
+    coords : list of list
+        Nested list of points: ``[[x1, y1], [x2, y2], ...]``.
 
     """
     # Make sure we are dealing with integer steps
@@ -272,22 +272,23 @@ def stereographic_projection(x, y, z, scale=1.0):
 
     Given a unit sphere with radius ``r = 1`` and center at
     The origin. Project the point ``p = (x, y, z)`` from the
-    sphere's South pole (0, 0, -1) on a plane on the sphere's
-    North pole (0, 0, 1).
+    sphere's South pole ``(0, 0, -1)`` on a plane on the sphere's
+    North pole ``(0, 0, 1)``.
 
-    P' = P * (2r / (r + z))
+    ``P' = P * (2r / (r + z))``
 
     Parameters
     ----------
     x, y, z : float
-        x, y, z 3D positions of electrodes on a unit sphere
-    scale : scale to change the projection point. Defaults
-            to one, which is on the sphere.
+        Positions of electrodes on a unit sphere
+    scale : float
+        Scale to change the projection point. Defaults to 1,
+        which is on the sphere.
 
     Returns
     -------
     x, y : float
-        x, y 2D positions of electrodes as projected onto a unit circle
+        Positions of electrodes as projected onto a unit circle.
 
     """
     mu = 1.0 / (scale + z)
