@@ -11,7 +11,7 @@ with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 # get the version
 version = None
-with open(os.path.join('mne_bids', '__init__.py'), 'r') as fid:
+with open(os.path.join('eeg_positions', '__init__.py'), 'r') as fid:
     for line in (line.strip() for line in fid):
         if line.startswith('__version__'):
             version = line.split('=')[1].strip().strip('\'')
