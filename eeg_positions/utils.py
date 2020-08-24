@@ -72,29 +72,30 @@ def find_point_at_fraction(p1, p2, p3, frac):
     y13 = y3 - y1
     z13 = z3 - z1
 
-    xn = y12*z13 - z12*y13
-    yn = z12*x13 - x12*z13
-    zn = x12*y13 - y12*x13
+    xn = y12 * z13 - z12 * y13
+    yn = z12 * x13 - x12 * z13
+    zn = x12 * y13 - y12 * x13
 
-    n = np.sqrt(xn**2 + yn**2 + zn**2)
+    n = np.sqrt(xn ** 2 + yn ** 2 + zn ** 2)
 
-    if n <= 0.:
-        raise ValueError('Points are either collinear '
-                         'or share the same coordinates.')
+    if n <= 0.0:
+        raise ValueError(
+            "Points are either collinear " "or share the same coordinates."
+        )
 
-    xn = xn/n
-    yn = yn/n
-    zn = zn/n
+    xn = xn / n
+    yn = yn / n
+    zn = zn / n
 
     # Use dot product to get signed distance from plane to origin
     # interchangeably use p1, p2, or p3 with normal vector
-    d = xn*x1 + yn*y1 + zn*z1
+    d = xn * x1 + yn * y1 + zn * z1
 
     # At intersection of sphere and plane, we have a circle
     # with the following center:
-    xc = d*xn
-    yc = d*yn
-    zc = d*zn
+    xc = d * xn
+    yc = d * yn
+    zc = d * zn
 
     # Construct a 2D coordinate system with the unit circle corresponding
     # to the above circle with first axis towards p1 and second towards p2:
@@ -104,13 +105,13 @@ def find_point_at_fraction(p1, p2, p3, frac):
     zu = z1 - zc
 
     # 2D V axis unit vector
-    xv = yn*zu - zn*yu
-    yv = zn*xu - xn*zu
-    zv = xn*yu - yn*xu
+    xv = yn * zu - zn * yu
+    yv = zn * xu - xn * zu
+    zv = xn * yu - yn * xu
 
     # Choose V axis towards (x2, y2, z2)
-    v2 = (x2 - xc)*xv + (y2 - yc)*yv + (z2 - zc)*zv
-    if v2 < 0.:
+    v2 = (x2 - xc) * xv + (y2 - yc) * yv + (z2 - zc) * zv
+    if v2 < 0.0:
         xv = -xv
         yv = -yv
         zv = -zv
@@ -120,18 +121,18 @@ def find_point_at_fraction(p1, p2, p3, frac):
     yt = y3 - yc
     zt = z3 - zc
 
-    thetau = xt*xu + yt*yu + zt*zu
-    thetav = xt*xv + yt*yv + zt*zv
+    thetau = xt * xu + yt * yu + zt * zu
+    thetav = xt * xv + yt * yv + zt * zv
     theta = np.arctan2(thetav, thetau)
 
-    if theta < 0.:
+    if theta < 0.0:
         # Add 360 degrees, or 2*Pi in radians, to make it positive
-        theta = theta + 2*np.pi
+        theta = theta + 2 * np.pi
 
     # Now calculate coordinates at fraction
-    x = xc + xu * np.cos(frac*theta) + xv*np.sin(frac*theta)
-    y = yc + yu * np.cos(frac*theta) + yv*np.sin(frac*theta)
-    z = zc + zu * np.cos(frac*theta) + zv*np.sin(frac*theta)
+    x = xc + xu * np.cos(frac * theta) + xv * np.sin(frac * theta)
+    y = yc + yu * np.cos(frac * theta) + yv * np.sin(frac * theta)
+    z = zc + zu * np.cos(frac * theta) + zv * np.sin(frac * theta)
 
     # Round to 4 decimals and collect the points in tuple
     point = np.asarray((x, y, z))
@@ -157,20 +158,20 @@ def get_xyz(df, label):
 
     """
     # Check that all labels are present
-    for var in ['label', 'x', 'y', 'z']:
+    for var in ["label", "x", "y", "z"]:
         if var not in df.columns:
             raise ValueError('df must contain a column "{}"'.format(var))
 
     # Check we get exactly one row of data
-    subdf = df[df['label'] == label]
+    subdf = df[df["label"] == label]
     nrows = subdf.shape[0]
     if nrows == 0 or nrows > 1:
-        raise ValueError('Expected one row of data but got {}'.format(nrows))
+        raise ValueError("Expected one row of data but got {}".format(nrows))
 
     # Get the data
-    x = float(df[df['label'] == label].x)
-    y = float(df[df['label'] == label].y)
-    z = float(df[df['label'] == label].z)
+    x = float(df[df["label"] == label].x)
+    y = float(df[df["label"] == label].y)
+    z = float(df[df["label"] == label].z)
     return x, y, z
 
 
@@ -184,13 +185,13 @@ def plot_spherical_head():
     """
     # Start new 3D figure
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.add_subplot(111, projection="3d")
 
     # Add labels, scale limits, equal aspect
-    ax.set_xlabel('x', fontsize=20)
-    ax.set_ylabel('y', fontsize=20)
-    ax.set_zlabel('z', fontsize=20)
-    ax.set_aspect('auto')
+    ax.set_xlabel("x", fontsize=20)
+    ax.set_ylabel("y", fontsize=20)
+    ax.set_zlabel("z", fontsize=20)
+    ax.set_aspect("auto")
     ax.set_xlim((-1, 1))
     ax.set_ylim((-1, 1))
     ax.set_zlim((-1, 1))
@@ -200,34 +201,32 @@ def plot_spherical_head():
     ax.xaxis.pane.fill = False
     ax.yaxis.pane.fill = False
     ax.zaxis.pane.fill = False
-    ax.xaxis.pane.set_edgecolor('w')
-    ax.yaxis.pane.set_edgecolor('w')
-    ax.zaxis.pane.set_edgecolor('w')
+    ax.xaxis.pane.set_edgecolor("w")
+    ax.yaxis.pane.set_edgecolor("w")
+    ax.zaxis.pane.set_edgecolor("w")
 
     # Plot origin
-    max_lim = np.max(np.abs([ax.get_xlim3d(),
-                             ax.get_ylim3d(),
-                             ax.get_zlim3d()]))
+    max_lim = np.max(np.abs([ax.get_xlim3d(), ax.get_ylim3d(), ax.get_zlim3d()]))
     n_pts = 11
-    fake_spine = np.linspace(-max_lim*6, max_lim*6, n_pts)
+    fake_spine = np.linspace(-max_lim * 6, max_lim * 6, n_pts)
     fake_spine_zeros = np.zeros_like(fake_spine)
 
-    ax.plot(fake_spine, fake_spine_zeros, fake_spine_zeros, color='k')
-    ax.plot(fake_spine_zeros, fake_spine, fake_spine_zeros, color='k')
-    ax.plot(fake_spine_zeros, fake_spine_zeros, fake_spine, color='k')
+    ax.plot(fake_spine, fake_spine_zeros, fake_spine_zeros, color="k")
+    ax.plot(fake_spine_zeros, fake_spine, fake_spine_zeros, color="k")
+    ax.plot(fake_spine_zeros, fake_spine_zeros, fake_spine, color="k")
 
     # draw spherical head
     resolution = 100j
     u, v = np.mgrid[0:2*np.pi:resolution, 0:np.pi:resolution]
-    x = np.cos(u)*np.sin(v)
-    y = np.sin(u)*np.sin(v)
+    x = np.cos(u) * np.sin(v)
+    y = np.sin(u) * np.sin(v)
     z = np.cos(v)
-    ax.plot_wireframe(x, y, z, color='k', linestyle=':', alpha=0.1)
+    ax.plot_wireframe(x, y, z, color="k", linestyle=":", alpha=0.1)
 
     return fig, ax
 
 
-def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180/20):
+def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180 / 20):
     """Get the cartesian coordinates [x,y] for a number of points on a circle.
 
     Assume that top of circle is 0 degrees.
@@ -252,7 +251,7 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180/20):
 
     """
     # Make sure we are dealing with integer steps
-    assert steps/int(steps) == 1.0
+    assert steps / int(steps) == 1.0
     steps = int(steps)
 
     coords = []
@@ -268,7 +267,7 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180/20):
     return coords
 
 
-def stereographic_projection(x, y, z, scale=1.):
+def stereographic_projection(x, y, z, scale=1.0):
     """Calculate the stereographic projection.
 
     Given a unit sphere with radius ``r = 1`` and center at
@@ -291,9 +290,9 @@ def stereographic_projection(x, y, z, scale=1.):
         x, y 2D positions of electrodes as projected onto a unit circle
 
     """
-    mu = 1. / (scale + z)
-    x = x*mu
-    y = y*mu
+    mu = 1.0 / (scale + z)
+    x = x * mu
+    y = y * mu
     return np.asarray(x), np.asarray(y)
 
 
@@ -307,15 +306,14 @@ def plot_2d_head():
     """
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.axes.set_aspect('equal')
-    plt.xlabel('x')
-    plt.ylabel('y')
+    ax.axes.set_aspect("equal")
+    plt.xlabel("x")
+    plt.ylabel("y")
 
-    head_radius = 1.
+    head_radius = 1.0
 
     # Draw head shape
-    head_shape = plt.Circle((0, 0), head_radius,
-                            color='k', fill=False, linewidth=2)
+    head_shape = plt.Circle((0, 0), head_radius, color="k", fill=False, linewidth=2)
     ax.add_artist(head_shape)
 
     # Draw nose
@@ -323,11 +321,11 @@ def plot_2d_head():
     nose_base_l = _get_coords_on_circle(r=head_radius, steps=nose_width)[-1]
     nose_base_r = _get_coords_on_circle(r=head_radius, steps=nose_width)[1]
     nose_tip = 1.1
-    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), 'k', linewidth=2)
-    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), 'k', linewidth=2)
+    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=2)
+    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=2)
 
     # Adjust limits:
-    ax.set_xlim([-head_radius*1.6, head_radius*1.6])
-    ax.set_ylim([-head_radius*1.6, head_radius*1.6])
+    ax.set_xlim([-head_radius * 1.6, head_radius * 1.6])
+    ax.set_ylim([-head_radius * 1.6, head_radius * 1.6])
 
     return fig, ax
