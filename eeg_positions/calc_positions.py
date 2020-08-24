@@ -100,13 +100,13 @@ if __name__ == "__main__":
 
         # Now in 2D using stereographic projection
         xs, ys = stereographic_projection(
-            system_df.to_numpy()[:, 1],
-            system_df.to_numpy()[:, 2],
-            system_df.to_numpy()[:, 3],
+            system_df["x"].to_numpy(),
+            system_df["y"].to_numpy(),
+            system_df["z"].to_numpy(),
         )
         system_df = system_df.loc[:, ["label", "x", "y"]]
-        system_df["x"] = xs
-        system_df["x"] = ys
+        system_df.loc[:, "x"] = xs
+        system_df.loc[:, "y"] = ys
         system_df.to_csv(
             fname_template.format(fmt + "_2D"),
             sep="\t",
