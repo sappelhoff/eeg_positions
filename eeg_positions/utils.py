@@ -218,7 +218,7 @@ def plot_spherical_head():
 
     # draw spherical head
     resolution = 100j
-    u, v = np.mgrid[0:2*np.pi:resolution, 0:np.pi:resolution]
+    u, v = np.mgrid[0 : 2 * np.pi : resolution, 0 : np.pi : resolution]
     x = np.cos(u) * np.sin(v)
     y = np.sin(u) * np.sin(v)
     z = np.cos(v)
