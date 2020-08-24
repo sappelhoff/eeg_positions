@@ -1,5 +1,5 @@
 """Functions to calculate and plot standard EEG electrode position systems."""
-# Copyright (c) 2018, Stefan Appelhoff
+# Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
 
 import numpy as np

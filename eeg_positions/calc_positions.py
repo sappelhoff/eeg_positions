@@ -2,8 +2,9 @@
 
 See README for information about assumptions.
 """
-# Copyright (c) 2018, Stefan Appelhoff
+# Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
+
 import os
 
 import pandas as pd

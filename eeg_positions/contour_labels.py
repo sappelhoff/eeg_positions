@@ -1,5 +1,5 @@
 """Defining all horizontal, sagittal, and coronal contours and 10XX systems."""
-# Copyright (c) 2018, Stefan Appelhoff
+# Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
 
 # For horizontal and sagittal contours note the variable name to know

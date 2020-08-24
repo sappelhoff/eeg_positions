@@ -1,4 +1,6 @@
 """Test the utility functions."""
+# Copyright (c) 2018-2020, Stefan Appelhoff
+# BSD-3-Clause
 
 from eeg_positions.utils import (get_xyz, find_point_at_fraction,
                                  plot_spherical_head, plot_2d_head,
