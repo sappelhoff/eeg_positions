@@ -39,7 +39,7 @@ setup(name='eeg_positions',
       keywords='EEG electrodes standard positions 1020 1010 1005 percent',
       packages=find_packages(),
       install_requires=['numpy>=1.14.2', 'matplotlib>=2.0.2',
-                        'pandas>=0.24.0', 'mne>=0.19,<=0.20'],
+                        'pandas>=0.24.0', 'mne>=0.19,<=0.21'],
       python_requires='>=3.5',
       extras_require={
         'test': ['pytest']
