@@ -190,7 +190,7 @@ def plot_spherical_head():
     ax.set_xlabel('x', fontsize=20)
     ax.set_ylabel('y', fontsize=20)
     ax.set_zlabel('z', fontsize=20)
-    ax.set_aspect('equal')
+    ax.set_aspect('auto')
     ax.set_xlim((-1, 1))
     ax.set_ylim((-1, 1))
     ax.set_zlim((-1, 1))
