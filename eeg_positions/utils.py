@@ -2,8 +2,8 @@
 # Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
 

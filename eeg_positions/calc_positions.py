@@ -9,12 +9,10 @@ import os
 
 import pandas as pd
 
-from eeg_positions.utils import (get_xyz, find_point_at_fraction,
-                                 plot_spherical_head, plot_2d_head,
-                                 stereographic_projection)
-from eeg_positions.contour_labels import (ALL_CONTOURS, SYSTEM1020, SYSTEM1010,
-                                          SYSTEM1005)
-
+from eeg_positions.contour_labels import (ALL_CONTOURS, SYSTEM1005, SYSTEM1010,
+                                          SYSTEM1020)
+from eeg_positions.utils import (find_point_at_fraction, get_xyz, plot_2d_head,
+                                 plot_spherical_head, stereographic_projection)
 
 if __name__ == '__main__':
 

@@ -2,14 +2,13 @@
 # Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
 
-from eeg_positions.utils import (get_xyz, find_point_at_fraction,
-                                 plot_spherical_head, plot_2d_head,
-                                 stereographic_projection)
-
-import pytest
-import numpy as np
 import matplotlib
+import numpy as np
 import pandas as pd
+import pytest
+
+from eeg_positions.utils import (find_point_at_fraction, get_xyz, plot_2d_head,
+                                 plot_spherical_head, stereographic_projection)
 
 # No-display backend for tests
 matplotlib.use('agg')

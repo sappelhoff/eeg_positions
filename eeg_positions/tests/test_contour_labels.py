@@ -2,8 +2,8 @@
 # Copyright (c) 2018-2020, Stefan Appelhoff
 # BSD-3-Clause
 
-from eeg_positions.contour_labels import (ALL_CONTOURS, SYSTEM1020, SYSTEM1010,
-                                          SYSTEM1005)
+from eeg_positions.contour_labels import (ALL_CONTOURS, SYSTEM1005, SYSTEM1010,
+                                          SYSTEM1020)
 
 
 def test_contour_lengths():
