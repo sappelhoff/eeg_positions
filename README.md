@@ -40,7 +40,7 @@ appropriate citation from the *"Cite as"* section there.
 - `cd eeg_positions`
 - Using your python environment of choice, install the package and its
   dependencies locally using `pip install -e .`
-- Run the tests using `pytest` (you might have to `pip install pytest` first)
+- Run the tests using `pytest --doctest-modules` (you might have to `pip install pytest` first)
 - Calculate and plot electrodes by calling `python eeg_positions/calc_positions.py`
 - Check out `contour_labels.py` for the order how electrodes are computed
 - ... and see `utils.py` for the `find_point_at_fraction` function that is the
@@ -55,7 +55,7 @@ appropriate citation from the *"Cite as"* section there.
 
 ## Acknowledgements
 
-Explicit thanks to:
+My thanks to:
 
 - Robert Oostenveld for writing his [blog post](http://robertoostenveld.nl/electrode/)
   on electrodes
@@ -76,28 +76,30 @@ Explicit thanks to:
   and save as `standard_1005.tsv`.
 
 ```Python
-import pandas as pd
-import numpy as np
 import mne
+import numpy as np
+import pandas as pd
+
 
 # we saved this file before ...
 fname = 'standard_1005.tsv'
 
 # Now read it
-df = pd.read_csv(fname, sep='\t')
+df = pd.read_csv(fname, sep="\t")
 
 # Turn data into montage
-ch_pos = df.set_index('label').to_dict('index')
+ch_pos = df.set_index("label").to_dict("index")
 for key, val in ch_pos.items():
     ch_pos[key] = np.asarray(list(val.values()))
 
 data = mne.utils.Bunch(
-    nasion=ch_pos['Nz'],
-    lpa=ch_pos['T9'],
-    rpa=ch_pos['T10'],
+    nasion=ch_pos["Nz"],
+    lpa=ch_pos["T9"],
+    rpa=ch_pos["T10"],
     ch_pos=ch_pos,
-    coord_frame='unknown',
-    hsp=None, hpi=None,
+    coord_frame="unknown",
+    hsp=None,
+    hpi=None,
 )
 
 montage = mne.channels.make_dig_montage(**data)
