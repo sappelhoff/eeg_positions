@@ -52,7 +52,7 @@ if __name__ == "__main__":
             midpoint_idx = 8
         else:
             raise ValueError(
-                "contour must be of len " "17 or 21 but is {}".format(len(contour))
+                "contour must be of len 17 or 21 but is {}".format(len(contour))
             )
 
         # Get the reference points from data frame

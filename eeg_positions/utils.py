@@ -80,7 +80,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
 
     if n <= 0.0:
         raise ValueError(
-            "Points are either collinear " "or share the same coordinates."
+            "Points are either collinear or share the same coordinates."
         )
 
     xn = xn / n
