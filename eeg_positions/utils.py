@@ -180,8 +180,10 @@ def plot_spherical_head():
 
     Returns
     -------
-    fig, ax : figure and axes objects
-        The figure and axes.
+    fig : matplotlib.figure.Figure
+        The Figure object.
+    ax : matplotlib.axes.Axes
+        The Axes object.
 
     """
     # Start new 3D figure
@@ -302,7 +304,10 @@ def plot_2d_head():
 
     Returns
     -------
-    fig, ax : figure and axes objects
+    fig : matplotlib.figure.Figure
+        The Figure object.
+    ax : matplotlib.axes.Axes
+        The Axes object.
 
     """
     fig = plt.figure()
