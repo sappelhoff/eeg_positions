@@ -1,5 +1,9 @@
 [![DOI](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692)
 
+[![CI-status](https://github.com/sappelhoff/eeg_positions/workflows/Python+build+and+tests%22/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build+and+tests%22)
+
+[![Coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/master/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
+
 # eeg_positions
 
 When recording electroencephalography (EEG) data, electrodes are usually placed
