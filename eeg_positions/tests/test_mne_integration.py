@@ -1,5 +1,5 @@
 """Test plotting the coordinate data with MNE-Python."""
-# Copyright (c) 2018-2020, Stefan Appelhoff
+# Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
 import os
