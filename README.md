@@ -113,20 +113,20 @@ montage.plot()
 
 reproduce by running `python eeg_positions/calc_positions.py`
 
-![img: coordinate system](./images/3d_view.png)
+![img: coordinate system](./data/images/3d_view.png)
 
 ## Projections to 2D
 
 reproduce by running `python eeg_positions/calc_positions.py`
 
 ### 10-20 system
-![img: coordinate system](./images/1020.png)
+![img: coordinate system](./data/images/1020.png)
 
 ### 10-10 system
-![img: coordinate system](./images/1010.png)
+![img: coordinate system](./data/images/1010.png)
 
 ### 10-05 system
-![img: coordinate system](./images/1005.png)
+![img: coordinate system](./data/images/1005.png)
 
 ---
 
@@ -142,7 +142,7 @@ reproduce by running `python eeg_positions/calc_positions.py`
 - The z-axis is orthogonal to the xy-plane and pointing vertically up with
   increasing values
 
-![img: coordinate system](./images/coords_cartesian.png)
+![img: coordinate system](./data/images/coords_cartesian.png)
 
 ### Relationship of Coordinate System to a Human Head
 
