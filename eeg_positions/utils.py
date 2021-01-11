@@ -4,7 +4,6 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
 
 def find_point_at_fraction(p1, p2, p3, frac):
