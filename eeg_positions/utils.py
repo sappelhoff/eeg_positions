@@ -78,9 +78,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
     n = np.sqrt(xn ** 2 + yn ** 2 + zn ** 2)
 
     if n <= 0.0:
-        raise ValueError(
-            "Points are either collinear or share the same coordinates."
-        )
+        raise ValueError("Points are either collinear or share the same coordinates.")
 
     xn = xn / n
     yn = yn / n
@@ -224,6 +222,8 @@ def plot_spherical_head():
     y = np.sin(u) * np.sin(v)
     z = np.cos(v)
     ax.plot_wireframe(x, y, z, color="k", linestyle=":", alpha=0.1)
+    ax.plot_surface(x, y, z, color="k", alpha=0.1)
+    ax.set_box_aspect((1, 1, 1))
 
     return fig, ax
 
