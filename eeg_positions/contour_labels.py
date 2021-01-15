@@ -508,6 +508,31 @@ ALL_CONTOURS = [
     contour_POO,
 ]
 
+ALL_CONTOURS2 = [
+    sagittal_Nz_Cz_Iz[2:-2],
+    horizontal_Fpz_T8_Oz,
+    horizontal_Fpz_T7_Oz,
+    contour_AFp,
+    contour_AF,
+    contour_AFF,
+    contour_F,
+    contour_FFC,
+    contour_FC,
+    contour_FCC,
+    contour_CCP,
+    contour_CP,
+    contour_CPP,
+    contour_P,
+    contour_PPO,
+    contour_PO,
+    contour_POO,
+    horizontal_Nz_T10_Iz,
+    horizontal_Nz_T9_Iz,
+    horizontal_NFpz_T10h_OIz,
+    horizontal_NFpz_T9h_OIz,
+    coronal_T9_Cz_T10,
+]
+
 # Defining which electrodes belong into which standard system
 SYSTEM1020 = [
     "Fp1",

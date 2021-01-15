@@ -273,18 +273,20 @@ def stereographic_projection(x, y, z, scale=1.0):
 
     Given a unit sphere with radius ``r = 1`` and center at
     The origin. Project the point ``p = (x, y, z)`` from the
-    sphere's South pole ``(0, 0, -1)`` on a plane on the sphere's
-    North pole ``(0, 0, 1)``.
+    sphere's South pole ``(0, 0, -1)`` onto a tangent plane
+    on the sphere's North pole ``(0, 0, 1)``. The resulting
+    point is ``p' = (x', y')``.
 
-    ``P' = P * (2r / (r + z))``
+    ``x', y' = (1 / (x + z)), (1 / (y + z))``
 
     Parameters
     ----------
     x, y, z : float
         Positions of electrodes on a unit sphere
     scale : float
-        Scale to change the projection point. Defaults to 1,
-        which is on the sphere.
+        Determines the distance of the projection point
+        from the origin of the sphere in terms of the radius.
+        Defaults to 1.0, which is a point on the sphere.
 
     Returns
     -------
@@ -298,8 +300,15 @@ def stereographic_projection(x, y, z, scale=1.0):
     return np.asarray(x), np.asarray(y)
 
 
-def plot_2d_head():
+def plot_2d_head(radius_inner_contour=None):
     """Plot a head in 2D.
+
+    Parameters
+    ----------
+    radius_inner_contour : int | float | None
+        If int or float, draw a circle with that radius
+        to visualize an inner contour line.
+        Defaults to None, not drawing a circle.
 
     Returns
     -------
@@ -316,18 +325,30 @@ def plot_2d_head():
     plt.ylabel("y")
 
     head_radius = 1.0
+    linewidth = 1.0
 
     # Draw head shape
-    head_shape = plt.Circle((0, 0), head_radius, color="k", fill=False, linewidth=2)
+    head_shape = plt.Circle(
+        (0, 0), head_radius, color="k", fill=False, linewidth=linewidth
+    )
     ax.add_artist(head_shape)
+
+    if radius_inner_contour is not None:
+        head_shape = plt.Circle(
+            (0, 0), radius_inner_contour, color="k", fill=False, linewidth=linewidth / 2
+        )
+        ax.add_artist(head_shape)
 
     # Draw nose
     nose_width = 5
     nose_base_l = _get_coords_on_circle(r=head_radius, steps=nose_width)[-1]
     nose_base_r = _get_coords_on_circle(r=head_radius, steps=nose_width)[1]
     nose_tip = 1.1
-    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=2)
-    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=2)
+    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=linewidth)
+    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=linewidth)
+
+    ax.vlines(x=0, ymin=-1, ymax=1, color="black", linewidth=linewidth / 2)
+    ax.hlines(y=0, xmin=-1, xmax=1, color="black", linewidth=linewidth / 2)
 
     # Adjust limits:
     ax.set_xlim([-head_radius * 1.6, head_radius * 1.6])

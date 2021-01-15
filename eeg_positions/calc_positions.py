@@ -8,9 +8,11 @@ See README for information about assumptions.
 import os
 
 import pandas as pd
+import numpy as np
 
 from eeg_positions.contour_labels import (
     ALL_CONTOURS,
+    ALL_CONTOURS2,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -25,26 +27,43 @@ from eeg_positions.utils import (
 
 if __name__ == "__main__":
 
+    equator = "Nz-T10-Iz-T9"
+    # equator = "Fpz-T8-Oz-T7"
+
     # Known locations
     # ---------------
-    Nz = (0.0, 1.0, 0.0)
-    Iz = (0.0, -1.0, 0.0)
     Cz = (0.0, 0.0, 1.0)
-    T9 = (-1.0, 0.0, 0.0)
-    T10 = (1.0, 0.0, 0.0)
+    if equator == "Nz-T10-Iz-T9":
+        front = (0.0, 1.0, 0.0)
+        right = (1.0, 0.0, 0.0)
+        back = (0.0, -1.0, 0.0)
+        left = (-1.0, 0.0, 0.0)
+    elif equator == "Fpz-T8-Oz-T7":
+        front = (0.0, 1.0, 0.0)
+        right = (1.0, 0.0, 0.0)
+        back = (0.0, -1.0, 0.0)
+        left = (-1.0, 0.0, 0.0)
+    else:
+        raise ValueError("`equator` must be one of ['Nz-T10-Iz-T9', 'Fpz-T8-Oz-T7'].")
 
     d = {
-        "label": ["Nz", "Iz", "Cz", "T9", "T10"],
-        "x": [Nz[0], Iz[0], Cz[0], T9[0], T10[0]],
-        "y": [Nz[1], Iz[1], Cz[1], T9[1], T10[1]],
-        "z": [Nz[2], Iz[2], Cz[2], T9[2], T10[2]],
+        "label": equator.split("-") + ["Cz"],
+        "x": [front[0], right[0], back[0], left[0], Cz[0]],
+        "y": [front[1], right[1], back[1], left[1], Cz[1]],
+        "z": [front[2], right[2], back[2], left[2], Cz[2]],
     }
 
     df = pd.DataFrame.from_dict(d)
 
     # Calculate all positions
     # -----------------------
-    for contour in ALL_CONTOURS:
+    if equator == "Nz-T10-Iz-T9":
+        contour_order = ALL_CONTOURS
+    else:
+        contour_order = ALL_CONTOURS2[:-5]
+        contour_order_late = ALL_CONTOURS2[-5:]
+
+    for contour in contour_order:
 
         if len(contour) == 21:
             midpoint_idx = 10
@@ -76,6 +95,78 @@ if __name__ == "__main__":
 
         # Remove duplicates, keeping the first computations
         df = df.drop_duplicates(subset="label", keep="first")
+
+    if equator == "Fpz-T8-Oz-T7":
+        # we need to add some more positions
+        frac_modifier = 1 / len(ALL_CONTOURS2[0])
+        other_ps = {}
+        other_ps["OIz"] = find_point_at_fraction(
+            front, Cz, back, frac=1 + (1 * frac_modifier)
+        )
+        other_ps["Iz"] = find_point_at_fraction(
+            front, Cz, back, frac=1 + (2 * frac_modifier)
+        )
+        other_ps["NFpz"] = find_point_at_fraction(
+            back, Cz, front, frac=1 + (1 * frac_modifier)
+        )
+        other_ps["Nz"] = find_point_at_fraction(
+            back, Cz, front, frac=1 + (2 * frac_modifier)
+        )
+        other_ps["T10h"] = find_point_at_fraction(
+            left, Cz, right, frac=1 + (1 * frac_modifier)
+        )
+        other_ps["T10"] = find_point_at_fraction(
+            left, Cz, right, frac=1 + (2 * frac_modifier)
+        )
+        other_ps["T9h"] = find_point_at_fraction(
+            right, Cz, left, frac=1 + (1 * frac_modifier)
+        )
+        other_ps["T9"] = find_point_at_fraction(
+            right, Cz, left, frac=1 + (2 * frac_modifier)
+        )
+
+        # Append to data frame
+        tmp = pd.DataFrame.from_dict(other_ps, orient="index")
+        tmp.columns = ["x", "y", "z"]
+        tmp["label"] = tmp.index
+        df = df.append(tmp, ignore_index=True, sort=True)
+
+        # Remove duplicates, keeping the first computations
+        df = df.drop_duplicates(subset="label", keep="first")
+
+        # draw final contours
+        for contour in contour_order_late:
+
+            if len(contour) == 21:
+                midpoint_idx = 10
+            elif len(contour) == 17:
+                midpoint_idx = 8
+            else:
+                raise ValueError(
+                    "contour must be of len 17 or 21 but is {}".format(len(contour))
+                )
+
+            # Get the reference points from data frame
+            p1 = get_xyz(df, contour[0])
+            p2 = get_xyz(df, contour[midpoint_idx])
+            p3 = get_xyz(df, contour[-1])
+
+            # Calculate all other points at fractions of distance
+            # see `contour_labels.py` and `test_contour_labels.py`
+            other_ps = {}
+            for i, label in enumerate(contour):
+                other_ps[label] = find_point_at_fraction(
+                    p1, p2, p3, frac=i / (len(contour) - 1)
+                )
+
+            # Append to data frame
+            tmp = pd.DataFrame.from_dict(other_ps, orient="index")
+            tmp.columns = ["x", "y", "z"]
+            tmp["label"] = tmp.index
+            df = df.append(tmp, ignore_index=True, sort=True)
+
+            # Remove duplicates, keeping the first computations
+            df = df.drop_duplicates(subset="label", keep="first")
 
     # Save The positions as files for the three main standard systems
     # ---------------------------------------------------------------
@@ -130,14 +221,18 @@ if __name__ == "__main__":
 
         ax.set_title("standard_{}".format(system))
 
-        # 2D
-        fig2, ax2 = plot_2d_head()
+         # 2D
+        df = pd.read_csv(fname_template.format(system + "_2D"), sep="\t")
 
-        xs, ys = stereographic_projection(df["x"], df["y"], df["z"])
+        if equator == "Nz-T10-Iz-T9":
+            radius_inner_contour = np.abs(df[df["label"] == "Oz"]["y"])
+        else:
+            radius_inner_contour = None
+        fig2, ax2 = plot_2d_head(radius_inner_contour)
 
-        ax2.scatter(xs, ys, marker=".", color="r")
+        ax2.scatter(df["x"], df["y"], marker=".", color="r")
 
-        for lab, x, y in zip(list(df["label"]), xs, ys):
+        for lab, x, y in zip(list(df["label"]), df["x"], df["y"]):
             ax2.annotate(lab, xy=(x, y), fontsize=5)
 
         ax2.set_title("standard_{}".format(system))

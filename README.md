@@ -74,6 +74,7 @@ My thanks to:
 
 - NOTE: Please download the 3D `10-05` data from [here](./data/standard_1005.tsv)
   and save as `standard_1005.tsv`.
+- `mne` version >= 0.22 is required.
 
 ```Python
 import mne
@@ -104,8 +105,8 @@ data = mne.utils.Bunch(
 
 montage = mne.channels.make_dig_montage(**data)
 
-# plot it
-montage.plot()
+# plot it, using kind="topomap" for 2D, or kind="3d" for 3D
+montage.plot(kind="topomap", sphere=(0, 0, 0, 1))
 
 ```
 

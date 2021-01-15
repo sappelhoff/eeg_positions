@@ -36,5 +36,5 @@ def test_mne_plotting():
 
     montage = mne.channels.make_dig_montage(**data)
 
-    # plot it
-    montage.plot()
+    # plot it, using kind="topomap" for 2D, or kind="3d" for 3D
+    montage.plot(kind="topomap", sphere=(0, 0, 0, 1))
