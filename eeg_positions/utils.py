@@ -207,13 +207,13 @@ def _get_xyz(df, label):
     # Check that all labels are present
     for var in ["label", "x", "y", "z"]:
         if var not in df.columns:
-            raise ValueError('df must contain a column "{}"'.format(var))
+            raise ValueError(f"df must contain a column '{var}'")
 
     # Check we get exactly one row of data
     subdf = df[df["label"] == label]
     nrows = subdf.shape[0]
     if nrows == 0 or nrows > 1:
-        raise ValueError("Expected one row of data but got {}".format(nrows))
+        raise ValueError(f"Expected one row of data but got: {nrows}")
 
     # Get the data
     x = float(df[df["label"] == label].x)

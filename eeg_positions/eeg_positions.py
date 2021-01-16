@@ -16,6 +16,7 @@ from eeg_positions.config import (
     SYSTEM1020,
     CONTOUR_ORDER_Fpz_EQUATOR,
     CONTOUR_ORDER_Nz_EQUATOR,
+    ACCEPTED_EQUATORS,
 )
 from eeg_positions.utils import (
     _add_points_along_contour,
@@ -29,8 +30,8 @@ if __name__ == "__main__":
     # equator = "Nz-T10-Iz-T9"
     equator = "Fpz-T8-Oz-T7"
 
-    if equator not in ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]:
-        raise ValueError("`equator` must be one of ['Nz-T10-Iz-T9', 'Fpz-T8-Oz-T7'].")
+    if equator not in ACCEPTED_EQUATORS:
+        raise ValueError(f"`equator` must be one of {ACCEPTED_EQUATORS}.")
 
     # Known locations
     # ---------------
@@ -143,7 +144,7 @@ if __name__ == "__main__":
             ax.scatter3D(row.x, row.y, row.z, c="b")
             ax.text(row.x, row.y, row.z, row["label"], fontsize=5)
 
-        ax.set_title("standard_{}".format(system))
+        ax.set_title(f"standard_{system}")
 
         # 2D
         df = pd.read_csv(fname_template.format(system + "_2D"), sep="\t")
@@ -159,7 +160,7 @@ if __name__ == "__main__":
         for lab, x, y in zip(list(df["label"]), df["x"], df["y"]):
             ax2.annotate(lab, xy=(x, y), fontsize=5)
 
-        ax2.set_title("standard_{}".format(system))
+        ax2.set_title(f"standard_{system}")
 
         # Show and wait until done
         fig.show()

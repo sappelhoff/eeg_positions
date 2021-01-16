@@ -617,3 +617,6 @@ for contour in CONTOUR_ORDER_Nz_EQUATOR:
     for label in contour:
         if label not in SYSTEM1005:
             SYSTEM1005.append(label)
+
+
+ACCEPTED_EQUATORS = ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]
