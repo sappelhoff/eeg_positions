@@ -20,37 +20,34 @@ from eeg_positions.contour_labels import (
 from eeg_positions.utils import (
     find_point_at_fraction,
     get_xyz,
+    stereographic_projection,
+)
+from eeg_positions.viz import (
     plot_2d_head,
     plot_spherical_head,
-    stereographic_projection,
 )
 
 if __name__ == "__main__":
 
-    equator = "Nz-T10-Iz-T9"
-    # equator = "Fpz-T8-Oz-T7"
+    # equator = "Nz-T10-Iz-T9"
+    equator = "Fpz-T8-Oz-T7"
+
+    if equator not in ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]:
+        raise ValueError("`equator` must be one of ['Nz-T10-Iz-T9', 'Fpz-T8-Oz-T7'].")
 
     # Known locations
     # ---------------
-    Cz = (0.0, 0.0, 1.0)
-    if equator == "Nz-T10-Iz-T9":
-        front = (0.0, 1.0, 0.0)
-        right = (1.0, 0.0, 0.0)
-        back = (0.0, -1.0, 0.0)
-        left = (-1.0, 0.0, 0.0)
-    elif equator == "Fpz-T8-Oz-T7":
-        front = (0.0, 1.0, 0.0)
-        right = (1.0, 0.0, 0.0)
-        back = (0.0, -1.0, 0.0)
-        left = (-1.0, 0.0, 0.0)
-    else:
-        raise ValueError("`equator` must be one of ['Nz-T10-Iz-T9', 'Fpz-T8-Oz-T7'].")
+    front = (0.0, 1.0, 0.0)
+    right = (1.0, 0.0, 0.0)
+    back = (0.0, -1.0, 0.0)
+    left = (-1.0, 0.0, 0.0)
+    top = (0.0, 0.0, 1.0)
 
     d = {
         "label": equator.split("-") + ["Cz"],
-        "x": [front[0], right[0], back[0], left[0], Cz[0]],
-        "y": [front[1], right[1], back[1], left[1], Cz[1]],
-        "z": [front[2], right[2], back[2], left[2], Cz[2]],
+        "x": [front[0], right[0], back[0], left[0], top[0]],
+        "y": [front[1], right[1], back[1], left[1], top[1]],
+        "z": [front[2], right[2], back[2], left[2], top[2]],
     }
 
     df = pd.DataFrame.from_dict(d)
@@ -100,30 +97,20 @@ if __name__ == "__main__":
         # we need to add some more positions
         frac_modifier = 1 / len(ALL_CONTOURS2[0])
         other_ps = {}
-        other_ps["OIz"] = find_point_at_fraction(
-            front, Cz, back, frac=1 + (1 * frac_modifier)
+        p_to_find = ["OIz", "Iz", "NFpz", "Nz", "T10h", "T10", "T9h", "T9"]
+        p_fracs = [1, 2, 1, 2, 1, 2, 1, 2]
+        p_arc = (
+            [(front, top, back)] * 2
+            + [(back, top, front)] * 2
+            + [(left, top, right)] * 2
+            + [(right, top, left)][::-1] * 2
         )
-        other_ps["Iz"] = find_point_at_fraction(
-            front, Cz, back, frac=1 + (2 * frac_modifier)
-        )
-        other_ps["NFpz"] = find_point_at_fraction(
-            back, Cz, front, frac=1 + (1 * frac_modifier)
-        )
-        other_ps["Nz"] = find_point_at_fraction(
-            back, Cz, front, frac=1 + (2 * frac_modifier)
-        )
-        other_ps["T10h"] = find_point_at_fraction(
-            left, Cz, right, frac=1 + (1 * frac_modifier)
-        )
-        other_ps["T10"] = find_point_at_fraction(
-            left, Cz, right, frac=1 + (2 * frac_modifier)
-        )
-        other_ps["T9h"] = find_point_at_fraction(
-            right, Cz, left, frac=1 + (1 * frac_modifier)
-        )
-        other_ps["T9"] = find_point_at_fraction(
-            right, Cz, left, frac=1 + (2 * frac_modifier)
-        )
+
+        for label, frac, arc in zip(p_to_find, p_fracs, p_arc):
+            print(label, frac, arc)
+            other_ps[label] = find_point_at_fraction(
+                *arc, frac=1 + (frac * frac_modifier)
+            )
 
         # Append to data frame
         tmp = pd.DataFrame.from_dict(other_ps, orient="index")
@@ -221,7 +208,7 @@ if __name__ == "__main__":
 
         ax.set_title("standard_{}".format(system))
 
-         # 2D
+        # 2D
         df = pd.read_csv(fname_template.format(system + "_2D"), sep="\t")
 
         if equator == "Nz-T10-Iz-T9":
