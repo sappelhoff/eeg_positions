@@ -2,24 +2,18 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-import matplotlib
 import numpy as np
 import pandas as pd
 import pytest
 
 from eeg_positions.utils import (
     _get_xyz,
+    _stereographic_projection,
     find_point_at_fraction,
-    plot_2d_head,
-    plot_spherical_head,
-    stereographic_projection,
 )
 
-# No-display backend for tests
-matplotlib.use("agg")
 
-
-def test__get_xyz():
+def test_get_xyz():
     """Check whether we can get xyz coordinates."""
     # Test the expected case
     data = {"label": ["Cz", "Pz"], "x": [1, 2], "y": [2, 3], "z": [3, 4]}
@@ -70,20 +64,6 @@ def test_stereographic_projection():
     df = pd.DataFrame(data)
 
     # We know where Cz and Nz should be in 2D:
-    xs, ys = stereographic_projection(df["x"], df["y"], df["z"])
+    xs, ys = _stereographic_projection(df["x"], df["y"], df["z"])
     np.testing.assert_allclose(xs, np.array((0, 0)))
     np.testing.assert_allclose(ys, np.array((0, 1)))
-
-
-def test_plot_spherical_head():
-    """Very basic test whether calling the function throws an error."""
-    fig, ax = plot_spherical_head()
-    assert fig is not None
-    assert ax is not None
-
-
-def test_plot_2d_head():
-    """Very basic test whether calling the function throws an error."""
-    fig, ax = plot_2d_head()
-    assert fig is not None
-    assert ax is not None

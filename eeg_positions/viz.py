@@ -8,7 +8,7 @@ import numpy as np
 from eeg_positions.utils import _get_coords_on_circle
 
 
-def plot_spherical_head():
+def _plot_spherical_head():
     """Plot a spherical head model.
 
     Returns
@@ -64,7 +64,7 @@ def plot_spherical_head():
     return fig, ax
 
 
-def plot_2d_head(radius_inner_contour=None):
+def _plot_2d_head(radius_inner_contour=None):
     """Plot a head in 2D.
 
     Parameters

@@ -18,11 +18,11 @@ from eeg_positions.config import (
     CONTOUR_ORDER_Nz_EQUATOR,
 )
 from eeg_positions.utils import (
-    add_points_along_contour,
+    _add_points_along_contour,
+    _stereographic_projection,
     find_point_at_fraction,
-    stereographic_projection,
 )
-from eeg_positions.viz import plot_2d_head, plot_spherical_head
+from eeg_positions.viz import _plot_2d_head, _plot_spherical_head
 
 if __name__ == "__main__":
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         contour_order_late = CONTOUR_ORDER_Fpz_EQUATOR[-5:]
 
     for contour in contour_order:
-        df = add_points_along_contour(df, contour)
+        df = _add_points_along_contour(df, contour)
 
     if equator == "Fpz-T8-Oz-T7":
         # we need to add some more positions
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
         # draw final contours
         for contour in contour_order_late:
-            df = add_points_along_contour(df, contour)
+            df = _add_points_along_contour(df, contour)
 
     # Save The positions as files for the three main standard systems
     # ---------------------------------------------------------------
@@ -114,7 +114,7 @@ if __name__ == "__main__":
         )
 
         # Now in 2D using stereographic projection
-        xs, ys = stereographic_projection(
+        xs, ys = _stereographic_projection(
             system_df["x"].to_numpy(),
             system_df["y"].to_numpy(),
             system_df["z"].to_numpy(),
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         df = pd.read_csv(fname_template.format(system), sep="\t")
 
         # 3D
-        fig, ax = plot_spherical_head()
+        fig, ax = _plot_spherical_head()
 
         for idx, row in df.iterrows():
             ax.scatter3D(row.x, row.y, row.z, c="b")
@@ -152,7 +152,7 @@ if __name__ == "__main__":
             radius_inner_contour = np.abs(df[df["label"] == "Oz"]["y"])
         else:
             radius_inner_contour = None
-        fig2, ax2 = plot_2d_head(radius_inner_contour)
+        fig2, ax2 = _plot_2d_head(radius_inner_contour)
 
         ax2.scatter(df["x"], df["y"], marker=".", color="r")
 

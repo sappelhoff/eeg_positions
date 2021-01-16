@@ -137,7 +137,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
     return point
 
 
-def add_points_along_contour(df, contour):
+def _add_points_along_contour(df, contour):
     """Compute points along `contour` and add them to `df`.
 
     Parameters
@@ -262,7 +262,7 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180 / 20):
     return coords
 
 
-def stereographic_projection(x, y, z, scale=1.0):
+def _stereographic_projection(x, y, z, scale=1.0):
     """Calculate the stereographic projection.
 
     Given a unit sphere with radius ``r = 1`` and center at
