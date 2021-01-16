@@ -2,8 +2,8 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-from eeg_positions.contour_labels import (
-    ALL_CONTOURS,
+from eeg_positions.config import (
+    CONTOUR_ORDER_Nz_EQUATOR,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -12,7 +12,7 @@ from eeg_positions.contour_labels import (
 
 def test_contour_lengths():
     """Check that we have 17 or 21 electrode per contour."""
-    for contour in ALL_CONTOURS:
+    for contour in CONTOUR_ORDER_Nz_EQUATOR:
         assert len(contour) in [17, 21]
 
 

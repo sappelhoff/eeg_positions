@@ -11,8 +11,8 @@ import pandas as pd
 import numpy as np
 
 from eeg_positions.contour_labels import (
-    ALL_CONTOURS,
-    ALL_CONTOURS2,
+    CONTOUR_ORDER_Nz_EQUATOR,
+    CONTOUR_ORDER_Fpz_EQUATOR,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -55,17 +55,17 @@ if __name__ == "__main__":
     # Calculate all positions
     # -----------------------
     if equator == "Nz-T10-Iz-T9":
-        contour_order = ALL_CONTOURS
+        contour_order = CONTOUR_ORDER_Nz_EQUATOR
     else:
-        contour_order = ALL_CONTOURS2[:-5]
-        contour_order_late = ALL_CONTOURS2[-5:]
+        contour_order = CONTOUR_ORDER_Fpz_EQUATOR[:-5]
+        contour_order_late = CONTOUR_ORDER_Fpz_EQUATOR[-5:]
 
     for contour in contour_order:
         df = add_points_along_contour(df, contour)
 
     if equator == "Fpz-T8-Oz-T7":
         # we need to add some more positions
-        frac_modifier = 1 / len(ALL_CONTOURS2[0])
+        frac_modifier = 1 / len(CONTOUR_ORDER_Fpz_EQUATOR[0])
         other_ps = {}
         p_to_find = ["OIz", "Iz", "NFpz", "Nz", "T10h", "T10", "T9h", "T9"]
         p_fracs = [1, 2, 1, 2, 1, 2, 1, 2]

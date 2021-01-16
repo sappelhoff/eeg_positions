@@ -340,7 +340,8 @@ contour_FCC = [
     "FTT8",
 ]
 
-# contour_C is plotted as "coronal_T9_Cz_T10"
+# NOTE: You may think: shouldn't a `contour_C` variable be defined on this line!?
+#       answer: no, because `contour_C` is plotted as `coronal_T9_Cz_T10`.
 
 contour_CCP = [
     "TTP7",
@@ -483,7 +484,7 @@ contour_POO = [
 ]
 
 # List of lists. Note the specific ordering.
-ALL_CONTOURS = [
+CONTOUR_ORDER_Nz_EQUATOR = [
     sagittal_Nz_Cz_Iz,
     horizontal_Nz_T10_Iz,
     horizontal_Nz_T9_Iz,
@@ -508,7 +509,7 @@ ALL_CONTOURS = [
     contour_POO,
 ]
 
-ALL_CONTOURS2 = [
+CONTOUR_ORDER_Fpz_EQUATOR = [
     sagittal_Nz_Cz_Iz[2:-2],
     horizontal_Fpz_T8_Oz,
     horizontal_Fpz_T7_Oz,
@@ -612,7 +613,7 @@ SYSTEM1010 = SYSTEM1020 + [
 ]
 
 SYSTEM1005 = list()
-for contour in ALL_CONTOURS:
+for contour in CONTOUR_ORDER_Nz_EQUATOR:
     for label in contour:
         if label not in SYSTEM1005:
             SYSTEM1005.append(label)
