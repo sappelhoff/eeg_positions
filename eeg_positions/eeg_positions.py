@@ -10,7 +10,7 @@ import os
 import pandas as pd
 import numpy as np
 
-from eeg_positions.contour_labels import (
+from eeg_positions.config import (
     CONTOUR_ORDER_Nz_EQUATOR,
     CONTOUR_ORDER_Fpz_EQUATOR,
     SYSTEM1005,

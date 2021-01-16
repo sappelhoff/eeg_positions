@@ -41,8 +41,8 @@ appropriate citation from the *"Cite as"* section there.
 - Using your python environment of choice, install the package and its
   dependencies locally using `pip install -e .`
 - Run the tests using `pytest --doctest-modules` (you might have to `pip install pytest` first)
-- Calculate and plot electrodes by calling `python eeg_positions/calc_positions.py`
-- Check out `contour_labels.py` for the order how electrodes are computed
+- Calculate and plot electrodes by calling `python eeg_positions/eeg_positions.py`
+- Check out `config.py` for the order how electrodes are computed
 - ... and see `utils.py` for the `find_point_at_fraction` function that is the
   core of the computations.
 
@@ -112,13 +112,13 @@ montage.plot(kind="topomap", sphere=(0, 0, 0, 1))
 
 ## Interactively viewing 3D coordinates
 
-reproduce by running `python eeg_positions/calc_positions.py`
+reproduce by running `python eeg_positions/eeg_positions.py`
 
 ![img: coordinate system](./data/images/3d_view.png)
 
 ## Projections to 2D
 
-reproduce by running `python eeg_positions/calc_positions.py`
+reproduce by running `python eeg_positions/eeg_positions.py`
 
 ### 10-20 system
 ![img: coordinate system](./data/images/1020.png)
