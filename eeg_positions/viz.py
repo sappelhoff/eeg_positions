@@ -73,6 +73,9 @@ def _plot_2d_head(radius_inner_contour=None):
         If int or float, draw a circle with that radius
         to visualize an inner contour line.
         Defaults to None, not drawing a circle.
+        Can instead also be conveniently set to
+        ``eeg_positions.config.RADIUS_INNER_CONTOUR``,
+        which is the Fpz-T8-Oz-T7 contour line.
 
     Returns
     -------

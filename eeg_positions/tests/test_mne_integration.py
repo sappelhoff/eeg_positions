@@ -13,7 +13,7 @@ def test_mne_plotting():
     """Read saved coordinate data and turn into montage."""
     # assume that we saved this file before through running eeg_positions.py
     fpath = os.path.dirname(os.path.realpath(__file__))
-    fname_template = os.path.join(fpath, "..", "..", "data", "standard_{}.tsv")
+    fname_template = os.path.join(fpath, "..", "..", "data", "standard_{}_3D.tsv")
     fname = fname_template.format("1005")
 
     # Now read it

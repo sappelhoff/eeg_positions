@@ -623,6 +623,8 @@ for contour in CONTOUR_ORDER_Nz_EQUATOR:
 
 ACCEPTED_EQUATORS = ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]
 
+RADIUS_INNER_CONTOUR = 0.72658518
+
 # Get required mne version from setup.cfg
 resources = pkg_resources.require("eeg_positions")[0]
 requirements = resources.requires(["Test"])

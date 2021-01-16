@@ -11,6 +11,7 @@ import pandas as pd
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
     MNE_REQUIREMENT,
+    RADIUS_INNER_CONTOUR,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -159,7 +160,7 @@ def get_elec_coords(
             f"Some `elec_names` are not part of the {system} system: {bad_elec_names}"
         )
 
-    dims = ["2d" "3d"]
+    dims = ["2d", "3d"]
     if dim not in dims:
         raise ValueError(f"`dim` must be one of {dims}.")
 
@@ -229,10 +230,10 @@ def get_elec_coords(
     # subselect electrodes
     # --------------------
     if len(elec_names) > 0:
-        idx = df.label.isin(elec_names)
+        selection = df.label.isin(elec_names)
     else:
-        idx = df.label.isin(system)
-    df_selection = df.loc[idx, :]
+        selection = df.label.isin(system)
+    df_selection = df.loc[selection, :]
 
     # Return as mne DigMontage object (or not)
     # ----------------------------------------
@@ -255,14 +256,24 @@ def get_elec_coords(
             if LooseVersion(mne_version) < LooseVersion(MNE_REQUIREMENT):
                 raise RuntimeError(msg)
 
-        # Now convert to DigMontage, we use
-        # NOTE: set to MNE default radius
+        # Now convert to DigMontage (first using the full df once more)
+        # NOTE: set to MNE default head size radius (in meters)
         ch_pos = df.set_index("label").to_dict("index")
         for key, val in ch_pos.items():
-            ch_pos[key] = np.asarray(list(val.values()))
+            ch_pos[key] = (
+                np.asarray(list(val.values())) * mne.defaults.HEAD_SIZE_DEFAULT
+            )
+
+        NAS = ch_pos["Nz"]
+        LPA = ch_pos["T9"]
+        RPA = ch_pos["T10"]
+
+        # Make the sub-selection of channels again
+        selection = system if len(elec_names) > 0 else elec_names
+        ch_pos = {key: val for key, val in ch_pos.items() if key in selection}
 
         coords = mne.channels.make_dig_montage(
-            ch_pos=ch_pos, nasion=ch_pos["Nz"], lpa=ch_pos["T9"], rpa=ch_pos["T10"]
+            ch_pos=ch_pos, nasion=NAS, lpa=LPA, rpa=RPA
         )
 
         # return early, ignoring landmarks and 2D projection
@@ -292,6 +303,9 @@ def get_elec_coords(
     coords = df_selection.sort_values(by="label")
     return coords
 
+
+if __name__ == "__main__":
+
     # Save The positions as files for the three main standard systems
     # ---------------------------------------------------------------
     fpath = os.path.dirname(os.path.realpath(__file__))
@@ -303,50 +317,44 @@ def get_elec_coords(
             coords = get_elec_coords(
                 system=system,
                 elec_names=None,
-                drop_landmarks=False,
+                drop_landmarks=True,
                 dim=dim.lower(),
                 as_mne_object=False,
                 equator="Nz-T10-Iz-T9",
             )
 
-        coords.to_csv(
-            fname_template.format(system, dim),
-            sep="\t",
-            na_rep="n/a",
-            index=False,
-            float_format="%.4f",
-        )
-
-
-if __name__ == "__main__":
+            coords.to_csv(
+                fname_template.format(system, dim),
+                sep="\t",
+                na_rep="n/a",
+                index=False,
+                float_format="%.4f",
+            )
 
     # Plot for each standard system
     # -----------------------------
     fname_template = "./data/standard_{}_{}.tsv"
     system = input("Which system do you want to plot? (1020/1010/1005/None)\n")
     if system in ["1020", "1010", "1005"]:
-        ff = fname_template.format(system, "3D").replace("_3D", "")
-        df = pd.read_csv(ff, sep="\t")
+        df = pd.read_csv(fname_template.format(system, "3D"), sep="\t")
 
         # 3D
         fig, ax = _plot_spherical_head()
 
         for idx, row in df.iterrows():
-            ax.scatter3D(row.x, row.y, row.z, c="b")
-            ax.text(row.x, row.y, row.z, row["label"], fontsize=5)
+            ax.scatter3D(row["x"], row["y"], row["z"], c="b")
+            ax.text(row["x"], row["y"], row["z"], row["label"], fontsize=5)
 
         ax.set_title(f"standard_{system}")
 
         # 2D
         df = pd.read_csv(fname_template.format(system, "2D"), sep="\t")
 
-        radius_inner_contour = np.abs(df[df["label"] == "Oz"]["y"])
-        fig2, ax2 = _plot_2d_head(radius_inner_contour)
+        fig2, ax2 = _plot_2d_head(RADIUS_INNER_CONTOUR)
 
-        ax2.scatter(df["x"], df["y"], marker=".", color="r")
-
-        for lab, x, y in zip(list(df["label"]), df["x"], df["y"]):
-            ax2.annotate(lab, xy=(x, y), fontsize=5)
+        for idx, row in df.iterrows():
+            ax2.scatter(row["x"], row["y"], marker=".", color="r")
+            ax2.annotate(row["label"], xy=(row["x"], row["y"]), fontsize=5)
 
         ax2.set_title(f"standard_{system}")
 
