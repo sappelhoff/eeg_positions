@@ -3,7 +3,7 @@
 all: clean inplace pep test
 
 inplace:
-	pip install -e .[test]
+	pip install -e ".[test]" --no-cache-dir
 
 clean:
 	find . -type d -name 'eeg_positions.egg-info' -exec rm -rf {} +;
