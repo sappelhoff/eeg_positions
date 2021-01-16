@@ -317,11 +317,16 @@ def get_elec_coords(
             float_format="%.4f",
         )
 
+
+if __name__ == "__main__":
+
     # Plot for each standard system
     # -----------------------------
+    fname_template = "./data/standard_{}_{}.tsv"
     system = input("Which system do you want to plot? (1020/1010/1005/None)\n")
     if system in ["1020", "1010", "1005"]:
-        df = pd.read_csv(fname_template.format(system), sep="\t")
+        ff = fname_template.format(system, "3D").replace("_3D", "")
+        df = pd.read_csv(ff, sep="\t")
 
         # 3D
         fig, ax = _plot_spherical_head()
@@ -333,12 +338,9 @@ def get_elec_coords(
         ax.set_title(f"standard_{system}")
 
         # 2D
-        df = pd.read_csv(fname_template.format(system + "_2D"), sep="\t")
+        df = pd.read_csv(fname_template.format(system, "2D"), sep="\t")
 
-        if equator == "Nz-T10-Iz-T9":
-            radius_inner_contour = np.abs(df[df["label"] == "Oz"]["y"])
-        else:
-            radius_inner_contour = None
+        radius_inner_contour = np.abs(df[df["label"] == "Oz"]["y"])
         fig2, ax2 = _plot_2d_head(radius_inner_contour)
 
         ax2.scatter(df["x"], df["y"], marker=".", color="r")

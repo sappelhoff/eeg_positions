@@ -68,17 +68,17 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e .[test]
+        make inplace
 
     - name: Check formatting
       if: "matrix.platform == 'ubuntu-latest'"
       run: |
-        flake8 --docstring-convention numpy .
-        check-manifest .
+        make flake
+        make check-manifest
 
     - name: Test with pytest
       run: |
-        pytest --doctest-modules --cov=eeg_positions/ --cov-report=xml --cov-config=setup.cfg --verbose -s
+        make test
 
     - name: Upload coverage report
       if: "matrix.platform == 'ubuntu-latest'"
