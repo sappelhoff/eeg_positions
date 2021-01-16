@@ -1,4 +1,4 @@
-.PHONY: all clean inplace test flake check-manifest pep build-doc
+.PHONY: all clean inplace test isort black format flake check-manifest pep build-doc
 
 all: clean inplace pep test
 
@@ -16,6 +16,14 @@ clean:
 
 test:
 	pytest --doctest-modules --cov=eeg_positions/ --cov-report=xml --cov-config=setup.cfg --verbose -s
+
+isort:
+	isort eeg_positions
+
+black:
+	black eeg_positions
+
+format: isort black
 
 flake:
 	flake8 --docstring-convention numpy .
