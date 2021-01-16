@@ -1,4 +1,4 @@
-.PHONY: all clean inplace test isort black format flake check-manifest pep build-doc
+.PHONY: all clean inplace test isort black format flake check-manifest pep build-doc conda
 
 all: clean inplace pep test
 
@@ -37,3 +37,7 @@ build-doc:
 	cd docs; make clean
 	cd docs; make html
 	cd docs; make view
+
+conda:
+	conda env remove -n eegpos
+	conda create --yes -n eegpos Python=3.8
