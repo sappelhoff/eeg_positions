@@ -8,8 +8,8 @@ import pandas as pd
 import pytest
 
 from eeg_positions.utils import (
-    find_point_at_fraction,
     _get_xyz,
+    find_point_at_fraction,
     plot_2d_head,
     plot_spherical_head,
     stereographic_projection,

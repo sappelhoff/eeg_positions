@@ -2,8 +2,8 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from eeg_positions.utils import _get_coords_on_circle
 

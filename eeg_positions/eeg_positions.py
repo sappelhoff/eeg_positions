@@ -7,25 +7,22 @@ See README for information about assumptions.
 
 import os
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from eeg_positions.config import (
-    CONTOUR_ORDER_Nz_EQUATOR,
-    CONTOUR_ORDER_Fpz_EQUATOR,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
+    CONTOUR_ORDER_Fpz_EQUATOR,
+    CONTOUR_ORDER_Nz_EQUATOR,
 )
 from eeg_positions.utils import (
+    add_points_along_contour,
     find_point_at_fraction,
     stereographic_projection,
-    add_points_along_contour,
 )
-from eeg_positions.viz import (
-    plot_2d_head,
-    plot_spherical_head,
-)
+from eeg_positions.viz import plot_2d_head, plot_spherical_head
 
 if __name__ == "__main__":
 
