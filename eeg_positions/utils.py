@@ -3,6 +3,7 @@
 # BSD-3-Clause
 
 import numpy as np
+import pandas as pd
 
 
 def find_point_at_fraction(p1, p2, p3, frac):
@@ -136,8 +137,58 @@ def find_point_at_fraction(p1, p2, p3, frac):
     return point
 
 
+def add_points_along_contour(df, contour):
+    """Compute points along `contour` and add them to `df`.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"].
+    contour : list of str
+        Each entry in `contour` is the label of a point, and
+        all points in `contour` are ordered. Must be of length
+        17 or 21.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"] and
+        new points (rows in `df`) along `contour` added.
+
+    """
+    contour_len = len(contour)
+    if contour_len == 21:
+        midpoint_idx = 10
+    elif contour_len == 17:
+        midpoint_idx = 8
+    else:
+        raise ValueError(f"contour must be of len 17 or 21 but is {contour_len}")
+
+    # Get the reference points from data frame
+    p1 = _get_xyz(df, contour[0])
+    p2 = _get_xyz(df, contour[midpoint_idx])
+    p3 = _get_xyz(df, contour[-1])
+
+    # Calculate all other points at fractions of distance
+    other_ps = {}
+    for i, label in enumerate(contour):
+        other_ps[label] = find_point_at_fraction(
+            p1, p2, p3, frac=i / (len(contour) - 1)
+        )
+
+    # Append to data frame
+    tmp = pd.DataFrame.from_dict(other_ps, orient="index")
+    tmp.columns = ["x", "y", "z"]
+    tmp["label"] = tmp.index
+    df = df.append(tmp, ignore_index=True, sort=True)
+
+    # Remove duplicates, keeping the first computations
+    df = df.drop_duplicates(subset="label", keep="first")
+    return df
+
+
 # Convenient helper function to access xyz coordinates from df
-def get_xyz(df, label):
+def _get_xyz(df, label):
     """Get xyz coordinates from a pandas data frame.
 
     Parameters

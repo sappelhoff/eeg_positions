@@ -9,7 +9,7 @@ import pytest
 
 from eeg_positions.utils import (
     find_point_at_fraction,
-    get_xyz,
+    _get_xyz,
     plot_2d_head,
     plot_spherical_head,
     stereographic_projection,
@@ -19,31 +19,31 @@ from eeg_positions.utils import (
 matplotlib.use("agg")
 
 
-def test_get_xyz():
+def test__get_xyz():
     """Check whether we can get xyz coordinates."""
     # Test the expected case
     data = {"label": ["Cz", "Pz"], "x": [1, 2], "y": [2, 3], "z": [3, 4]}
     df = pd.DataFrame(data)
-    x, y, z = get_xyz(df, "Cz")
+    x, y, z = _get_xyz(df, "Cz")
     assert x == 1 and y == 2 and z == 3
-    x, y, z = get_xyz(df, "Pz")
+    x, y, z = _get_xyz(df, "Pz")
     assert x == 2 and y == 3 and z == 4
 
     # Test that a non-present label is inquired
     with pytest.raises(ValueError):
-        get_xyz(df, "f")
+        _get_xyz(df, "f")
 
     # Test data frame has insufficient columns
     with pytest.raises(ValueError):
         data = {"elec": "[Oz]", "az": [2], "po": [1]}
         df = pd.DataFrame(data)
-        get_xyz(df, "Oz")
+        _get_xyz(df, "Oz")
 
     # Test there are duplicates
     with pytest.raises(ValueError):
         data = {"label": ["Cz", "Cz"], "x": [1, 2], "y": [2, 3], "z": [3, 4]}
         df = pd.DataFrame(data)
-        get_xyz(df, "f")
+        _get_xyz(df, "f")
 
 
 def test_find_point_at_fraction():

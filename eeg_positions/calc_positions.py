@@ -19,8 +19,8 @@ from eeg_positions.contour_labels import (
 )
 from eeg_positions.utils import (
     find_point_at_fraction,
-    get_xyz,
     stereographic_projection,
+    add_points_along_contour,
 )
 from eeg_positions.viz import (
     plot_2d_head,
@@ -61,37 +61,7 @@ if __name__ == "__main__":
         contour_order_late = ALL_CONTOURS2[-5:]
 
     for contour in contour_order:
-
-        if len(contour) == 21:
-            midpoint_idx = 10
-        elif len(contour) == 17:
-            midpoint_idx = 8
-        else:
-            raise ValueError(
-                "contour must be of len 17 or 21 but is {}".format(len(contour))
-            )
-
-        # Get the reference points from data frame
-        p1 = get_xyz(df, contour[0])
-        p2 = get_xyz(df, contour[midpoint_idx])
-        p3 = get_xyz(df, contour[-1])
-
-        # Calculate all other points at fractions of distance
-        # see `contour_labels.py` and `test_contour_labels.py`
-        other_ps = {}
-        for i, label in enumerate(contour):
-            other_ps[label] = find_point_at_fraction(
-                p1, p2, p3, frac=i / (len(contour) - 1)
-            )
-
-        # Append to data frame
-        tmp = pd.DataFrame.from_dict(other_ps, orient="index")
-        tmp.columns = ["x", "y", "z"]
-        tmp["label"] = tmp.index
-        df = df.append(tmp, ignore_index=True, sort=True)
-
-        # Remove duplicates, keeping the first computations
-        df = df.drop_duplicates(subset="label", keep="first")
+        df = add_points_along_contour(df, contour)
 
     if equator == "Fpz-T8-Oz-T7":
         # we need to add some more positions
@@ -123,37 +93,7 @@ if __name__ == "__main__":
 
         # draw final contours
         for contour in contour_order_late:
-
-            if len(contour) == 21:
-                midpoint_idx = 10
-            elif len(contour) == 17:
-                midpoint_idx = 8
-            else:
-                raise ValueError(
-                    "contour must be of len 17 or 21 but is {}".format(len(contour))
-                )
-
-            # Get the reference points from data frame
-            p1 = get_xyz(df, contour[0])
-            p2 = get_xyz(df, contour[midpoint_idx])
-            p3 = get_xyz(df, contour[-1])
-
-            # Calculate all other points at fractions of distance
-            # see `contour_labels.py` and `test_contour_labels.py`
-            other_ps = {}
-            for i, label in enumerate(contour):
-                other_ps[label] = find_point_at_fraction(
-                    p1, p2, p3, frac=i / (len(contour) - 1)
-                )
-
-            # Append to data frame
-            tmp = pd.DataFrame.from_dict(other_ps, orient="index")
-            tmp.columns = ["x", "y", "z"]
-            tmp["label"] = tmp.index
-            df = df.append(tmp, ignore_index=True, sort=True)
-
-            # Remove duplicates, keeping the first computations
-            df = df.drop_duplicates(subset="label", keep="first")
+            df = add_points_along_contour(df, contour)
 
     # Save The positions as files for the three main standard systems
     # ---------------------------------------------------------------
