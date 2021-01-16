@@ -29,7 +29,7 @@ flake:
 	flake8 --docstring-convention numpy .
 
 check-manifest:
-	check-manifest
+	check-manifest .
 
 pep: flake check-manifest
 

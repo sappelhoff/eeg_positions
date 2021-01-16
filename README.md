@@ -77,48 +77,24 @@ My thanks to:
 - `mne` version >= 0.22 is required.
 
 ```Python
-import mne
-import numpy as np
-import pandas as pd
+from eeg_positions import get_elec_coords
 
-
-# we saved this file before ...
-fname = 'standard_1005.tsv'
-
-# Now read it
-df = pd.read_csv(fname, sep="\t")
-
-# Turn data into montage
-ch_pos = df.set_index("label").to_dict("index")
-for key, val in ch_pos.items():
-    ch_pos[key] = np.asarray(list(val.values()))
-
-data = mne.utils.Bunch(
-    nasion=ch_pos["Nz"],
-    lpa=ch_pos["T9"],
-    rpa=ch_pos["T10"],
-    ch_pos=ch_pos,
-    coord_frame="unknown",
-    hsp=None,
-    hpi=None,
-)
-
-montage = mne.channels.make_dig_montage(**data)
+montage = get_elec_coords(as_mne_montage=True)
 
 # plot it, using kind="topomap" for 2D, or kind="3d" for 3D
-montage.plot(kind="topomap", sphere=(0, 0, 0, 1))
+montage.plot(kind="topomap")
 
 ```
 
 ## Interactively viewing 3D coordinates
 
-reproduce by running `python eeg_positions/eeg_positions.py`
+reproduce by running `python eeg_positions/compute.py`
 
 ![img: coordinate system](./data/images/3d_view.png)
 
 ## Projections to 2D
 
-reproduce by running `python eeg_positions/eeg_positions.py`
+reproduce by running `python eeg_positions/compute.py`
 
 ### 10-20 system
 ![img: coordinate system](./data/images/1020.png)
@@ -175,9 +151,9 @@ data format.
 
 ## 3D
 
- - [standard_1020](./data/standard_1020.tsv)
- - [standard_1010](./data/standard_1010.tsv)
- - [standard_1005](./data/standard_1005.tsv)
+ - [standard_1020](./data/standard_1020_3D.tsv)
+ - [standard_1010](./data/standard_1010_3D.tsv)
+ - [standard_1005](./data/standard_1005_3D.tsv)
 
 ## 2D via a stereographic projection from 3D
 

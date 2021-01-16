@@ -32,7 +32,7 @@ def get_elec_coords(
     elec_names=None,
     drop_landmarks=False,
     dim="2d",
-    as_mne_object=False,
+    as_mne_montage=False,
     equator="Nz-T10-Iz-T9",
 ):
     """Get standard EEG electrode coordinates.
@@ -165,7 +165,7 @@ def get_elec_coords(
         raise ValueError(f"`dim` must be one of {dims}.")
 
     for val, name in zip(
-        (as_mne_object, drop_landmarks), ("as_mne_object", "drop_landmarks")
+        (as_mne_montage, drop_landmarks), ("as_mne_montage", "drop_landmarks")
     ):
         if not isinstance(val, bool):
             raise ValueError(f"`{name}` must be a boolean value, but found: {val}")
@@ -237,13 +237,13 @@ def get_elec_coords(
 
     # Return as mne DigMontage object (or not)
     # ----------------------------------------
-    if as_mne_object:
+    if as_mne_montage:
         # Check that we have an appropriate version
         try:
             __import__("mne")
         except ImportError:
             raise ImportError(
-                "if `as_mne_object` is True, you must have mne installed."
+                "if `as_mne_montage` is True, you must have mne installed."
             )
         else:
             import mne
@@ -269,7 +269,7 @@ def get_elec_coords(
         RPA = ch_pos["T10"]
 
         # Make the sub-selection of channels again
-        selection = system if len(elec_names) > 0 else elec_names
+        selection = elec_names if len(elec_names) > 0 else system
         ch_pos = {key: val for key, val in ch_pos.items() if key in selection}
 
         coords = mne.channels.make_dig_montage(
@@ -319,7 +319,7 @@ if __name__ == "__main__":
                 elec_names=None,
                 drop_landmarks=True,
                 dim=dim.lower(),
-                as_mne_object=False,
+                as_mne_montage=False,
                 equator="Nz-T10-Iz-T9",
             )
 
