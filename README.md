@@ -39,9 +39,9 @@ appropriate citation from the *"Cite as"* section there.
 - `git clone` the repository (or download as `.zip` and unpack)
 - `cd eeg_positions`
 - Using your python environment of choice, install the package and its
-  dependencies locally using `pip install -e .`
-- Run the tests using `pytest --doctest-modules` (you might have to `pip install pytest` first)
-- Calculate and plot electrodes by calling `python eeg_positions/eeg_positions.py`
+  dependencies locally using `pip install -e .[test]`
+- Run the tests using `pytest --doctest-modules`
+- Calculate and plot electrodes by calling `python eeg_positions/compute.py`
 - Check out `config.py` for the order how electrodes are computed
 - ... and see `utils.py` for the `find_point_at_fraction` function that is the
   core of the computations.
