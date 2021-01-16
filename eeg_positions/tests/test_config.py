@@ -3,11 +3,11 @@
 # BSD-3-Clause
 
 from eeg_positions.config import (
+    ACCEPTED_EQUATORS,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
     CONTOUR_ORDER_Nz_EQUATOR,
-    ACCEPTED_EQUATORS,
 )
 
 

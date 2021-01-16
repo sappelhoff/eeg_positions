@@ -177,7 +177,32 @@ def _add_points_along_contour(df, contour):
         )
 
     # Append to data frame
-    tmp = pd.DataFrame.from_dict(other_ps, orient="index")
+    df = _append_ps_to_df(df, other_ps)
+    return df
+
+
+def _append_ps_to_df(df, ps):
+    """Add points `ps` to data frame `df`.
+
+    This function removes duplicates from `df`, always keeping
+    the first entry it finds.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"].
+    ps : dict
+        Each key is a label, with a tuple value of (x, y, z)
+        coordinates.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"],
+        and `ps` added.
+
+    """
+    tmp = pd.DataFrame.from_dict(ps, orient="index")
     tmp.columns = ["x", "y", "z"]
     tmp["label"] = tmp.index
     df = df.append(tmp, ignore_index=True, sort=True)

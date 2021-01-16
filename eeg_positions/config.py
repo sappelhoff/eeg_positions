@@ -2,6 +2,8 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
+import pkg_resources
+
 # For horizontal and sagittal contours note the variable name to know
 # from where the contour starts, over which electrode is crosses half-way
 # and at which electrode position it ends. We also need the "mid" coronal
@@ -620,3 +622,9 @@ for contour in CONTOUR_ORDER_Nz_EQUATOR:
 
 
 ACCEPTED_EQUATORS = ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]
+
+# Get required mne version from setup.cfg
+resources = pkg_resources.require("eeg_positions")[0]
+requirements = resources.requires(["Test"])
+pkg_names = [pkg.name for pkg in requirements]
+MNE_REQUIREMENT = requirements[pkg_names.index("mne")].specs[0][-1]
