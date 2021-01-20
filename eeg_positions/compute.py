@@ -27,6 +27,87 @@ from eeg_positions.utils import (
 from eeg_positions.viz import _plot_2d_head, _plot_spherical_head
 
 
+def get_alias_mapping():
+    """Get a mapping from electrode names to their aliases.
+
+    Some electrode positions have multiple names (aliases), depending
+    on the convention that was used to name them.
+    With this function, electrodes that are typically not part of the
+    10-20, 10-10, or 10-05 namespace are mapped to their alias within
+    these systems.
+
+    Returns
+    -------
+    alias_mapping : dict
+        A dictionary mapping electrode names to a list of alias
+        names.
+
+    Notes
+    -----
+    Some electrodes do not have a direct alias but an approximately
+    corresponding position. For example "A1" corresponds to the
+    "LPA" position with some (x, y, z) offset in the coordinate
+    system. These positions are returned with a mapping like:
+    ``{"name": "alias+(x, y, z)"}``.
+
+    Examples
+    --------
+    >>> alias_mapping = get_alias_mapping()
+    >>> alias_mapping["T3"]
+    'T7'
+    >>> alias_mapping["A1"]
+    'LPA+(0.1, 0.1, 0.1)'
+
+    """
+    # TODO: add aliases, correct A1 alias
+    alias_mapping = dict(
+        T3="T7",
+        A1="LPA+(0.1, 0.1, 0.1)",
+    )
+    return alias_mapping
+
+
+def get_available_elec_names(system="all"):
+    """Get a list of electrode names for which positions are available.
+
+    Parameters
+    ----------
+    system : "1020" | "1010" | "1005" | "all"
+        Specify for which system to return the electrode names.
+        If ``"all"``, return all electrode names for which positions
+        are available. Defaults to ``"all"``.
+
+    Returns
+    -------
+    list of str
+        The electrode names for which positions are available.
+
+    See also
+    --------
+    get_alias_mapping
+    get_elec_coords
+
+    Examples
+    --------
+    >>> elec_names = get_available_elec_names()
+    >>> "FakeName" in elec_names
+    False
+    >>> "Cz" in elec_names
+    True
+
+    """
+    elec_names = {
+        "1020": SYSTEM1020,
+        "1010": SYSTEM1010,
+        "1005": SYSTEM1005,
+        "all": (SYSTEM1005 + list(get_alias_mapping().keys())),
+    }
+    elec_names = elec_names.get(system, None)
+    if elec_names is None:
+        raise ValueError(f"Unknown input for `system`: {system}")
+    return elec_names
+
+
 def get_elec_coords(
     system="1005",
     elec_names=None,
@@ -45,12 +126,19 @@ def get_elec_coords(
         Specify the electrodes for which to return coordinates.
         ``"1020"`` returns all electrodes of the 10-20 system, and so on.
         For an overview of the systems, see [1]_.
-        Defaults to "1005".
+        Defaults to ``"1005"``.
         A more specific selection of electrodes to return can be done with
-        the `elec_names` parameter.
+        the `elec_names` parameter, including some electrodes that are not
+        typically included in the ``"1005"`` system.
         If `elec_names` is defined, `system` is ignored.
     elec_names : list of str | None
         List of electrode names to return coordinates of.
+        All electrodes that are part of the ``"1005"`` system are available,
+        and this includes by definition all electrodes of the
+        ``"1010"`` and ``"1020"`` systems.
+        Additionally, several extra electrodes are made available.
+        Use :func:`get_available_elec_names` and
+        :func:`get_alias_mapping` for more information.
         If ``None``, all electrode specified in `system` are returned.
         Defaults to ``None``.
     drop_landmarks : bool
@@ -138,6 +226,11 @@ def get_elec_coords(
        high-resolution EEG and ERP measurements. Clin Neurophysiol, 112:713-719, 2001.
        https://doi.org/10.1016/S1388-2457(00)00527-7
 
+    See also
+    --------
+    get_available_elec_names
+    get_alias_mapping
+
     """
     # Perform input checks
     # --------------------
@@ -154,11 +247,15 @@ def get_elec_coords(
     if not isinstance(elec_names, (list, type(None))):
         raise ValueError("`elec_names` must be a list of str or None.")
 
-    bad_elec_names = set(elec_names) - set(SYSTEM1005)
+    available_elec_names = get_available_elec_names()
+    bad_elec_names = set(elec_names) - set(available_elec_names)
     if len(bad_elec_names) > 0:
-        raise ValueError(
-            f"Some `elec_names` are not part of the {system} system: {bad_elec_names}"
+        msg = (
+            f"For some `elec_names` there are no available positions: {bad_elec_names}"
+            f"\nDid you check for proper capitalization?"
+            f"\nSee also the `get_available_elec_names` function."
         )
+        raise ValueError(msg)
 
     dims = ["2d", "3d"]
     if dim not in dims:
