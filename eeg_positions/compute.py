@@ -82,7 +82,7 @@ def get_available_elec_names(system="all"):
     list of str
         The electrode names for which positions are available.
 
-    See also
+    See Also
     --------
     get_alias_mapping
     get_elec_coords
@@ -226,7 +226,7 @@ def get_elec_coords(
        high-resolution EEG and ERP measurements. Clin Neurophysiol, 112:713-719, 2001.
        https://doi.org/10.1016/S1388-2457(00)00527-7
 
-    See also
+    See Also
     --------
     get_available_elec_names
     get_alias_mapping
