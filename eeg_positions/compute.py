@@ -79,7 +79,7 @@ def get_available_elec_names(system="all"):
 
     Returns
     -------
-    list of str
+    elec_names : list of str
         The electrode names for which positions are available.
 
     See Also
@@ -146,36 +146,36 @@ def get_elec_coords(
         from the coordinate data before returning `coords`. Dropping is helpful,
         because in our model NAS, LPA, and RPA coincide with Nz, T9, and T10
         respectively.
-        Defaults to True.
+        Defaults to ``True``.
     dim : "2d" | "3d"
         Return `coords` either in 2D (x, y) or 3D (x, y, z). If ``"2d"`` is
         selected, the coordinates are first computed as 3D, and then projected
         to 2D using a stereographic projection.
-        Defaults to "2d".
+        Defaults to ``"2d"``.
     as_mne_montage : bool
-        If True, return `coords` as an mne DigMontage object. In that case,
-        the `drop_landmarks` and `dim` parameters are set to ``False`` and
+        If True, return `coords` as an ``mne.channels.DigMontage`` object. In that
+        case, the `drop_landmarks` and `dim` parameters are set to ``False`` and
         ``"3d"`` respectively, ignoring the values that were actually passed.
-        This is done because the anatomical landmarks are needed to "fit"
-        the coordinates to the mne system, and because mne DigMontage objects
-        always contain 3D values. If True, a recent version of mne is required.
-        Defaults to False, returning `coords` as a pandas DataFrame object.
+        This is done because the anatomical landmarks are needed to "fit" the
+        coordinates to the mne system, and because ``mne.channels.DigMontage``objects
+        always contain 3D values. If ``True``, a recent version of ``mne`` is required.
+        Defaults to ``False``, returning `coords` as a ``pandas.DataFrame`` object.
     equator_contour : "Nz-T10-Iz-T9" | "Fpz-T8-Oz-T7"
         Control which contour line of electrodes should be at the equator of
-        the sphere. Both permissible options ("Nz-T10-Iz-T9" or "Fpz-T8-Oz-T7")
+        the sphere. Both permissible options (``"Nz-T10-Iz-T9"`` or ``"Fpz-T8-Oz-T7"``)
         are reasonable assumptions.
-        Selecting "Nz-T10-Iz-T9" is recommended, because the electrodes Nz, T9,
+        Selecting ``"Nz-T10-Iz-T9"`` is recommended, because the electrodes Nz, T9,
         and T10 correspond to the anatomical landmarks NAS, LPA, and RPA in
         our spherical head model (see Notes section).
         Thus, the anatomical landmarks lie on the equator,
         and all electrodes are drawn inside a circule head shape
         when projecting to 2D.
-        The option to select "Fpz-T8-Oz-T7" is provided (but not recommended),
+        The option to select ``"Fpz-T8-Oz-T7"`` is provided (but not recommended),
         because this contour line corresponds to where the head circumference
-        would be measured for real humans. However, when selecting "Fpz-T8-Oz-T7"
+        would be measured for real humans. However, when selecting ``"Fpz-T8-Oz-T7"``
         as the equator, several electrodes may be drawn outside a circular
         head shape when projecting to 2D.
-        Defaults to "Nz-T10-Iz-T9".
+        Defaults to ``"Nz-T10-Iz-T9"``.
 
     Returns
     -------
@@ -184,7 +184,8 @@ def get_elec_coords(
         Either returned as a pandas DataFrame object with the columns
         ``"label"``, ``"x"``, ``"y"``, and ``"z"``
         (only if `dim` is ``"3d"``),
-        or as an mne DigMontage object if `as_mne_montage` is ``True``.
+        or as an ``mne.channels.DigMontage`` object if `as_mne_montage`
+        is ``True``.
 
     Notes
     -----
