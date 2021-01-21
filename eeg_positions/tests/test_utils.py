@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 from eeg_positions.utils import (
+    _add_points_along_contour,
     _get_xyz,
     _stereographic_projection,
     find_point_at_fraction,
@@ -56,6 +57,22 @@ def test_find_point_at_fraction():
     # Assert error when equal points
     with pytest.raises(ValueError):
         find_point_at_fraction(p1, p1, p3, frac=0.5)
+
+    # Test some extreme fractions
+    point = find_point_at_fraction(p1, p2, p3, frac=1.5)
+    assert point == (0.0, 0.0, -1.0)
+    point = find_point_at_fraction(p1, p2, p3, frac=2.0)
+    assert point == p1
+    point = find_point_at_fraction(p1, p2, p3, frac=2.5)
+    assert point == p2
+
+
+def test_add_points_along_contour():
+    """Test _add_points_along_contour."""
+    fake_contour = list(range(40))
+    match = "contour must be of len 17 or 21 but is 40"
+    with pytest.raises(ValueError, match=match):
+        _add_points_along_contour("fake_df", fake_contour)
 
 
 def test_stereographic_projection():
