@@ -47,6 +47,7 @@ def test_find_point_at_fraction():
     p1 = (1.0, 0.0, 0.0)
     p2 = (0.0, 0.0, 1.0)
     p3 = (-1.0, 0.0, 0.0)
+    p4 = (0.0, 0.0, -1.0)
     point = find_point_at_fraction(p1, p2, p3, frac=0.0)
     assert point == p1
     point = find_point_at_fraction(p1, p2, p3, frac=1.0)
@@ -60,11 +61,19 @@ def test_find_point_at_fraction():
 
     # Test some extreme fractions
     point = find_point_at_fraction(p1, p2, p3, frac=1.5)
-    assert point == (0.0, 0.0, -1.0)
+    assert point == p4
     point = find_point_at_fraction(p1, p2, p3, frac=2.0)
     assert point == p1
     point = find_point_at_fraction(p1, p2, p3, frac=2.5)
     assert point == p2
+
+    # stretch how far points are apart
+    # NOTE: better draw on a sheet to see why these numbers make sense
+    pstar = find_point_at_fraction(p1, p2, p3, frac=0.75)
+    point = find_point_at_fraction(p1, pstar, p4, frac=2 / 6)
+    assert point == p2
+    point = find_point_at_fraction(p1, pstar, p4, frac=4 / 6)
+    assert point == p3
 
 
 def test_add_points_along_contour():
