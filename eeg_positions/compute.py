@@ -349,7 +349,7 @@ def get_elec_coords(
             mne_version = mne.__version__
             msg = (
                 f"You need to update your mne installation. Version {MNE_REQUIREMENT} "
-                f"is required, but you have {mne_version}."
+                f"or higher is required, but you have {mne_version}."
             )
             if LooseVersion(mne_version) < LooseVersion(MNE_REQUIREMENT):
                 raise RuntimeError(msg)
