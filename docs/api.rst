@@ -4,8 +4,8 @@
 API Documentation
 =================
 
-eeg_positions (:py:mod:`eeg_positions`)
-=======================================
+:py:mod:`eeg_positions`
+=======================
 
 .. currentmodule:: eeg_positions
 

@@ -16,19 +16,43 @@ sys.path.append(os.path.abspath(os.path.join(curdir, "..", "eeg_positions")))
 
 # see: https://sphinx.readthedocs.io/en/1.3/extensions.html
 extensions = [
-    "sphinx_gallery.gen_gallery",
     "sphinx.ext.githubpages",
+    "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx_gallery.gen_gallery",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "numpydoc",
     "sphinx_copybutton",
 ]
 
+# configure sphinx-copybutton
 copybutton_prompt_text = r">>> |\.\.\. "
 copybutton_prompt_is_regexp = True
 
+# configure numpydoc
 numpydoc_xref_param_type = True
+numpydoc_xref_ignore = {
+    # words
+    "of",
+    "shape",
+}
+
+# configure sphinx-gallery
+sphinx_gallery_conf = {
+    "doc_module": "eeg_positions",
+    "reference_url": {
+        "eeg_positions": None,
+    },
+    "examples_dirs": "../examples",
+    "gallery_dirs": "auto_examples",
+    "filename_pattern": "^((?!sgskip).)*$",
+    "backreferences_dir": "generated",
+    "reference_url": {
+        "eeg_positions": None,
+    },
+}
+
 
 # Generate the autosummary
 autosummary_generate = True
@@ -56,6 +80,8 @@ html_theme_options = {
     "github_button": True,
     "github_repo": "eeg_positions",
     "github_user": "sappelhoff",
+    "show_powered_by": False,
+    "sidebar_width": "250px",
 }
 html_sidebars = {
     "**": [
@@ -64,14 +90,7 @@ html_sidebars = {
         "relations.html",
         "searchbox.html",
     ],
-    "navbar_links": [
-        ("Examples", "auto_examples/index"),
-        ("API", "api"),
-        ("What's new", "whats_new"),
-        ("GitHub", "https://github.com/sappelhoff/pyprep", True),
-    ],
 }
-
 # When functions from other packages are mentioned, link to them
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
