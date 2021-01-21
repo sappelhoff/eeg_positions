@@ -1,6 +1,6 @@
 .PHONY: all clean inplace test isort black format flake check-manifest pep build-doc conda
 
-all: clean inplace pep test
+all: clean inplace pep test build-doc
 
 inplace:
 	python -m pip install --upgrade pip
@@ -20,14 +20,16 @@ test:
 
 isort:
 	isort eeg_positions
+	isort docs/conf.py
 
 black:
 	black eeg_positions
+	black docs/conf.py
 
 format: isort black
 
 flake:
-	flake8 --docstring-convention numpy .
+	flake8 --docstring-convention numpy eeg_positions
 
 check-manifest:
 	check-manifest .
