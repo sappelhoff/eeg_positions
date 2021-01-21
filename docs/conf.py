@@ -48,9 +48,6 @@ sphinx_gallery_conf = {
     "gallery_dirs": "auto_examples",
     "filename_pattern": "^((?!sgskip).)*$",
     "backreferences_dir": "generated",
-    "reference_url": {
-        "eeg_positions": None,
-    },
 }
 
 
