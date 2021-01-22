@@ -313,7 +313,6 @@ def get_elec_coords(
         )
 
         for label, frac, arc in zip(p_to_find, p_fracs, p_arc):
-            print(label, frac, arc)
             other_ps[label] = find_point_at_fraction(
                 *arc, frac=1 + (frac * frac_modifier)
             )
