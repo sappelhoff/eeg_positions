@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692) [![Python build and tests](https://github.com/sappelhoff/eeg_positions/workflows/Python%20build%20and%20tests/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build+and+tests%22) [![Coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/master/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
+[![DOI](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692) [![Python build and test and deploy](https://github.com/sappelhoff/eeg_positions/workflows/Python%20build%20and%20test%20and%20deploy/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build+and+test+and+deploy%22) [![Coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/master/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
 
 # eeg_positions
 
