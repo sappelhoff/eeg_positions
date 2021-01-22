@@ -87,10 +87,12 @@ jobs:
         file: ./coverage.xml
 
     - name: build docs
+      if: "matrix.platform == 'ubuntu-latest'"
       run: |
         make build-doc
 
-    - name: Upload docsbuild artifacts
+    - name: Upload docs build artifacts
+      if: "matrix.platform == 'ubuntu-latest'"
       uses: actions/upload-artifact@v2
       with:
         name: docs-artifact
