@@ -4,7 +4,7 @@ all: clean inplace pep test build-doc
 
 inplace:
 	python -m pip install --upgrade pip
-	python -m pip install --editable ".[test]" --no-cache-dir
+	python -m pip install --editable ".[dev]" --no-cache-dir
 
 clean:
 	find . -type d -name 'eeg_positions.egg-info' -exec rm -rf {} +;

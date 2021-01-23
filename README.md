@@ -39,7 +39,7 @@ appropriate citation from the *"Cite as"* section there.
 - `git clone` the repository (or download as `.zip` and unpack)
 - `cd eeg_positions`
 - Using your python environment of choice, install the package and its
-  dependencies locally using `pip install -e .[test]`
+  dependencies locally using `pip install -e .[dev]`
 - Run the tests using `pytest --doctest-modules`
 - Calculate and plot electrodes by calling `python eeg_positions/compute.py`
 - Check out `config.py` for the order how electrodes are computed

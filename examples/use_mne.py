@@ -3,9 +3,6 @@
 Use ``eeg_positions`` with MNE-Python
 =====================================
 
-BIDSPath is MNE-BIDS's working horse when it comes to file and folder
-operations. Learn here how to use it.
-
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
 # Copyright (c) 2018-2021, Stefan Appelhoff

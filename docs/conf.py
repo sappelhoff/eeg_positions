@@ -81,7 +81,8 @@ html_theme_options = {
     "github_repo": "eeg_positions",
     "github_user": "sappelhoff",
     "show_powered_by": False,
-    "sidebar_width": "250px",
+    "sidebar_width": "250px",  # default: 220px
+    "page_width": "1040px",  # default: 940px
 }
 
 html_sidebars = {
