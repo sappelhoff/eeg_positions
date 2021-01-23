@@ -627,6 +627,6 @@ RADIUS_INNER_CONTOUR = 0.72658518
 
 # Get required mne version from setup.cfg
 resources = pkg_resources.require("eeg_positions")[0]
-requirements = resources.requires(["Test"])
+requirements = resources.requires(["dev"])
 pkg_names = [pkg.name for pkg in requirements]
 MNE_REQUIREMENT = requirements[pkg_names.index("mne")].specs[0][-1]

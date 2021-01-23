@@ -16,7 +16,7 @@ clean:
 	find . -type f -name '.coverage' -exec rm -rf {} +;
 
 test:
-	pytest --doctest-modules --cov=eeg_positions/ --cov-report=xml --cov-config=setup.cfg --verbose -s
+	pytest --doctest-modules --doctest-ignore-import-errors --cov=eeg_positions/ --cov-report=xml --cov-config=setup.cfg --verbose -s
 
 isort:
 	isort eeg_positions
