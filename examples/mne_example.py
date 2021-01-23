@@ -15,6 +15,7 @@ operations. Learn here how to use it.
 # We start with imports
 
 import mne
+
 from eeg_positions import find_point_at_fraction, get_elec_coords
 
 # %% Now we get the positions we want
@@ -22,7 +23,7 @@ from eeg_positions import find_point_at_fraction, get_elec_coords
 # :func:`find_point_at_fraction`
 # :func:`get_elec_coords`
 
-p = find_point_at_fraction((-1, 0, 0),(0, 0, 1) ,(1, 0, 0), 0)
+p = find_point_at_fraction((-1, 0, 0), (0, 0, 1), (1, 0, 0), 0)
 print(p)
 
 # %% Let's make a first plot in 3D

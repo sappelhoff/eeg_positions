@@ -20,16 +20,19 @@ test:
 
 isort:
 	isort eeg_positions
+	isort examples
 	isort docs/conf.py
 
 black:
 	black eeg_positions
+	black examples
 	black docs/conf.py
 
 format: isort black
 
 flake:
 	flake8 --docstring-convention numpy eeg_positions
+	flake8 --docstring-convention numpy examples
 
 check-manifest:
 	check-manifest .
