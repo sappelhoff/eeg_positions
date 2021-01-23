@@ -7,6 +7,7 @@ Compute and plot standard EEG electrode positions
    :glob:
 
    api
+   changes
    auto_examples/index
 
 This is the ``eeg_positions`` repository.
