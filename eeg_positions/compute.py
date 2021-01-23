@@ -187,6 +187,11 @@ def get_elec_coords(
         or as an ``mne.channels.DigMontage`` object if `as_mne_montage`
         is ``True``.
 
+    See Also
+    --------
+    get_available_elec_names
+    get_alias_mapping
+
     Notes
     -----
     We are modelling the coordinate system as if a subject's head was
@@ -226,11 +231,6 @@ def get_elec_coords(
     .. [1] R. Oostenveld and P. Praamstra. The five percent electrode system for
        high-resolution EEG and ERP measurements. Clin Neurophysiol, 112:713-719, 2001.
        https://doi.org/10.1016/S1388-2457(00)00527-7
-
-    See Also
-    --------
-    get_available_elec_names
-    get_alias_mapping
 
     """
     # Perform input checks
