@@ -1,5 +1,6 @@
 docs/auto_examples
 docs/generated
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
