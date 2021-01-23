@@ -40,7 +40,7 @@ numpydoc_xref_ignore = {
 
 # configure sphinx-gallery
 sphinx_gallery_conf = {
-    "doc_module": "eeg_positions",
+    "doc_module": ("eeg_positions"),
     "reference_url": {
         "eeg_positions": None,
     },
@@ -48,6 +48,9 @@ sphinx_gallery_conf = {
     "gallery_dirs": "auto_examples",
     "filename_pattern": "^((?!sgskip).)*$",
     "backreferences_dir": "generated",
+    "download_all_examples": False,
+    "show_signature": False,
+    "min_reported_time": 100,
 }
 
 
@@ -80,6 +83,7 @@ html_theme_options = {
     "show_powered_by": False,
     "sidebar_width": "250px",
 }
+
 html_sidebars = {
     "**": [
         "about.html",
@@ -88,6 +92,9 @@ html_sidebars = {
         "searchbox.html",
     ],
 }
+
+templates_path = ["_templates"]
+
 # When functions from other packages are mentioned, link to them
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),

@@ -37,6 +37,8 @@ check-manifest:
 pep: flake check-manifest
 
 build-doc:
+	rm -rf docs/auto_examples
+	rm -rf docs/generated
 	cd docs; make clean
 	cd docs; make html
 	cd docs; make view

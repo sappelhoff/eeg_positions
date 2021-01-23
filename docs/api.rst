@@ -6,12 +6,16 @@ API Documentation
 
 All functions described here can be imported from the :py:mod:`eeg_positions` package.
 
-.. currentmodule:: eeg_positions
-
 The :func:`find_point_at_fraction` function contains the key algorithm for computing the
 standard EEG electode positions on a sphere.
 You will most likely not need to use this function in your code directly,
 but it is still made availble over the API and the documentation for its key role in the code.
+
+.. automodule:: eeg_positions
+   :no-members:
+   :no-inherited-members:
+
+.. currentmodule:: eeg_positions
 
 .. autosummary::
    :toctree: generated/

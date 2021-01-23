@@ -2,4 +2,4 @@
 Examples
 ========
 
-Here we show some examples.
+Have a look at some common use cases of :mod:`eeg_positions`.
