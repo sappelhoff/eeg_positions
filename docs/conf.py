@@ -78,6 +78,7 @@ html_theme_options = {
     "description": "Compute and plot standard EEG electrode positions.",
     "fixed_sidebar": True,
     "github_button": True,
+    "github_type": "star",
     "github_repo": "eeg_positions",
     "github_user": "sappelhoff",
     "show_powered_by": False,
