@@ -7,7 +7,11 @@ from unittest import mock
 
 import pytest
 
-from eeg_positions.compute import get_available_elec_names, get_elec_coords
+from eeg_positions.compute import (
+    _produce_files_and_do_x,
+    get_available_elec_names,
+    get_elec_coords,
+)
 
 valid_inputs = itertools.product(
     ("1020", "1010", "1005"),
@@ -88,3 +92,8 @@ def test_get_available_elec_names():
     match = "Unknown input for `system`: bogus"
     with pytest.raises(ValueError, match=match):
         get_available_elec_names(system="bogus")
+
+
+def test_produce_files_and_do_x():
+    """Test the data that we ship is as expected."""
+    _produce_files_and_do_x(x="compare")

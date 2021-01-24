@@ -11,7 +11,6 @@ import pandas as pd
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
     MNE_REQUIREMENT,
-    RADIUS_INNER_CONTOUR,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -24,7 +23,6 @@ from eeg_positions.utils import (
     _stereographic_projection,
     find_point_at_fraction,
 )
-from eeg_positions.viz import _plot_2d_head, _plot_spherical_head
 
 
 def get_alias_mapping():
@@ -401,61 +399,51 @@ def get_elec_coords(
     return coords
 
 
-if __name__ == "__main__":
+def _produce_files_and_do_x(x="save"):
+    """Produce electrode positions and save them.
 
-    # Save The positions as files for the three main standard systems
-    # ---------------------------------------------------------------
+    Parameters
+    ----------
+    x : str
+        What to do after producing each file. Can be "save", or "compare" to
+        compare the produced file to a previously saved file.
+
+    """
+    # which decimal precision to use for saving the data
+    precision = 4
+
     fpath = os.path.dirname(os.path.realpath(__file__))
-    fname_template = os.path.join(fpath, "..", "data", "standard_{}_{}.tsv")
+    fname_template = os.path.join(fpath, "..", "data", "{}", "standard_{}_{}.tsv")
 
-    # First in 3D, then in 2D for each system
-    for system in ["1020", "1010", "1005"]:
-        for dim in ["2D", "3D"]:
-            coords = get_elec_coords(
-                system=system,
-                elec_names=None,
-                drop_landmarks=True,
-                dim=dim.lower(),
-                as_mne_montage=False,
-                equator="Nz-T10-Iz-T9",
-            )
+    # For each equator for each system for both 2D and 3D
+    for equator in ACCEPTED_EQUATORS:
+        for system in ["1020", "1010", "1005"]:
+            for dim in ["2D", "3D"]:
+                coords = get_elec_coords(
+                    system=system,
+                    elec_names=None,
+                    drop_landmarks=False,
+                    dim=dim.lower(),
+                    as_mne_montage=False,
+                    equator=equator,
+                )
 
-            coords.to_csv(
-                fname_template.format(system, dim),
-                sep="\t",
-                na_rep="n/a",
-                index=False,
-                float_format="%.4f",
-            )
+                fname = fname_template.format(equator, system, dim)
 
-    # Plot for each standard system
-    # -----------------------------
-    fname_template = "./data/standard_{}_{}.tsv"
-    system = input("Which system do you want to plot? (1020/1010/1005/None)\n")
-    if system in ["1020", "1010", "1005"]:
-        df = pd.read_csv(fname_template.format(system, "3D"), sep="\t")
+                if x == "save":
+                    os.makedirs(os.path.split(fname)[0], exist_ok=True)
+                    coords.to_csv(
+                        fname,
+                        sep="\t",
+                        na_rep="n/a",
+                        index=False,
+                        float_format=f"%.{precision}f",
+                    )
+                else:
+                    assert x == "compare"
+                    coords_read = pd.read_csv(fname, sep="\t")
+                    cols = ["x", "y"] if dim == "2D" else ["x", "y", "z"]
+                    data_read = coords_read[cols]
+                    data_produced = coords[cols].round(precision)
 
-        # 3D
-        fig, ax = _plot_spherical_head()
-
-        for idx, row in df.iterrows():
-            ax.scatter3D(row["x"], row["y"], row["z"], c="b")
-            ax.text(row["x"], row["y"], row["z"], row["label"], fontsize=5)
-
-        ax.set_title(f"standard_{system}")
-
-        # 2D
-        df = pd.read_csv(fname_template.format(system, "2D"), sep="\t")
-
-        fig2, ax2 = _plot_2d_head(RADIUS_INNER_CONTOUR)
-
-        for idx, row in df.iterrows():
-            ax2.scatter(row["x"], row["y"], marker=".", color="r")
-            ax2.annotate(row["label"], xy=(row["x"], row["y"]), fontsize=5)
-
-        ax2.set_title(f"standard_{system}")
-
-        # Show and wait until done
-        fig.show()
-        fig2.show()
-        input("\nClick Enter when finished viewing.\n")
+                    np.testing.assert_allclose(data_read, data_produced)

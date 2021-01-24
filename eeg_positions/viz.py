@@ -122,3 +122,41 @@ def _plot_2d_head(radius_inner_contour=None):
     ax.set_ylim([-head_radius * 1.6, head_radius * 1.6])
 
     return fig, ax
+
+
+if __name__ == "__main__":
+    import pandas as pd
+
+    from eeg_positions.config import RADIUS_INNER_CONTOUR
+
+    # Plot for each standard system
+    # -----------------------------
+    fname_template = "./data/standard_{}_{}.tsv"
+    system = input("Which system do you want to plot? (1020/1010/1005/None)\n")
+    if system in ["1020", "1010", "1005"]:
+        df = pd.read_csv(fname_template.format(system, "3D"), sep="\t")
+
+        # 3D
+        fig, ax = _plot_spherical_head()
+
+        for idx, row in df.iterrows():
+            ax.scatter3D(row["x"], row["y"], row["z"], c="b")
+            ax.text(row["x"], row["y"], row["z"], row["label"], fontsize=5)
+
+        ax.set_title(f"standard_{system}")
+
+        # 2D
+        df = pd.read_csv(fname_template.format(system, "2D"), sep="\t")
+
+        fig2, ax2 = _plot_2d_head(RADIUS_INNER_CONTOUR)
+
+        for idx, row in df.iterrows():
+            ax2.scatter(row["x"], row["y"], marker=".", color="r")
+            ax2.annotate(row["label"], xy=(row["x"], row["y"]), fontsize=5)
+
+        ax2.set_title(f"standard_{system}")
+
+        # Show and wait until done
+        fig.show()
+        fig2.show()
+        input("\nClick Enter when finished viewing.\n")
