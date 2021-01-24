@@ -72,8 +72,6 @@ My thanks to:
 
 ## Read the data into [MNE-Python](https://mne.tools)
 
-- NOTE: Please download the 3D `10-05` data from [here](./data/standard_1005.tsv)
-  and save as `standard_1005.tsv`.
 - `mne` version >= 0.22 is required.
 
 ```Python
@@ -85,25 +83,6 @@ montage = get_elec_coords(as_mne_montage=True)
 montage.plot(kind="topomap")
 
 ```
-
-## Interactively viewing 3D coordinates
-
-reproduce by running `python eeg_positions/compute.py`
-
-![img: coordinate system](./data/images/3d_view.png)
-
-## Projections to 2D
-
-reproduce by running `python eeg_positions/compute.py`
-
-### 10-20 system
-![img: coordinate system](./data/images/1020.png)
-
-### 10-10 system
-![img: coordinate system](./data/images/1010.png)
-
-### 10-05 system
-![img: coordinate system](./data/images/1005.png)
 
 ---
 
@@ -118,8 +97,6 @@ reproduce by running `python eeg_positions/compute.py`
   with increasing values
 - The z-axis is orthogonal to the xy-plane and pointing vertically up with
   increasing values
-
-![img: coordinate system](./data/images/coords_cartesian.png)
 
 ### Relationship of Coordinate System to a Human Head
 
@@ -147,16 +124,4 @@ equator going through T7, T8, Fpz, and Oz.
 # EEG Electrode Position Data
 
 You can also just download the pre-computed electrode positions in tab-separated
-data format.
-
-## 3D
-
- - [standard_1020](./data/standard_1020_3D.tsv)
- - [standard_1010](./data/standard_1010_3D.tsv)
- - [standard_1005](./data/standard_1005_3D.tsv)
-
-## 2D via a stereographic projection from 3D
-
-- [standard_1020](./data/standard_1020_2D.tsv)
-- [standard_1010](./data/standard_1010_2D.tsv)
-- [standard_1005](./data/standard_1005_2D.tsv)
+data format. See the `data/` directory.
