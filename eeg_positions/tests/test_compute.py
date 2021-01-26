@@ -15,7 +15,7 @@ from eeg_positions.compute import (
 
 valid_inputs = itertools.product(
     ("1020", "1010", "1005"),
-    (None, ["Cz"]),
+    (None, ["Cz"], ["A1", "M1"]),
     (True, False),
     ("2d", "3d"),
     (True, False),
@@ -70,6 +70,10 @@ def test_get_elec_coords_io():
     with pytest.raises(ValueError, match=match):
         get_elec_coords(drop_landmarks="True")
 
+    match = "You specified the same electrode position using two aliases"
+    with pytest.raises(ValueError, match=match):
+        get_elec_coords(elec_names=["M1", "TP9"])
+
     # Mock a too-low version of mne
     mock_mne = mock.MagicMock()
     mock_mne.__version__ = "0.19.0"
@@ -97,3 +101,4 @@ def test_get_available_elec_names():
 def test_produce_files_and_do_x():
     """Test the data that we ship is as expected."""
     _produce_files_and_do_x(x="compare")
+    _produce_files_and_do_x(x="save")

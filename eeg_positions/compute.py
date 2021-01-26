@@ -2,6 +2,7 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
+import ast
 import os
 from distutils.version import LooseVersion
 
@@ -10,6 +11,7 @@ import pandas as pd
 
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
+    LANDMARKS,
     MNE_REQUIREMENT,
     SYSTEM1005,
     SYSTEM1010,
@@ -38,7 +40,9 @@ def get_alias_mapping():
     -------
     alias_mapping : dict
         A dictionary mapping electrode names to a list of alias
-        names.
+        names. The keys are electrode names that are *not* in the
+        10-05 namespace, but they map to values that *are* in that
+        namespace. However, see also "Notes" below.
 
     Notes
     -----
@@ -51,17 +55,49 @@ def get_alias_mapping():
     Examples
     --------
     >>> alias_mapping = get_alias_mapping()
-    >>> alias_mapping["T3"]
-    'T7'
+    >>> alias_mapping["M1"]
+    'TP9'
     >>> alias_mapping["A1"]
-    'LPA+(0.1, 0.1, 0.1)'
+    'LPA+(-0.1, 0., -0.01)'
 
     """
-    # TODO: add aliases, correct A1 alias
     alias_mapping = dict(
-        T3="T7",
-        A1="LPA+(0.1, 0.1, 0.1)",
+        A1="LPA+(-0.1, 0., -0.01)",
+        A2="RPA+(0.1, 0., -0.01)",
+        M1="TP9",
+        M2="TP10",
     )
+
+    # sanity checks
+    for key, val in alias_mapping.items():
+        # a value must not be a key
+        assert val not in alias_mapping
+
+        # a key must not be in the 10-05 namespace + landmarks
+        assert key not in (SYSTEM1005 + LANDMARKS)
+
+        # a key must not contain certain characters
+        # so that the names do not collide with the alias+(x, y, z) syntax
+        for char in "+":
+            assert char not in key
+
+        # a value must be in the 10-05 namespace + landmarks
+        # or be based on such a position, if it is modified via "+(...)"
+        if "+(" in val:
+            # this will raise a ValueError if more than one "+" is in the str,
+            # ... so do not define the tuple as something like (+1, -1, +0.3)
+            name, mod = val.split("+")
+            # the modifier must be a tuple of 3 ints/floats
+            mod = ast.literal_eval(mod)
+            isinstance(mod, tuple)
+            len(mod) == 3
+            isinstance(mod[0], (int, float))
+            isinstance(mod[1], (int, float))
+            isinstance(mod[2], (int, float))
+        else:
+            name = val
+        assert name in (SYSTEM1005 + LANDMARKS)
+
     return alias_mapping
 
 
@@ -70,8 +106,9 @@ def get_available_elec_names(system="all"):
 
     Parameters
     ----------
-    system : "1020" | "1010" | "1005" | "all"
+    system : "1020" | "1010" | "1005" | "landmarks" | "all"
         Specify for which system to return the electrode names.
+        If ``"landmarks"``, return the anatomical landmark names.
         If ``"all"``, return all electrode names for which positions
         are available. Defaults to ``"all"``.
 
@@ -92,13 +129,17 @@ def get_available_elec_names(system="all"):
     False
     >>> "Cz" in elec_names
     True
+    >>> elec_names = get_available_elec_names(system="landmarks")
+    >>> print(elec_names)
+    ['LPA', 'RPA', 'NAS']
 
     """
     elec_names = {
         "1020": SYSTEM1020,
         "1010": SYSTEM1010,
         "1005": SYSTEM1005,
-        "all": (SYSTEM1005 + list(get_alias_mapping().keys())),
+        "landmarks": LANDMARKS,
+        "all": (SYSTEM1005 + LANDMARKS + list(get_alias_mapping().keys())),
     }
     elec_names = elec_names.get(system, None)
     if elec_names is None:
@@ -141,7 +182,7 @@ def get_elec_coords(
         Defaults to ``None``.
     drop_landmarks : bool
         If True, drop anatomical landmarks (NAS, LPA, RPA)
-        from the coordinate data before returning `coords`. Dropping is helpful,
+        from the coordinate data before returning `coords`. Dropping can be helpful,
         because in our model NAS, LPA, and RPA coincide with Nz, T9, and T10
         respectively.
         Defaults to ``True``.
@@ -231,7 +272,7 @@ def get_elec_coords(
        https://doi.org/10.1016/S1388-2457(00)00527-7
 
     """
-    # Perform input checks
+    # perform input checks
     # --------------------
     if equator not in ACCEPTED_EQUATORS:
         raise ValueError(f"`equator` must be one of {ACCEPTED_EQUATORS}.")
@@ -266,9 +307,47 @@ def get_elec_coords(
         if not isinstance(val, bool):
             raise ValueError(f"`{name}` must be a boolean value, but found: {val}")
 
-    # Calculate positions
+    # handle aliases
+    # --------------
+    # get dict of aliases
+    alias_mapping = get_alias_mapping()
+
+    # aliases that are in "alias+(x, y, z)" syntax are handled last (special treatment)
+    elec_names_special = []
+
+    # for position computation we rename all electrodes to the 10-05 namespace,
+    # then before returning, we use the `elec_names_replaced` dict to map the
+    # names back to what the users wants
+    elec_names_replaced = {}
+    for name in elec_names:
+
+        # skip all elec_names that are not aliases: These are fine as they are
+        if name not in alias_mapping:
+            continue
+
+        # check that one position is not specified twice
+        alias = alias_mapping[name]
+        if alias in elec_names:
+            msg = (
+                f"You specified the same electrode position using two aliases: "
+                f"{name}, {alias}. Remove one of them from `elec_names`."
+            )
+            raise ValueError(msg)
+
+        # replace the elec_name with its alias
+        if "+(" not in alias:
+            # for simple cases we know that an alias is in the 10-05 namespace
+            elec_names[elec_names.index(name)] = alias
+            elec_names_replaced[alias] = name
+        else:
+            # however, some cases are specified using an "alias+(x, y, z)" format
+            # we compute these electrode as the last positions (special treatment)
+            assert "+(" in alias
+            elec_names_special.append(alias)
+
+    # calculate positions
     # -------------------
-    # Known locations
+    # known locations
     front = (0.0, 1.0, 0.0)
     right = (1.0, 0.0, 0.0)
     back = (0.0, -1.0, 0.0)
@@ -284,7 +363,7 @@ def get_elec_coords(
 
     df = pd.DataFrame.from_dict(d)
 
-    # Check the order of contours to draw based on known locations
+    # check the order of contours to draw based on known locations
     if equator == "Nz-T10-Iz-T9":
         contour_order = CONTOUR_ORDER_Nz_EQUATOR
     else:
@@ -315,25 +394,62 @@ def get_elec_coords(
                 *arc, frac=1 + (frac * frac_modifier)
             )
 
-        # Append to data frame
+        # append to data frame
         df = _append_ps_to_df(df, other_ps)
 
         # draw final contours for Fpz equator
         for contour in contour_order_late:
             df = _add_points_along_contour(df, contour)
 
+    # get landmark coordinates
+    # ------------------------
+    # based on our assumptions: Nz=NAS, T9=LPA, T10=RPA
+    tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), ["x", "y", "z"]]
+    tmp.insert(0, "label", ["NAS", "LPA", "RPA"])
+    df = df.append(tmp, ignore_index=True, sort=True)
+
+    # if we need to return an mne montage, we need the actual coordinates
+    # as ndarrays
+    if as_mne_montage:
+        # based on our assumptions: Nz=NAS, T9=LPA, T10=RPA
+        landmark_pos = df.set_index("label").to_dict("index")
+        for label in ["NAS", "LPA", "RPA"]:
+            landmark_pos[label] = np.asarray(list(landmark_pos[label].values()))
+
     # subselect electrodes
     # --------------------
     if len(elec_names) > 0:
         selection = df.label.isin(elec_names)
     else:
-        selection = df.label.isin(system)
+        selection = df.label.isin(system + LANDMARKS)
     df_selection = df.loc[selection, :]
 
-    # Return as mne DigMontage object (or not)
+    # add special elec positions
+    pos_to_add = {}
+    for elec in elec_names_special:
+        name, modifier_str = elec.split("+")
+        modifier = np.array(ast.literal_eval(modifier_str))
+        original = df.loc[df["label"] == name, ["x", "y", "z"]].to_numpy()
+        x, y, z = np.squeeze(original + modifier)
+
+        for col, val in zip(["label", "x", "y", "z"], [name, x, y, z]):
+            pos_to_add[col] = pos_to_add.get(col, []) + [val]
+
+    df_selection = df_selection.append(
+        pd.DataFrame.from_dict(pos_to_add),
+        ignore_index=True,
+        sort=True,
+    )
+
+    # re-rename aliases
+    df_selection["label"] = df_selection["label"].replace(
+        to_replace=elec_names_replaced
+    )
+
+    # return as mne DigMontage object (or not)
     # ----------------------------------------
     if as_mne_montage:
-        # Check that we have an appropriate version
+        # check that we have an appropriate version
         try:
             __import__("mne")
         except ImportError:
@@ -351,39 +467,33 @@ def get_elec_coords(
             if LooseVersion(mne_version) < LooseVersion(MNE_REQUIREMENT):
                 raise RuntimeError(msg)
 
-        # Now convert to DigMontage (first using the full df once more)
+        # now convert to DigMontage
         # NOTE: set to MNE default head size radius (in meters)
-        ch_pos = df.set_index("label").to_dict("index")
+        # drop potential duplicates first
+        df_selection = df_selection.drop_duplicates(subset=["label"])
+        ch_pos = df_selection.set_index("label").to_dict("index")
         for key, val in ch_pos.items():
             ch_pos[key] = (
                 np.asarray(list(val.values())) * mne.defaults.HEAD_SIZE_DEFAULT
             )
 
-        NAS = ch_pos["Nz"]
-        LPA = ch_pos["T9"]
-        RPA = ch_pos["T10"]
-
-        # Make the sub-selection of channels again
-        selection = elec_names if len(elec_names) > 0 else system
-        ch_pos = {key: val for key, val in ch_pos.items() if key in selection}
+        NAS = landmark_pos["NAS"] * mne.defaults.HEAD_SIZE_DEFAULT
+        LPA = landmark_pos["LPA"] * mne.defaults.HEAD_SIZE_DEFAULT
+        RPA = landmark_pos["RPA"] * mne.defaults.HEAD_SIZE_DEFAULT
 
         coords = mne.channels.make_dig_montage(
             ch_pos=ch_pos, nasion=NAS, lpa=LPA, rpa=RPA
         )
 
-        # return early, ignoring landmarks and 2D projection
+        # return early
         return coords
 
-    # Else, if no mne DigMontage is wanted:
-    # add landmarks (or not)
-    # ----------------------
-    # Nz = NAS, T9 = LPA, T10 = RPA
-    if not drop_landmarks:
-        tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), ["x", "y", "z"]]
-        tmp.insert(0, "label", ["NAS", "LPA", "RPA"])
-        df_selection = df_selection.append(tmp, ignore_index=True, sort=True)
+    # drop landmarks (or not)
+    # -----------------------
+    if drop_landmarks:
+        df_selection = df_selection[~df_selection["label"].isin(["NAS", "LPA", "RPA"])]
 
-    # Project to 2d (or not)
+    # project to 2d (or not)
     # ----------------------
     if dim == "2d":
         xs, ys = _stereographic_projection(
@@ -395,6 +505,7 @@ def get_elec_coords(
         df_selection.loc[:, "x"] = xs
         df_selection.loc[:, "y"] = ys
 
+    df_selection = df_selection.drop_duplicates(subset=["label"])
     coords = df_selection.sort_values(by="label")
     return coords
 
