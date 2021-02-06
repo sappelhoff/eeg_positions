@@ -1,4 +1,4 @@
-"""Initialize eeg_positions."""
+"""Compute and plot standard EEG electrode positions."""
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 

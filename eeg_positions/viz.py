@@ -2,7 +2,6 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-import matplotlib as mpl  # noqa: F401
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -134,10 +133,12 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
         A pandas DataFrame object with the columns ``"label"``, ``"x"``,
         ``"y"``, and optionally ``"z"``.
     scatter_kwargs : dict
-        Optional keyword arguments to be passed to the :func:`mpl.axes.Axes.scatter`
+        Optional keyword arguments to be passed to the
+        :meth:`matplotlib.axes.Axes.scatter`
         or its 3D variant, depending on the dimensions of `coords`.
     text_kwargs : dict
-        Optional keyword arguments to be passed to the :func:`mpl.axes.Axes.text`.
+        Optional keyword arguments to be passed to the
+        :meth:`matplotlib.axes.Axes.text`.
 
     Returns
     -------
