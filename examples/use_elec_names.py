@@ -52,7 +52,7 @@ for key, val in alias_mapping.items():
 
 # Just use `elec_names`
 coords = get_elec_coords(
-    elec_names=["A1", "A2", "FC3", "CP4", "M1", "LPA", "RPA", "TP10"],
+    elec_names=["A1", "A2", "FC3", "CP4", "M1", "LPA", "RPA", "T10"],
     drop_landmarks=False,
     dim="3d",
 )
