@@ -2,9 +2,12 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
+import matplotlib as mpl  # noqa: F401
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
+from eeg_positions.config import RADIUS_INNER_CONTOUR
 from eeg_positions.utils import _get_coords_on_circle
 
 
@@ -70,11 +73,9 @@ def _plot_2d_head(radius_inner_contour=None):
     Parameters
     ----------
     radius_inner_contour : int | float | None
-        If int or float, draw a circle with that radius
-        to visualize an inner contour line.
-        Defaults to None, not drawing a circle.
-        Can instead also be conveniently set to
-        ``eeg_positions.config.RADIUS_INNER_CONTOUR``,
+        If int or float, draw a circle with that radius to visualize an inner
+        contour line. Defaults to None, not drawing a circle. Can instead also
+        be conveniently set to ``eeg_positions.config.RADIUS_INNER_CONTOUR``,
         which is the Fpz-T8-Oz-T7 contour line.
 
     Returns
@@ -85,8 +86,7 @@ def _plot_2d_head(radius_inner_contour=None):
         The Axes object.
 
     """
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+    fig, ax = plt.subplots()
     ax.axes.set_aspect("equal")
     plt.xlabel("x")
     plt.ylabel("y")
@@ -124,39 +124,59 @@ def _plot_2d_head(radius_inner_contour=None):
     return fig, ax
 
 
-if __name__ == "__main__":
-    import pandas as pd
+def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
+    """Plot standard EEG electrode coordinates.
 
-    from eeg_positions.config import RADIUS_INNER_CONTOUR
+    Parameters
+    ----------
+    coords : pd.DataFrame
+        The standard EEG electrode coordinates as computed on a sphere.
+        A pandas DataFrame object with the columns ``"label"``, ``"x"``,
+        ``"y"``, and optionally ``"z"``.
+    scatter_kwargs : dict
+        Optional keyword arguments to be passed to the :func:`mpl.axes.Axes.scatter`
+        or its 3D variant, depending on the dimensions of `coords`.
+    text_kwargs : dict
+        Optional keyword arguments to be passed to the :func:`mpl.axes.Axes.text`.
 
-    # Plot for each standard system
-    # -----------------------------
-    fname_template = "./data/standard_{}_{}.tsv"
-    system = input("Which system do you want to plot? (1020/1010/1005/None)\n")
-    if system in ["1020", "1010", "1005"]:
-        df = pd.read_csv(fname_template.format(system, "3D"), sep="\t")
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The Figure object.
+    ax : matplotlib.axes.Axes
+        The Axes object.
 
-        # 3D
+    """
+    # input check
+    if not isinstance(coords, pd.DataFrame):
+        raise ValueError("`coords` must be a pandas DataFrame object.")
+    else:
+        for colname in ["label", "x", "y"]:
+            if colname not in coords.columns:
+                raise ValueError(f"`coords` does not have a required column {colname}.")
+
+    # What kind of plot to prepare
+    dim = "3d" if "z" in coords.columns else "2d"
+
+    # update kwargs
+    scatter_settings = dict(marker=".", color="r")
+    scatter_settings.update(scatter_kwargs)
+    text_settings = dict(fontsize=5)
+    text_settings.update(text_kwargs)
+
+    if dim == "2d":
+        fig, ax = _plot_2d_head(RADIUS_INNER_CONTOUR)
+
+        for idx, row in coords.iterrows():
+            ax.scatter(row["x"], row["y"], **scatter_settings)
+            ax.text(row["x"], row["y"], row["label"], **text_settings)
+
+    else:
+        assert dim == "3d"
         fig, ax = _plot_spherical_head()
 
-        for idx, row in df.iterrows():
-            ax.scatter3D(row["x"], row["y"], row["z"], c="b")
-            ax.text(row["x"], row["y"], row["z"], row["label"], fontsize=5)
+        for idx, row in coords.iterrows():
+            ax.scatter3D(row["x"], row["y"], row["z"], **scatter_settings)
+            ax.text(row["x"], row["y"], row["z"], row["label"], **text_settings)
 
-        ax.set_title(f"standard_{system}")
-
-        # 2D
-        df = pd.read_csv(fname_template.format(system, "2D"), sep="\t")
-
-        fig2, ax2 = _plot_2d_head(RADIUS_INNER_CONTOUR)
-
-        for idx, row in df.iterrows():
-            ax2.scatter(row["x"], row["y"], marker=".", color="r")
-            ax2.annotate(row["label"], xy=(row["x"], row["y"]), fontsize=5)
-
-        ax2.set_title(f"standard_{system}")
-
-        # Show and wait until done
-        fig.show()
-        fig2.show()
-        input("\nClick Enter when finished viewing.\n")
+    return fig, ax
