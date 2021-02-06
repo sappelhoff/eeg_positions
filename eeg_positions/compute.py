@@ -319,6 +319,7 @@ def get_elec_coords(
     # then before returning, we use the `elec_names_replaced` dict to map the
     # names back to what the users wants
     elec_names_replaced = {}
+    elec_names_replaced_special = {}
     for name in elec_names:
 
         # skip all elec_names that are not aliases: These are fine as they are
@@ -344,6 +345,8 @@ def get_elec_coords(
             # we compute these electrode as the last positions (special treatment)
             assert "+(" in alias
             elec_names_special.append(alias)
+            alias_name, _ = alias.split("+")
+            elec_names_replaced_special[alias_name] = name
 
     # calculate positions
     # -------------------
@@ -404,8 +407,8 @@ def get_elec_coords(
     # get landmark coordinates
     # ------------------------
     # based on our assumptions: Nz=NAS, T9=LPA, T10=RPA
-    tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), ["x", "y", "z"]]
-    tmp.insert(0, "label", ["NAS", "LPA", "RPA"])
+    tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), :]
+    tmp["label"] = tmp["label"].replace(to_replace=dict(Nz="NAS", T9="LPA", T10="RPA"))
     df = df.append(tmp, ignore_index=True, sort=True)
 
     # if we need to return an mne montage, we need the actual coordinates
@@ -435,13 +438,18 @@ def get_elec_coords(
         for col, val in zip(["label", "x", "y", "z"], [name, x, y, z]):
             pos_to_add[col] = pos_to_add.get(col, []) + [val]
 
+    # re-name aliases of special elec positions, then add
+    pos_to_add_df = pd.DataFrame.from_dict(pos_to_add)
+    pos_to_add_df["label"] = pos_to_add_df["label"].replace(
+        to_replace=elec_names_replaced_special
+    )
     df_selection = df_selection.append(
-        pd.DataFrame.from_dict(pos_to_add),
+        pos_to_add_df,
         ignore_index=True,
         sort=True,
     )
 
-    # re-rename aliases
+    # re-rename remaining aliases
     df_selection["label"] = df_selection["label"].replace(
         to_replace=elec_names_replaced
     )
@@ -507,6 +515,7 @@ def get_elec_coords(
 
     df_selection = df_selection.drop_duplicates(subset=["label"])
     coords = df_selection.sort_values(by="label")
+    coords = coords.reset_index(drop=True)
     return coords
 
 
