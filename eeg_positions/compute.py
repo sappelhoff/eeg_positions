@@ -408,7 +408,9 @@ def get_elec_coords(
     # ------------------------
     # based on our assumptions: Nz=NAS, T9=LPA, T10=RPA
     tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), :]
-    tmp["label"] = tmp["label"].replace(to_replace=dict(Nz="NAS", T9="LPA", T10="RPA"))
+    tmp.loc[:, "label"] = tmp["label"].replace(
+        to_replace=dict(Nz="NAS", T9="LPA", T10="RPA")
+    )
     df = df.append(tmp, ignore_index=True, sort=True)
 
     # if we need to return an mne montage, we need the actual coordinates
@@ -440,17 +442,18 @@ def get_elec_coords(
 
     # re-name aliases of special elec positions, then add
     pos_to_add_df = pd.DataFrame.from_dict(pos_to_add)
-    pos_to_add_df["label"] = pos_to_add_df["label"].replace(
-        to_replace=elec_names_replaced_special
-    )
-    df_selection = df_selection.append(
-        pos_to_add_df,
-        ignore_index=True,
-        sort=True,
-    )
+    if len(pos_to_add_df) > 0:
+        pos_to_add_df.loc[:, "label"] = pos_to_add_df["label"].replace(
+            to_replace=elec_names_replaced_special
+        )
+        df_selection = df_selection.append(
+            pos_to_add_df,
+            ignore_index=True,
+            sort=True,
+        )
 
     # re-rename remaining aliases
-    df_selection["label"] = df_selection["label"].replace(
+    df_selection.loc[:, "label"] = df_selection["label"].replace(
         to_replace=elec_names_replaced
     )
 
@@ -527,6 +530,13 @@ def _produce_files_and_do_x(x="save"):
     x : str
         What to do after producing each file. Can be "save", or "compare" to
         compare the produced file to a previously saved file.
+
+    Notes
+    -----
+    use as follows from the command line:
+
+    python -c "from eeg_positions.compute import _produce_files_and_do_x;\
+        _produce_files_and_do_x()"
 
     """
     # which decimal precision to use for saving the data
