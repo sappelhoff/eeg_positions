@@ -60,13 +60,9 @@ coords = get_elec_coords(
 coords.head()
 
 # %%
-# Plot it.
+# Plot it, and see how close LPA and A1 (and RPA and A2) are in space.
 
 fig, ax = plot_coords(coords, text_kwargs=dict(fontsize=10))
 
 ax.axis("off")
 fig
-
-# %%
-
-# %%

@@ -9,7 +9,7 @@ Plot electrode positions
 # BSD-3-Clause
 
 # %%
-# We need to import some functions
+# We need to import some functions.
 
 from eeg_positions import get_elec_coords, plot_coords
 

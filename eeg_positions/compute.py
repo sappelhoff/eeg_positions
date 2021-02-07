@@ -58,12 +58,12 @@ def get_alias_mapping():
     >>> alias_mapping["M1"]
     'TP9'
     >>> alias_mapping["A1"]
-    'LPA+(-0.1, 0., -0.01)'
+    'LPA+(-0.1, -0.01, -0.01)'
 
     """
     alias_mapping = dict(
-        A1="LPA+(-0.1, 0., -0.01)",
-        A2="RPA+(0.1, 0., -0.01)",
+        A1="LPA+(-0.1, -0.01, -0.01)",
+        A2="RPA+(0.1, -0.01, -0.01)",
         M1="TP9",
         M2="TP10",
     )
