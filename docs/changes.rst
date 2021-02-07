@@ -15,3 +15,11 @@ v2.0.0 (unreleased)
 - ``eeg_positions`` now has an in-built (optional) integration with MNE-Python
 - test suite is now run through the GitHub actions continuous integration service
 - alias locations that are not part of the 5% system are now available (e.g., M1, A1)
+
+v1.0.0 (2020-03-19)
+-------------------
+- first release
+
+v0.0.0 (2018-06-05)
+-------------------
+- initial commit to the repository
