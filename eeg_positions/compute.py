@@ -482,8 +482,13 @@ def get_elec_coords(
         # NOTE: set to MNE default head size radius (in meters)
         # drop potential duplicates first
         df_selection = df_selection.drop_duplicates(subset=["label"])
-        ch_pos = df_selection.set_index("label").to_dict("index")
-        for key, val in ch_pos.items():
+        ch_pos_from_df = df_selection.set_index("label").to_dict("index")
+        ch_pos = {}
+        for key, val in ch_pos_from_df.items():
+            if key in ["NAS", "LPA", "RPA"]:
+                # landmarks are not electrode positions
+                continue
+
             ch_pos[key] = (
                 np.asarray(list(val.values())) * mne.defaults.HEAD_SIZE_DEFAULT
             )
