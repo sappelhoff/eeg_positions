@@ -128,7 +128,7 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
 
     Parameters
     ----------
-    coords : pd.DataFrame
+    coords : pandas.DataFrame
         The standard EEG electrode coordinates as computed on a sphere.
         A pandas DataFrame object with the columns ``"label"``, ``"x"``,
         ``"y"``, and optionally ``"z"``.

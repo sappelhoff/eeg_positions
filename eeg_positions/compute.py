@@ -407,7 +407,7 @@ def get_elec_coords(
     # get landmark coordinates
     # ------------------------
     # based on our assumptions: Nz=NAS, T9=LPA, T10=RPA
-    tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), :]
+    tmp = df.loc[df["label"].isin(["Nz", "T9", "T10"]), :].copy()
     tmp.loc[:, "label"] = tmp["label"].replace(
         to_replace=dict(Nz="NAS", T9="LPA", T10="RPA")
     )
@@ -427,7 +427,7 @@ def get_elec_coords(
         selection = df.label.isin(elec_names)
     else:
         selection = df.label.isin(system + LANDMARKS)
-    df_selection = df.loc[selection, :]
+    df_selection = df.loc[selection, :].copy()
 
     # add special elec positions
     pos_to_add = {}

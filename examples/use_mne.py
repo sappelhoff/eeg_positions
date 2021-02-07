@@ -14,16 +14,16 @@ Use ``eeg_positions`` with MNE-Python
 from eeg_positions import get_elec_coords
 
 # %%
-# Now we get the positions we want
+# Now we get the positions we want. Note the ``as_mne_montage=True`` argument.
 
 coords = get_elec_coords(as_mne_montage=True)
 
-# coords is an MNE-Python DigMontage object
+# `coords` is an MNE-Python DigMontage object.
 print(coords)
 
 # %%
 # Making use of the :class:`mne.channels.DigMontage` methods, we can visualize
-# the electrode positions
+# the electrode positions.
 
 coords.plot()
 
