@@ -1,5 +1,7 @@
 :orphan:
 
+.. _docs-api:
+
 =================
 API Documentation
 =================

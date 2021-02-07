@@ -1,3 +1,5 @@
+.. _docs-examples:
+
 ========
 Examples
 ========
