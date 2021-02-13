@@ -53,7 +53,7 @@ fig.gca().view_init(azim=70, elev=15)
 
 # %%
 # The above plot already looks useful, but you can make it even more useful if you run
-#  the code in an interactive session using the Matplotlib Qt backend, because then you
+# the code in an interactive session using the Matplotlib Qt backend, because then you
 # can zoom and pan the plot.
 #
 # Finally, let's make a plot with the equator of the spherical head model
