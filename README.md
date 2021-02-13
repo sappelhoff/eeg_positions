@@ -11,7 +11,7 @@ Please see the [**Documentation**](https://stefanappelhoff.com/eeg_positions/).
 There are two common ways to make use of this repository:
 
 1. Go to the `data/` directory and download the EEG electrode position files you need
-   (see the [README](./data/README.md) there).
+   (see the [README](https://github.com/sappelhoff/eeg_positions/tree/master/data) there).
 
 1. Use `eeg_positions` as a Python package (install through `pip install eeg_positions`),
    and then obtain the EEG electrode positions through the `get_elec_coords` function.
