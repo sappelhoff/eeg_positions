@@ -1,4 +1,4 @@
-name: Python build and tests
+name: Python build and test and deploy
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.6
+        python-version: 3.7
 
     - name: Update pip, setuptools, and wheel
       run: python -m pip install --upgrade pip setuptools wheel
@@ -53,9 +53,10 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.6]
+        python-version: [3.7]
 
     runs-on: ${{ matrix.platform }}
+    needs: [build]
 
     steps:
     - uses: actions/checkout@v2
@@ -67,21 +68,55 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e .[test]
+        make inplace
 
     - name: Check formatting
       if: "matrix.platform == 'ubuntu-latest'"
       run: |
-        flake8 --docstring-convention numpy .
-        check-manifest .
+        make flake
+        make check-manifest
 
     - name: Test with pytest
       run: |
-        pytest --doctest-modules --cov=eeg_positions/ --cov-report=xml --cov-config=setup.cfg --verbose -s
+        make test
 
     - name: Upload coverage report
       if: "matrix.platform == 'ubuntu-latest'"
       uses: codecov/codecov-action@v1
       with:
         file: ./coverage.xml
+
+    - name: build docs
+      if: "matrix.platform == 'ubuntu-latest'"
+      run: |
+        make build-doc
+
+    - name: Upload docs build artifacts
+      if: "matrix.platform == 'ubuntu-latest'"
+      uses: actions/upload-artifact@v2
+      with:
+        name: docs-artifact
+        path: docs/_build/html
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.ref == 'refs/heads/master' # only run on master
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download docsbuild artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: docs-artifact
+        path: docs/_build/html
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: docs/_build/html # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch

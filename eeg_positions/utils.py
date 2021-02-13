@@ -2,9 +2,8 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
+import pandas as pd
 
 
 def find_point_at_fraction(p1, p2, p3, frac):
@@ -79,9 +78,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
     n = np.sqrt(xn ** 2 + yn ** 2 + zn ** 2)
 
     if n <= 0.0:
-        raise ValueError(
-            "Points are either collinear " "or share the same coordinates."
-        )
+        raise ValueError("Points are either collinear or share the same coordinates.")
 
     xn = xn / n
     yn = yn / n
@@ -140,8 +137,83 @@ def find_point_at_fraction(p1, p2, p3, frac):
     return point
 
 
+def _add_points_along_contour(df, contour):
+    """Compute points along `contour` and add them to `df`.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"].
+    contour : list of str
+        Each entry in `contour` is the label of a point, and
+        all points in `contour` are ordered. Must be of length
+        17 or 21.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"] and
+        new points (rows in `df`) along `contour` added.
+
+    """
+    contour_len = len(contour)
+    if contour_len == 21:
+        midpoint_idx = 10
+    elif contour_len == 17:
+        midpoint_idx = 8
+    else:
+        raise ValueError(f"contour must be of len 17 or 21 but is {contour_len}")
+
+    # Get the reference points from data frame
+    p1 = _get_xyz(df, contour[0])
+    p2 = _get_xyz(df, contour[midpoint_idx])
+    p3 = _get_xyz(df, contour[-1])
+
+    # Calculate all other points at fractions of distance
+    other_ps = {}
+    for i, label in enumerate(contour):
+        other_ps[label] = find_point_at_fraction(
+            p1, p2, p3, frac=i / (len(contour) - 1)
+        )
+
+    # Append to data frame
+    df = _append_ps_to_df(df, other_ps)
+    return df
+
+
+def _append_ps_to_df(df, ps):
+    """Add points `ps` to data frame `df`.
+
+    This function removes duplicates from `df`, always keeping
+    the first entry it finds.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"].
+    ps : dict
+        Each key is a label, with a tuple value of (x, y, z)
+        coordinates.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        The data with columns ["label", "x", "y", "z"],
+        and `ps` added.
+
+    """
+    tmp = pd.DataFrame.from_dict(ps, orient="index")
+    tmp.columns = ["x", "y", "z"]
+    tmp["label"] = tmp.index
+    df = df.append(tmp, ignore_index=True, sort=True)
+
+    # Remove duplicates, keeping the first computations
+    df = df.drop_duplicates(subset="label", keep="first")
+    return df
+
+
 # Convenient helper function to access xyz coordinates from df
-def get_xyz(df, label):
+def _get_xyz(df, label):
     """Get xyz coordinates from a pandas data frame.
 
     Parameters
@@ -160,73 +232,19 @@ def get_xyz(df, label):
     # Check that all labels are present
     for var in ["label", "x", "y", "z"]:
         if var not in df.columns:
-            raise ValueError('df must contain a column "{}"'.format(var))
+            raise ValueError(f"df must contain a column '{var}'")
 
     # Check we get exactly one row of data
     subdf = df[df["label"] == label]
     nrows = subdf.shape[0]
     if nrows == 0 or nrows > 1:
-        raise ValueError("Expected one row of data but got {}".format(nrows))
+        raise ValueError(f"Expected one row of data but got: {nrows}")
 
     # Get the data
     x = float(df[df["label"] == label].x)
     y = float(df[df["label"] == label].y)
     z = float(df[df["label"] == label].z)
     return x, y, z
-
-
-def plot_spherical_head():
-    """Plot a spherical head model.
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The Figure object.
-    ax : matplotlib.axes.Axes
-        The Axes object.
-
-    """
-    # Start new 3D figure
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection="3d")
-
-    # Add labels, scale limits, equal aspect
-    ax.set_xlabel("x", fontsize=20)
-    ax.set_ylabel("y", fontsize=20)
-    ax.set_zlabel("z", fontsize=20)
-    ax.set_aspect("auto")
-    ax.set_xlim((-1, 1))
-    ax.set_ylim((-1, 1))
-    ax.set_zlim((-1, 1))
-
-    # No background
-    ax.grid(False)
-    ax.xaxis.pane.fill = False
-    ax.yaxis.pane.fill = False
-    ax.zaxis.pane.fill = False
-    ax.xaxis.pane.set_edgecolor("w")
-    ax.yaxis.pane.set_edgecolor("w")
-    ax.zaxis.pane.set_edgecolor("w")
-
-    # Plot origin
-    max_lim = np.max(np.abs([ax.get_xlim3d(), ax.get_ylim3d(), ax.get_zlim3d()]))
-    n_pts = 11
-    fake_spine = np.linspace(-max_lim * 6, max_lim * 6, n_pts)
-    fake_spine_zeros = np.zeros_like(fake_spine)
-
-    ax.plot(fake_spine, fake_spine_zeros, fake_spine_zeros, color="k")
-    ax.plot(fake_spine_zeros, fake_spine, fake_spine_zeros, color="k")
-    ax.plot(fake_spine_zeros, fake_spine_zeros, fake_spine, color="k")
-
-    # draw spherical head
-    resolution = 100j
-    u, v = np.mgrid[0 : 2 * np.pi : resolution, 0 : np.pi : resolution]
-    x = np.cos(u) * np.sin(v)
-    y = np.sin(u) * np.sin(v)
-    z = np.cos(v)
-    ax.plot_wireframe(x, y, z, color="k", linestyle=":", alpha=0.1)
-
-    return fig, ax
 
 
 def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180 / 20):
@@ -269,23 +287,25 @@ def _get_coords_on_circle(cx=0, cy=0, r=1, steps=180 / 20):
     return coords
 
 
-def stereographic_projection(x, y, z, scale=1.0):
+def _stereographic_projection(x, y, z, scale=1.0):
     """Calculate the stereographic projection.
 
     Given a unit sphere with radius ``r = 1`` and center at
     The origin. Project the point ``p = (x, y, z)`` from the
-    sphere's South pole ``(0, 0, -1)`` on a plane on the sphere's
-    North pole ``(0, 0, 1)``.
+    sphere's South pole ``(0, 0, -1)`` onto a tangent plane
+    on the sphere's North pole ``(0, 0, 1)``. The resulting
+    point is ``p' = (x', y')``.
 
-    ``P' = P * (2r / (r + z))``
+    ``x', y' = (1 / (x + z)), (1 / (y + z))``
 
     Parameters
     ----------
     x, y, z : float
         Positions of electrodes on a unit sphere
     scale : float
-        Scale to change the projection point. Defaults to 1,
-        which is on the sphere.
+        Determines the distance of the projection point
+        from the origin of the sphere in terms of the radius.
+        Defaults to 1.0, which is a point on the sphere.
 
     Returns
     -------
@@ -297,41 +317,3 @@ def stereographic_projection(x, y, z, scale=1.0):
     x = x * mu
     y = y * mu
     return np.asarray(x), np.asarray(y)
-
-
-def plot_2d_head():
-    """Plot a head in 2D.
-
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
-        The Figure object.
-    ax : matplotlib.axes.Axes
-        The Axes object.
-
-    """
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.axes.set_aspect("equal")
-    plt.xlabel("x")
-    plt.ylabel("y")
-
-    head_radius = 1.0
-
-    # Draw head shape
-    head_shape = plt.Circle((0, 0), head_radius, color="k", fill=False, linewidth=2)
-    ax.add_artist(head_shape)
-
-    # Draw nose
-    nose_width = 5
-    nose_base_l = _get_coords_on_circle(r=head_radius, steps=nose_width)[-1]
-    nose_base_r = _get_coords_on_circle(r=head_radius, steps=nose_width)[1]
-    nose_tip = 1.1
-    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=2)
-    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=2)
-
-    # Adjust limits:
-    ax.set_xlim([-head_radius * 1.6, head_radius * 1.6])
-    ax.set_ylim([-head_radius * 1.6, head_radius * 1.6])
-
-    return fig, ax

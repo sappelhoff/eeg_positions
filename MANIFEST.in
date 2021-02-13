@@ -2,9 +2,12 @@ include MANIFEST.in
 include README.md
 include LICENSE
 include .zenodo.json
+include Makefile
 
 graft eeg_positions
+graft examples
 graft data
+graft docs
 
 ### Exclude
 
@@ -13,6 +16,9 @@ global-exclude __pycache__
 
 recursive-exclude .github *
 recursive-exclude images *.png
+recursive-exclude docs/_build *
+recursive-exclude docs/generated *
+recursive-exclude docs/auto_examples *
 
 exclude .gitignore
 exclude .coveragerc

@@ -2,6 +2,8 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
+import pkg_resources
+
 # For horizontal and sagittal contours note the variable name to know
 # from where the contour starts, over which electrode is crosses half-way
 # and at which electrode position it ends. We also need the "mid" coronal
@@ -340,7 +342,8 @@ contour_FCC = [
     "FTT8",
 ]
 
-# contour_C is plotted as "coronal_T9_Cz_T10"
+# NOTE: You may think: shouldn't a `contour_C` variable be defined on this line!?
+#       answer: no, because `contour_C` is plotted as `coronal_T9_Cz_T10`.
 
 contour_CCP = [
     "TTP7",
@@ -483,7 +486,7 @@ contour_POO = [
 ]
 
 # List of lists. Note the specific ordering.
-ALL_CONTOURS = [
+CONTOUR_ORDER_Nz_EQUATOR = [
     sagittal_Nz_Cz_Iz,
     horizontal_Nz_T10_Iz,
     horizontal_Nz_T9_Iz,
@@ -506,6 +509,31 @@ ALL_CONTOURS = [
     contour_PPO,
     contour_PO,
     contour_POO,
+]
+
+CONTOUR_ORDER_Fpz_EQUATOR = [
+    sagittal_Nz_Cz_Iz[2:-2],
+    horizontal_Fpz_T8_Oz,
+    horizontal_Fpz_T7_Oz,
+    contour_AFp,
+    contour_AF,
+    contour_AFF,
+    contour_F,
+    contour_FFC,
+    contour_FC,
+    contour_FCC,
+    contour_CCP,
+    contour_CP,
+    contour_CPP,
+    contour_P,
+    contour_PPO,
+    contour_PO,
+    contour_POO,
+    horizontal_Nz_T10_Iz,
+    horizontal_Nz_T9_Iz,
+    horizontal_NFpz_T10h_OIz,
+    horizontal_NFpz_T9h_OIz,
+    coronal_T9_Cz_T10,
 ]
 
 # Defining which electrodes belong into which standard system
@@ -587,7 +615,19 @@ SYSTEM1010 = SYSTEM1020 + [
 ]
 
 SYSTEM1005 = list()
-for contour in ALL_CONTOURS:
+for contour in CONTOUR_ORDER_Nz_EQUATOR:
     for label in contour:
         if label not in SYSTEM1005:
             SYSTEM1005.append(label)
+
+LANDMARKS = ["LPA", "RPA", "NAS"]
+
+ACCEPTED_EQUATORS = ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]
+
+RADIUS_INNER_CONTOUR = 0.72658518
+
+# Get required mne version from setup.cfg
+resources = pkg_resources.require("eeg_positions")[0]
+requirements = resources.requires(["dev"])
+pkg_names = [pkg.name for pkg in requirements]
+MNE_REQUIREMENT = requirements[pkg_names.index("mne")].specs[0][-1]
