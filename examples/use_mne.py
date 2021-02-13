@@ -34,15 +34,6 @@ print(coords)
 coords.plot()
 
 # %%
-# Note how in the output above it says
-#
-#     3 duplicate electrode labels found:
-#     Nz/NAS, T10/RPA, T9/LPA
-#
-# This is due to our spherical head model, where the anatomical landmarks
-# ``NAS``, ``LPA``, and ``RPA`` coincide with the ``Nz``, ``T9``, and ``T10``
-# electrodes.
-#
 # Now let's have a look at plotting this in 3D.
 
 # but let's pick a system that has fewer electrodes
