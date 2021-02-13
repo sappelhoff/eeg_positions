@@ -2,7 +2,7 @@
 # Copyright (c) 2018-2021, Stefan Appelhoff
 # BSD-3-Clause
 
-__version__ = "1.1.0.dev0"
+__version__ = "2.0.0"
 
 
 from eeg_positions.compute import (
