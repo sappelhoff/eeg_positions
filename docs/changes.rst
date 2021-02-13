@@ -4,7 +4,6 @@
 Changelog
 =========
 
-
 v2.0.0 (unreleased)
 -------------------
 - documentation pages are availabe
@@ -18,7 +17,7 @@ v2.0.0 (unreleased)
 
 v1.0.0 (2020-03-19)
 -------------------
-- first release
+- first git tagged release
 
 v0.0.0 (2018-06-05)
 -------------------

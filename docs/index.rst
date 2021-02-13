@@ -10,106 +10,116 @@ Compute and plot standard EEG electrode positions
    changes
    auto_examples/index
 
-This is the ``eeg_positions`` repository.
 
-Have a look at the :ref:`examples <docs-examples>`.
+Highlights
+==========
 
-Or at the :ref:`API documentation <docs-api>`.
+- **Compute and plot standard EEG electrode positions using Python**
+    - Just ``pip install eeg_positions``
+    - Then take a look at the :ref:`examples <docs-examples>`
 
 
+- **Get pre-computed electrode positions from the repository /data directory**
+    - See in `GitHub <https://github.com/sappelhoff/eeg_positions/tree/master/data>`_
 
-When recording electroencephalography (EEG) data, electrodes are usually placed
-according to an international standard. The `10-20`, and by extension the
-`10-10` and `10-05` systems are established sets of rules for this case
-[[1]](https://www.biosemi.com/publications/pdf/Oostenveld2001b.pdf). Even when
-the actual electrode locations have not been empirically measured during the
-recording, an approximation  of these positions is important for for plotting
-topographies or visualizing locations of sensors with the help of analysis
-software.
 
-While standard locations are available in many places such as from Robert
-Oostenveld's [blog](http://robertoostenveld.nl/electrode/) or directly from
-electrode cap manufacturers such as [Easycap](https://www.easycap.de/), it is
-seldom specified how these electrode locations are calculated.
+- **Look through the well-commented and documented code base to understand what's going on**
+    - Start here: :ref:`API documentation <docs-api>`
 
-**This repository contains code to compute the standard EEG electrode locations
-in 3D for the `10-20`, `10-10`, or even `10-05` system.** There are also utility
-functions to project the 3D locations to 2D space and plot them.
+Introduction
+============
 
-## At a glance
+When recording electroencephalography (EEG) data, electrodes are usually placed according to an international standard.
+The ``10-20``, and by extension the ``10-10`` and ``10-05`` systems are established sets of rules for this case
+:footcite:`10-05-article`.
 
-- The electrode locations are computed on a geometrical sphere centered on the
-  origin and with radius 1 (arbitrary units).
-- The function uses an algorithm to compute positions at fractions along
-  contour lines defined by three points: See the `find_point_at_fraction`
-  function in the `eeg_positions/utils.py` file.
+Even when the actual electrode locations have not been empirically measured during the recording,
+an approximation  of these positions is important for for plotting topographies or visualizing locations of sensors
+with the help of analysis software.
 
-## How to work with it
+While standard locations are available in many places such as from Robert Oostenveld's blog
+:footcite:`10-05-blog`
+or directly from electrode cap manufacturers such as
+`Easycap <https://www.easycap.de/>`_,
+it is seldom specified and documented how these electrode locations are calculated.
 
-- `git clone` the repository (or download as `.zip` and unpack)
-- `cd eeg_positions`
-- Using your python environment of choice, install the package and its
-  dependencies locally using `pip install -e .[dev]`
-- Run the tests using `pytest --doctest-modules`
-- Calculate and plot electrodes by calling `python eeg_positions/compute.py`
-- Check out `config.py` for the order how electrodes are computed
-- ... and see `utils.py` for the `find_point_at_fraction` function that is the
-  core of the computations.
+The ``eeg_positions`` repository contains code to compute the standard EEG electrode locations
+on a spherical head model for the ``10-20``, ``10-10``, and ``10-05`` system.
 
-## References
+There are also utility functions to project the 3D locations to 2D space and to plot them.
 
-- [1] Oostenveld, R., & Praamstra, P. (2001). The five percent electrode system
-  for high-resolution EEG and ERP measurements. Clinical neurophysiology,
-  112(4), 713-719. doi:
-  [10.1016/S1388-2457(00)00527-7](https://www.biosemi.com/publications/pdf/Oostenveld2001b.pdf)
+Details
+=======
 
-## Acknowledgements
+We compute the EEG electrode positions on a spherical head model.
+
+EEG electrodes are typically placed on a human's scalp,
+so the coordinate system we use for the EEG electrode positions is also described with
+reference to humans.
+
+We are working in a 3D coordinate system with a *"RAS"* orientation.
+That means that *from the perspective of the human that has the electrodes on their scalp*,
+the x-axis is pointing to the right hand side (**R**),
+the y-axis is pointing to the front (that is, *"anterior"*, **A**), and
+the z-axis is pointing upwards (that is, *"superior"*, **S**).
+
+For more information on this, see the documentation in the
+`BIDS specification <https://bids-specification.readthedocs.io/en/latest/99-appendices/08-coordinate-systems.html>`_.
+
+The points in space used to properly define the coordinate system are anatomical landmarks:
+
+- The nasion (NAS)
+- The left preauricular point (LPA)
+- The right preauricular point (RPA)
+- The vertex
+- The inion
+
+For more information on this, see the MNE-Python glossary under
+`fiducial points <https://mne.tools/dev/glossary.html#term-fiducial-point>`_.
+
+In our spherical head model, the anatomical landmarks correspond to the
+following positions (``(x, y, z)``) on the unit sphere:
+
+- NAS = ``(0, 1, 0)``
+- LPA = ``(-1, 0, 0)``
+- RPA = ``(1, 0, 0)``
+- Vertex = ``(0, 0, 1)``
+- Inion = ``(0, -1, 0)``
+
+(Note that ``eeg_positions`` also allows for some customization in this regard,
+as shown in the :ref:`examples <docs-examples>`.)
+
+.. currentmodule:: eeg_positions
+
+Based on these known points, and the known distribution of EEG electrodes in the
+``10-20``, ``10-10``, and ``10-05`` systems,
+we then use the function :func:`find_point_at_fraction`,
+to calculate the remaining points.
+
+Cite
+====
+
+If you find this repository useful and want to cite it in your work,
+please go to the
+`Zenodo record <https://doi.org/10.5281/zenodo.3718568>`_
+and obtain the appropriate citation from the *"Cite as"* section there.
+
+Acknowledgements
+================
 
 My thanks to:
 
-- Robert Oostenveld for writing his [blog post](http://robertoostenveld.nl/electrode/)
-  on electrodes
+- Robert Oostenveld for writing his blog post on EEG electrode positions
+
+
 - Ed Williams for the helpful correspondence and discussions about
-  "intermediate points on a great circle" (see his
-  [aviation formulary](http://www.edwilliams.org/avform.htm#Intermediate))
-- "N. Bach" and "Nominal Animal" who helped me to figure out the math for
-  the `find_point_at_fraction` function (see this
-  [math.stackexchange.com post](https://math.stackexchange.com/questions/2800845/find-intermediate-points-on-small-circle-of-a-sphere/2805204#2805204))
+  "intermediate points on a great circle" (see also :footcite:`edwilliams`)
 
 
----
+- "Nominal Animal" who helped me to figure out the math for
+  the ``find_point_at_fraction`` function :footcite:`stackexchange-nominal`
 
-# Details
+References
+==========
 
-## Coordinate System Conventions
-
-### 3D Axes and Cartesian Coordinate System
-
-- Imagine the x-axis pointing roughly towards the viewer with increasing values
-- The y-axis is orthogonal to the x-axis, pointing to the right of the viewer
-  with increasing values
-- The z-axis is orthogonal to the xy-plane and pointing vertically up with
-  increasing values
-
-### Relationship of Coordinate System to a Human Head
-
-For simplicity, we assume a spherical head shape of a human. Roughly speaking,
-the x-axis goes from the left ear through the right ear, the y-axis goes
-orthogonally to that from the inion through the nasion, and the z-axis goes
-orthogonally to that plane through the vertex of the scalp.
-
-We use the following anatomical landmarks to define the boundaries of the
-sphere:
-
-## Cartesian Coordinates
-
-- The left preauricular point = `(-1, 0, 0)` ... coincides with T9
-- The right preauricular point = `(1, 0, 0)` ... coincides with T10
-- The nasion = `(0, 1, 0)` ... coincides with Nz
-- The inion = `(0, -1, 0)` ... coincides with Iz
-- The vertex = `(0, 0, 1)` ... coincides with Cz
-
-Hence, the equator of the sphere goes through T9, T10, Nz and Iz.
-
-**Note that these are ASSUMPTIONS**. It would be equally valid to assume the
-equator going through T7, T8, Fpz, and Oz.
+.. footbibliography::

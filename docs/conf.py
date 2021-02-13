@@ -24,7 +24,11 @@ extensions = [
     "sphinx.ext.intersphinx",
     "numpydoc",
     "sphinx_copybutton",
+    "sphinxcontrib.bibtex",
 ]
+
+# configure sphinxcontrib.bibtex
+bibtex_bibfiles = ['references.bib']
 
 # configure sphinx-copybutton
 copybutton_prompt_text = r">>> |\.\.\. "
