@@ -17,7 +17,7 @@ All functions described here can be imported from the :py:mod:`eeg_positions` pa
 The :func:`find_point_at_fraction` function contains the key algorithm for computing the
 standard EEG electode positions on a sphere.
 You will most likely not need to use this function in your code directly,
-but it is still made availble over the API and the documentation for its key role in the code.
+but it is still made available over the API and the documentation for its key role in the code.
 
 .. autosummary::
    :toctree: generated/
@@ -35,7 +35,7 @@ These will help you to get the electrode positions you need in a usable format
    get_alias_mapping
 
 Finally, the :py:mod:`eeg_positions` package also exposes a convenient function for
-visualizing electrode positons.
+visualizing electrode positions.
 
 .. autosummary::
    :toctree: generated/

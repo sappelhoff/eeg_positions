@@ -6,7 +6,7 @@ Changelog
 
 v2.0.0 (unreleased)
 -------------------
-- documentation pages are availabe
+- documentation pages are available
 - ``eeg_positions`` is a package on pypi
 - a consistent API is available and documented
 - several modules have been renamed and restructured
