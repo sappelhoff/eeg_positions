@@ -1,12 +1,26 @@
+%YAML 1.2
+---
 # Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
-cff-version: 1.1.0
-message: "If you use this software, please cite it using the metadata below."
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata in this file."
 authors:
 - given-names: "Stefan"
   family-names: "Appelhoff"
-  orcid: https://orcid.org/0000-0001-8002-0877
+  orcid: "https://orcid.org/0000-0001-8002-0877"
 title: "eeg_positions"
-version: 2.0.0
-doi: 10.5281/zenodo.4540097
-date-released: 2021-02-13
-url: "https://github.com/sappelhoff/eeg_positions"
+version: "2.0.0"
+doi: "10.5281/zenodo.4540097"
+date-released: "2021-02-13"
+repository-code: "https://github.com/sappelhoff/eeg_positions"
+url: "https://stefanappelhoff.com/eeg_positions/"
+keywords:
+- "EEG"
+- "neuroscience"
+- "electrophysiology"
+- "electrodes"
+- "coordinates"
+- "positions"
+- "10-20 system"
+- "10-10 system"
+- "10-05 system"
+...
