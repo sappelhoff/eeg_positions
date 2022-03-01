@@ -75,7 +75,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
     yn = z12 * x13 - x12 * z13
     zn = x12 * y13 - y12 * x13
 
-    n = np.sqrt(xn ** 2 + yn ** 2 + zn ** 2)
+    n = np.sqrt(xn**2 + yn**2 + zn**2)
 
     if n <= 0.0:
         raise ValueError("Points are either collinear or share the same coordinates.")

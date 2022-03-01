@@ -28,7 +28,7 @@ extensions = [
 ]
 
 # configure sphinxcontrib.bibtex
-bibtex_bibfiles = ['references.bib']
+bibtex_bibfiles = ["references.bib"]
 
 # configure sphinx-copybutton
 copybutton_prompt_text = r">>> |\.\.\. "
