@@ -1,5 +1,5 @@
 """Functions to calculate and plot standard EEG electrode position systems."""
-# Copyright (c) 2018-2021, Stefan Appelhoff
+# Copyright (c) 2018-2022, Stefan Appelhoff
 # BSD-3-Clause
 
 import numpy as np
@@ -205,7 +205,7 @@ def _append_ps_to_df(df, ps):
     tmp = pd.DataFrame.from_dict(ps, orient="index")
     tmp.columns = ["x", "y", "z"]
     tmp["label"] = tmp.index
-    df = df.append(tmp, ignore_index=True, sort=True)
+    df = pd.concat([df, tmp], ignore_index=True)
 
     # Remove duplicates, keeping the first computations
     df = df.drop_duplicates(subset="label", keep="first")

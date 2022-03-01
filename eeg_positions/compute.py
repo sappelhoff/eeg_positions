@@ -1,5 +1,5 @@
 """Calculate standard EEG electrode positions on a sphere."""
-# Copyright (c) 2018-2021, Stefan Appelhoff
+# Copyright (c) 2018-2022, Stefan Appelhoff
 # BSD-3-Clause
 
 import ast
@@ -411,7 +411,7 @@ def get_elec_coords(
     tmp.loc[:, "label"] = tmp["label"].replace(
         to_replace=dict(Nz="NAS", T9="LPA", T10="RPA")
     )
-    df = df.append(tmp, ignore_index=True, sort=True)
+    df = pd.concat([df, tmp], ignore_index=True)
 
     # if we need to return an mne montage, we need the actual coordinates
     # as ndarrays
@@ -446,11 +446,7 @@ def get_elec_coords(
         pos_to_add_df.loc[:, "label"] = pos_to_add_df["label"].replace(
             to_replace=elec_names_replaced_special
         )
-        df_selection = df_selection.append(
-            pos_to_add_df,
-            ignore_index=True,
-            sort=True,
-        )
+        df_selection = pd.concat([df_selection, pos_to_add_df], ignore_index=True)
 
     # re-rename remaining aliases
     df_selection.loc[:, "label"] = df_selection["label"].replace(

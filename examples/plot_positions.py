@@ -5,7 +5,7 @@ Plot electrode positions
 
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
-# Copyright (c) 2018-2021, Stefan Appelhoff
+# Copyright (c) 2018-2022, Stefan Appelhoff
 # BSD-3-Clause
 
 # %%
