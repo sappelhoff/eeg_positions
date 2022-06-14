@@ -121,7 +121,7 @@ def _plot_2d_head(radius_inner_contour=None, show_axis=False):
         ymax=1,
         color="black",
         linewidth=linewidth / 2,
-        linestyles="dotted"
+        linestyles="dotted",
     )
     ax.hlines(
         y=0,
@@ -129,7 +129,7 @@ def _plot_2d_head(radius_inner_contour=None, show_axis=False):
         xmax=1,
         color="black",
         linewidth=linewidth / 2,
-        linestyles="dotted"
+        linestyles="dotted",
     )
 
     # Adjust limits
@@ -182,7 +182,7 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
     # update kwargs
     scatter_settings = dict(marker="o", color="r")
     scatter_settings.update(scatter_kwargs)
-    text_settings = dict(fontsize=6)
+    text_settings = dict(fontsize=6, ha="center", va="center")
     text_settings.update(text_kwargs)
 
     if dim == "2d":
