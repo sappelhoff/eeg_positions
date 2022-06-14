@@ -115,8 +115,22 @@ def _plot_2d_head(radius_inner_contour=None, show_axis=False):
     ax.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=linewidth)
     ax.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=linewidth)
 
-    ax.vlines(x=0, ymin=-1, ymax=1, color="black", linewidth=linewidth / 2)
-    ax.hlines(y=0, xmin=-1, xmax=1, color="black", linewidth=linewidth / 2)
+    ax.vlines(
+        x=0,
+        ymin=-1,
+        ymax=1,
+        color="black",
+        linewidth=linewidth / 2,
+        linestyles="dotted"
+    )
+    ax.hlines(
+        y=0,
+        xmin=-1,
+        xmax=1,
+        color="black",
+        linewidth=linewidth / 2,
+        linestyles="dotted"
+    )
 
     # Adjust limits
     ax.set_xlim([-head_radius * 1.1, head_radius * 1.1])
@@ -166,9 +180,9 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
     dim = "3d" if "z" in coords.columns else "2d"
 
     # update kwargs
-    scatter_settings = dict(marker=".", color="r")
+    scatter_settings = dict(marker="o", color="r")
     scatter_settings.update(scatter_kwargs)
-    text_settings = dict(fontsize=5)
+    text_settings = dict(fontsize=6)
     text_settings.update(text_kwargs)
 
     if dim == "2d":
