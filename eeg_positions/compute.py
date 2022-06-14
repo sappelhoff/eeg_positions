@@ -4,10 +4,10 @@
 
 import ast
 import os
-from distutils.version import LooseVersion
 
 import numpy as np
 import pandas as pd
+from packaging.version import Version
 
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
@@ -471,7 +471,7 @@ def get_elec_coords(
                 f"You need to update your mne installation. Version {MNE_REQUIREMENT} "
                 f"or higher is required, but you have {mne_version}."
             )
-            if LooseVersion(mne_version) < LooseVersion(MNE_REQUIREMENT):
+            if Version(mne_version) < Version(MNE_REQUIREMENT):
                 raise RuntimeError(msg)
 
         # now convert to DigMontage

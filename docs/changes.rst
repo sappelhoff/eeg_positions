@@ -4,10 +4,14 @@
 Changelog
 =========
 
-v2.0.0 (unreleased)
+v2.1.0 (unreleased)
+-------------------
+- nothing yet
+
+v2.0.0 (2021-02-13)
 -------------------
 - documentation pages are available
-- ``eeg_positions`` is a package on pypi
+- ``eeg_positions`` is a package on `PyPI <https://pypi.org/project/eeg-positions/>`_
 - a consistent API is available and documented
 - several modules have been renamed and restructured
 - users have a choice of where to place the equator of the sphere
