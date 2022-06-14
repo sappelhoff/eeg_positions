@@ -1,0 +1,29 @@
+version: "2.1"
+
+jobs:
+  docs-build:
+    machine:
+        image: ubuntu-2004:202111-01
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            python3 -m venv /home/circleci/eeg_positions_env
+            echo "source /home/circleci/eeg_positions_env/bin/activate" >> $BASH_ENV
+      - run:
+          name: Install Python packages
+          command: |
+            make inplace
+      - run:
+          name: Build documentation
+          command: |
+            make build-doc
+      - store_artifacts:
+          path: docs/_build/html/
+          destination: dev
+
+workflows:
+  commit:
+    jobs:
+      - docs-build
