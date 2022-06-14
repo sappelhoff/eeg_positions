@@ -116,7 +116,8 @@ jobs:
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages # The branch the action should deploy to.
-        FOLDER: docs/_build/html # The folder the action should deploy.
-        CLEAN: true # Automatically remove deleted files from the deploy branch
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages # The branch the action should deploy to.
+        folder: docs/_build/html # The folder the action should deploy.
+        clean: true # Automatically remove deleted files from the deploy branch
+        commit-message: "deploy to gh-pages [skip ci]"

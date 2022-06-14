@@ -1,6 +1,5 @@
 """Test the compute module."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
+
 import itertools
 import sys
 from unittest import mock

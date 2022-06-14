@@ -1,6 +1,4 @@
 """Test the visualization functions."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 import matplotlib
 import pandas as pd

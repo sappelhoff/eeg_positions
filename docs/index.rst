@@ -107,7 +107,7 @@ and obtain the appropriate citation from the *"Cite as"* section there.
 Acknowledgements
 ================
 
-My thanks to:
+Thanks to:
 
 - Robert Oostenveld for writing his blog post on EEG electrode positions
 
@@ -116,7 +116,7 @@ My thanks to:
   "intermediate points on a great circle" (see also :footcite:`edwilliams`)
 
 
-- "Nominal Animal" who helped me to figure out the math for
+- "Nominal Animal" who helped figure out the math for
   the ``find_point_at_fraction`` function :footcite:`stackexchange-nominal`
 
 References

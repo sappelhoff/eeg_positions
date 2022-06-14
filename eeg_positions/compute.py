@@ -1,6 +1,4 @@
 """Calculate standard EEG electrode positions on a sphere."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 import ast
 import os

@@ -2,8 +2,8 @@
 ---
 # Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
 cff-version: 1.2.0
+title: "eeg_positions -- compute and plot standard EEG electrode positions."
 message: "If you use this software, please cite it using the metadata in this file."
-abstract: "Compute and plot standard EEG electrode positions."
 authors:
 - given-names: "Stefan"
   family-names: "Appelhoff"
@@ -11,12 +11,14 @@ authors:
 - given-names: "Clemens"
   family-names: "Brunner"
   orcid: "https://orcid.org/0000-0002-6030-2233"
-title: "eeg_positions"
-version: "2.0.0"
-doi: "10.5281/zenodo.4540097"
-date-released: "2021-02-13"
+type: software
 repository-code: "https://github.com/sappelhoff/eeg_positions"
 url: "https://stefanappelhoff.com/eeg_positions/"
+license: BSD-3-Clause
+identifiers:
+  - description: "Code archive on Zenodo"
+    type: doi
+    value: 10.5281/zenodo.4540097
 keywords:
 - "EEG"
 - "neuroscience"
