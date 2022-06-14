@@ -4,10 +4,10 @@
 
 import ast
 import os
-from packaging.version import Version
 
 import numpy as np
 import pandas as pd
+from packaging.version import Version
 
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
