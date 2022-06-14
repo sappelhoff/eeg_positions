@@ -15,6 +15,7 @@ global-exclude *.py[co]
 global-exclude __pycache__
 
 recursive-exclude .github *
+recursive-exclude .circleci *
 recursive-exclude images *.png
 recursive-exclude docs/_build *
 recursive-exclude docs/generated *
