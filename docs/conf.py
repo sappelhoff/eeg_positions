@@ -26,6 +26,9 @@ extensions = [
     "sphinx_github_role",
 ]
 
+# configure sphinx-github-role
+github_default_org_project = ("sappelhoff", "eeg_positions")
+
 # configure sphinxcontrib.bibtex
 bibtex_bibfiles = ["references.bib"]
 
@@ -62,9 +65,12 @@ autosummary_generate = True
 
 # General information about the project.
 project = "eeg_positions"
-copyright = "2018-{}, Stefan Appelhoff et al. (see CITATION.cff)".format(
-    date.today().year
+copyright = (
+    f"2018-{date.today().year}, Stefan Appelhoff et al. (see "
+    "<a href='https://github.com/sappelhoff/eeg_positions/blob/main/CITATION.cff'"
+    ">CITATION.cff</a>)"
 )
+
 author = "Stefan Appelhoff"
 version = eeg_positions.__version__
 release = version

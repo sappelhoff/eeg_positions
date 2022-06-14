@@ -9,7 +9,7 @@ Changelog
 
 2.1.0 (unreleased)
 ------------------
-- Add a ``show_axis`` parameter to `:func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
+- Add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
 
 2.0.0 (2021-02-13)
 ------------------
