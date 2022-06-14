@@ -23,6 +23,7 @@ extensions = [
     "numpydoc",
     "sphinx_copybutton",
     "sphinxcontrib.bibtex",
+    "sphinx_github_role",
 ]
 
 # configure sphinxcontrib.bibtex
@@ -61,7 +62,9 @@ autosummary_generate = True
 
 # General information about the project.
 project = "eeg_positions"
-copyright = "2018-{}, Stefan Appelhoff et al. (see CITATION.cff)".format(date.today().year)
+copyright = "2018-{}, Stefan Appelhoff et al. (see CITATION.cff)".format(
+    date.today().year
+)
 author = "Stefan Appelhoff"
 version = eeg_positions.__version__
 release = version
