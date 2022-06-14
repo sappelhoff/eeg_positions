@@ -1,6 +1,4 @@
 """Compute and plot standard EEG electrode positions."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 __version__ = "2.1.0.dev0"
 

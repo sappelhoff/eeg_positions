@@ -1,6 +1,4 @@
 """Defining all horizontal, sagittal, and coronal contours and 10XX systems."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 import pkg_resources
 

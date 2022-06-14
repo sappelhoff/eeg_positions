@@ -1,6 +1,4 @@
 """Test the utility functions."""
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 import numpy as np
 import pandas as pd

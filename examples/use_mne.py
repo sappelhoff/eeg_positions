@@ -10,8 +10,6 @@ For more information, check out these MNE resources:
 
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 # %%
 # We start with imports.

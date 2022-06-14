@@ -2,8 +2,6 @@
 
 See: https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
-# Copyright (c) 2018-2022, Stefan Appelhoff
-# BSD-3-Clause
 
 import os
 import sys
@@ -63,7 +61,7 @@ autosummary_generate = True
 
 # General information about the project.
 project = "eeg_positions"
-copyright = "2018-{}, Stefan Appelhoff".format(date.today().year)
+copyright = "2018-{}, Stefan Appelhoff et al. (see CITATION.cff)".format(date.today().year)
 author = "Stefan Appelhoff"
 version = eeg_positions.__version__
 release = version
