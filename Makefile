@@ -1,6 +1,6 @@
-.PHONY: all clean inplace test isort black format flake check-manifest pep build-doc conda
+.PHONY: all clean inplace test isort black format flake check-manifest pep build-doc conda dist-build
 
-all: clean inplace pep test build-doc
+all: clean inplace pep test build-doc dist-build
 
 inplace:
 	python -m pip install --upgrade pip
@@ -48,4 +48,9 @@ build-doc:
 
 conda:
 	conda env remove -n eegpos
-	conda create --yes -n eegpos Python=3.8
+	conda create --yes -n eegpos Python=3.9
+
+dist-build:
+	@echo "Building dist"
+	rm -rf dist
+	@python -m build
