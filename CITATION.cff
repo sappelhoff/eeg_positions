@@ -8,6 +8,9 @@ authors:
 - given-names: "Stefan"
   family-names: "Appelhoff"
   orcid: "https://orcid.org/0000-0001-8002-0877"
+- given-names: "Clemens"
+  family-names: "Brunner"
+  orcid: "https://orcid.org/0000-0002-6030-2233"
 type: software
 repository-code: "https://github.com/sappelhoff/eeg_positions"
 url: "https://stefanappelhoff.com/eeg_positions/"

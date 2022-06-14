@@ -64,7 +64,7 @@ def _plot_spherical_head():
     return fig, ax
 
 
-def _plot_2d_head(radius_inner_contour=None):
+def _plot_2d_head(radius_inner_contour=None, show_axis=False):
     """Plot a head in 2D.
 
     Parameters
@@ -74,6 +74,8 @@ def _plot_2d_head(radius_inner_contour=None):
         contour line. Defaults to None, not drawing a circle. Can instead also
         be conveniently set to ``eeg_positions.config.RADIUS_INNER_CONTOUR``,
         which is the Fpz-T8-Oz-T7 contour line.
+    show_axis : bool
+        Whether or not to show the coordinate system x- and y-axes. Defaults to False.
 
     Returns
     -------
@@ -108,15 +110,33 @@ def _plot_2d_head(radius_inner_contour=None):
     nose_base_l = _get_coords_on_circle(r=head_radius, steps=nose_width)[-1]
     nose_base_r = _get_coords_on_circle(r=head_radius, steps=nose_width)[1]
     nose_tip = 1.1
-    plt.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=linewidth)
-    plt.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=linewidth)
+    ax.plot((nose_base_l[0], 0), (nose_base_l[1], nose_tip), "k", linewidth=linewidth)
+    ax.plot((nose_base_r[0], 0), (nose_base_r[1], nose_tip), "k", linewidth=linewidth)
 
-    ax.vlines(x=0, ymin=-1, ymax=1, color="black", linewidth=linewidth / 2)
-    ax.hlines(y=0, xmin=-1, xmax=1, color="black", linewidth=linewidth / 2)
+    ax.vlines(
+        x=0,
+        ymin=-1,
+        ymax=1,
+        color="black",
+        linewidth=linewidth / 2,
+        linestyles="dotted",
+    )
+    ax.hlines(
+        y=0,
+        xmin=-1,
+        xmax=1,
+        color="black",
+        linewidth=linewidth / 2,
+        linestyles="dotted",
+    )
 
-    # Adjust limits:
-    ax.set_xlim([-head_radius * 1.6, head_radius * 1.6])
-    ax.set_ylim([-head_radius * 1.6, head_radius * 1.6])
+    # Adjust limits
+    ax.set_xlim([-head_radius * 1.1, head_radius * 1.1])
+    ax.set_ylim([-head_radius * 1.1, head_radius * 1.1])
+
+    fig.set_tight_layout(True)
+    if not show_axis:
+        ax.set_axis_off()
 
     return fig, ax
 
@@ -158,23 +178,23 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
     dim = "3d" if "z" in coords.columns else "2d"
 
     # update kwargs
-    scatter_settings = dict(marker=".", color="r")
+    scatter_settings = dict(color="r")
     scatter_settings.update(scatter_kwargs)
-    text_settings = dict(fontsize=5)
+    text_settings = dict(fontsize=6)
     text_settings.update(text_kwargs)
 
     if dim == "2d":
         fig, ax = _plot_2d_head(RADIUS_INNER_CONTOUR)
 
-        for idx, row in coords.iterrows():
-            ax.scatter(row["x"], row["y"], **scatter_settings)
+        for _, row in coords.iterrows():
+            ax.scatter(row["x"], row["y"], zorder=2.5, **scatter_settings)
             ax.text(row["x"], row["y"], row["label"], **text_settings)
 
     else:
         assert dim == "3d"
         fig, ax = _plot_spherical_head()
 
-        for idx, row in coords.iterrows():
+        for _, row in coords.iterrows():
             ax.scatter3D(row["x"], row["y"], row["z"], **scatter_settings)
             ax.text(row["x"], row["y"], row["z"], row["label"], **text_settings)
 
