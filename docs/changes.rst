@@ -10,6 +10,8 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 - Add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
+- Add a ``sort`` parameter to :func:`eeg_positions.get_coords`, by `Clemens Brunner`_ (:github:`#12`)
+- Allow passing a list of colors to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#12`)
 
 2.0.0 (2021-02-13)
 ------------------
