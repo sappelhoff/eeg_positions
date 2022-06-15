@@ -178,7 +178,7 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
     dim = "3d" if "z" in coords.columns else "2d"
 
     # update kwargs
-    scatter_settings = dict(color="r")
+    scatter_settings = dict()
     scatter_settings.update(scatter_kwargs)
     text_settings = dict(fontsize=6)
     text_settings.update(text_kwargs)
