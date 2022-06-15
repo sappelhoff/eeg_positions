@@ -57,8 +57,8 @@ sphinx_gallery_conf = {
     "download_all_examples": False,
     "show_signature": False,
     "min_reported_time": 100,
+    "remove_config_comments": True,
 }
-
 
 # Generate the autosummary
 autosummary_generate = True
