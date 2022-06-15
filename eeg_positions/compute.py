@@ -152,6 +152,7 @@ def get_elec_coords(
     dim="2d",
     as_mne_montage=False,
     equator="Nz-T10-Iz-T9",
+    sort=False,
 ):
     """Get standard EEG electrode coordinates.
 
@@ -213,6 +214,9 @@ def get_elec_coords(
         as the equator, several electrodes may be drawn outside a circular
         head shape when projecting to 2D.
         Defaults to ``"Nz-T10-Iz-T9"``.
+    sort : bool
+        Whether to sort the returned coordinates alphabetically. If ``False`` (default),
+        preserve the order of ``elec_names`` if available.
 
     Returns
     -------
@@ -423,9 +427,14 @@ def get_elec_coords(
     # --------------------
     if len(elec_names) > 0:
         selection = df.label.isin(elec_names)
+        df_selection = df.loc[selection, :].copy()
+        if not sort:
+            df_selection = (
+                df_selection.set_index("label").reindex(elec_names).reset_index()
+            )
     else:
         selection = df.label.isin(system + LANDMARKS)
-    df_selection = df.loc[selection, :].copy()
+        df_selection = df.loc[selection, :].copy()
 
     # add special elec positions
     pos_to_add = {}
@@ -516,8 +525,9 @@ def get_elec_coords(
         df_selection.loc[:, "y"] = ys
 
     df_selection = df_selection.drop_duplicates(subset=["label"])
-    coords = df_selection.sort_values(by="label")
-    coords = coords.reset_index(drop=True)
+    if sort:
+        df_selection = df_selection.sort_values(by="label")
+    coords = df_selection.reset_index(drop=True)
     return coords
 
 
@@ -555,6 +565,7 @@ def _produce_files_and_do_x(x="save"):
                     dim=dim.lower(),
                     as_mne_montage=False,
                     equator=equator,
+                    sort=True,
                 )
 
                 fname = fname_template.format(equator, system, dim)

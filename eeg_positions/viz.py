@@ -178,16 +178,15 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
     dim = "3d" if "z" in coords.columns else "2d"
 
     # update kwargs
-    scatter_settings = dict(color="r")
+    scatter_settings = dict()
     scatter_settings.update(scatter_kwargs)
     text_settings = dict(fontsize=6)
     text_settings.update(text_kwargs)
 
     if dim == "2d":
         fig, ax = _plot_2d_head(RADIUS_INNER_CONTOUR)
-
+        ax.scatter(coords["x"], coords["y"], zorder=2.5, **scatter_settings)
         for _, row in coords.iterrows():
-            ax.scatter(row["x"], row["y"], zorder=2.5, **scatter_settings)
             ax.text(row["x"], row["y"], row["label"], **text_settings)
 
     else:
