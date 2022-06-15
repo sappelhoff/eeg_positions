@@ -80,6 +80,7 @@ colors = (
     + ["khaki"] * 3
 )
 
+# sphinx_gallery_thumbnail_number = 3
 fig, ax = plot_coords(
     coords,
     scatter_kwargs={
