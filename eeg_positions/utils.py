@@ -19,7 +19,7 @@ def find_point_at_fraction(p1, p2, p3, frac):
     p1, p2, p3 : tuple
         Each tuple containing x, y, z cartesian coordinates.
     frac : float
-        Fraction of distance from `p1` to `p3` over p2` at which
+        Fraction of distance from `p1` to `p3` over `p2` at which
         to find coordinates of `point`.
 
     Returns
