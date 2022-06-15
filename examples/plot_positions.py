@@ -30,7 +30,7 @@ coords.head()
 # the color of the electrodes and the text annotations.
 
 fig, ax = plot_coords(
-    coords, scatter_kwargs=dict(color="g"), text_kwargs=dict(fontsize=10)
+    coords, scatter_kwargs={"color": "g"}, text_kwargs={"fontsize": 10}
 )
 
 fig
@@ -46,7 +46,7 @@ coords = get_elec_coords(
 )
 
 fig, ax = plot_coords(
-    coords, scatter_kwargs=dict(color="g"), text_kwargs=dict(fontsize=10)
+    coords, scatter_kwargs={"color": "g"}, text_kwargs={"fontsize": 10}
 )
 
 fig
