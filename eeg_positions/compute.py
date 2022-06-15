@@ -565,6 +565,7 @@ def _produce_files_and_do_x(x="save"):
                     dim=dim.lower(),
                     as_mne_montage=False,
                     equator=equator,
+                    sort=True,
                 )
 
                 fname = fname_template.format(equator, system, dim)

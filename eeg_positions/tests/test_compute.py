@@ -19,14 +19,16 @@ valid_inputs = itertools.product(
     ("2d", "3d"),
     (True, False),
     ("Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"),
+    (True, False),
 )
 
 
 @pytest.mark.parametrize(
-    "system, elec_names, drop_landmarks, dim, as_mne_montage, equator", valid_inputs
+    "system, elec_names, drop_landmarks, dim, as_mne_montage, equator, sort",
+    valid_inputs,
 )
 def test_get_elec_coords(
-    system, elec_names, drop_landmarks, dim, as_mne_montage, equator
+    system, elec_names, drop_landmarks, dim, as_mne_montage, equator, sort
 ):
     """Smoke test the get_elec_coords function."""
     get_elec_coords(
@@ -36,6 +38,7 @@ def test_get_elec_coords(
         dim=dim,
         as_mne_montage=as_mne_montage,
         equator=equator,
+        sort=sort,
     )
 
 
@@ -72,6 +75,15 @@ def test_get_elec_coords_io():
     match = "You specified the same electrode position using two aliases"
     with pytest.raises(ValueError, match=match):
         get_elec_coords(elec_names=["M1", "TP9"])
+
+    # check coords order
+    elec_names = ["Fp1", "AFz"]
+    coords = get_elec_coords(elec_names=elec_names)  # default sort=False
+    assert coords.label.to_list() == elec_names
+    coords = get_elec_coords(elec_names=elec_names, sort=False)
+    assert coords.label.to_list() == elec_names
+    coords = get_elec_coords(elec_names=elec_names, sort=True)
+    assert coords.label.to_list() == sorted(elec_names)
 
     # Mock a too-low version of mne
     mock_mne = mock.MagicMock()
