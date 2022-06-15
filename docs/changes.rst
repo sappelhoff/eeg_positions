@@ -7,6 +7,10 @@ Changelog
 .. _Stefan Appelhoff: https://stefanappelhoff.com/
 .. _Clemens Brunner: https://github.com/cbrnr
 
+2.2.0 (unreleased)
+------------------
+- Nothing yet
+
 2.1.0 (2022-06-15)
 ------------------
 - Add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)

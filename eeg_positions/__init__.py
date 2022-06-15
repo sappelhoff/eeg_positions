@@ -1,6 +1,6 @@
 """Compute and plot standard EEG electrode positions."""
 
-__version__ = "2.1.0"
+__version__ = "2.2.0.dev0"
 
 
 from eeg_positions.compute import (
