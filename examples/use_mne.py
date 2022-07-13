@@ -13,8 +13,6 @@ For more information, check out these MNE resources:
 
 # %%
 # We start with imports.
-import numpy as np
-
 from eeg_positions import get_elec_coords
 
 # %%
@@ -55,15 +53,6 @@ coords = get_elec_coords(system="1020", as_mne_montage=True, equator="Fpz-T8-Oz-
 
 # MNE always scales the electrode positions as if the equator were on the
 # "Nz-T10-Iz-T9" contour.
-# We need to counteract this with a few computations
-chs = ["Oz", "Fpz", "T7", "T8"]
-pos = np.stack([coords.get_positions()["ch_pos"][ch] for ch in chs])
-
-radius = np.abs(pos[[2, 3], 0]).mean()
-
-x = pos[0, 0]
-y = pos[-1, 1]
-z = pos[:, -1].mean()
-
-
-coords.plot(sphere=(x, y, z, radius))
+# We need to counteract this by setting ``sphere="eeglab"``, which scales
+# electrode positions as if the equator were on the "Fpz-T8-Oz-T7" contour.
+coords.plot(sphere="eeglab")
