@@ -15,6 +15,7 @@ jobs:
           name: Install Python packages
           command: |
             make inplace
+            pip install -U https://api.github.com/repos/mne-tools/mne-python/zipball/master
       - run:
           name: Build documentation
           command: |
