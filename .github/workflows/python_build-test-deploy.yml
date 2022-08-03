@@ -69,7 +69,6 @@ jobs:
     - name: Install dependencies
       run: |
         make inplace
-        pip install -U https://api.github.com/repos/mne-tools/mne-python/zipball/master
 
     - name: Check formatting
       if: "matrix.platform == 'ubuntu-latest'"
