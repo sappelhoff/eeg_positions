@@ -323,7 +323,6 @@ def get_elec_coords(
     elec_names_replaced = {}
     elec_names_replaced_special = {}
     for name in elec_names:
-
         # skip all elec_names that are not aliases: These are fine as they are
         if name not in alias_mapping:
             continue
