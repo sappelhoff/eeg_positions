@@ -239,9 +239,9 @@ def _get_xyz(df, label):
         raise ValueError(f"Expected one row of data but got: {nrows}")
 
     # Get the data
-    x = float(df[df["label"] == label].x)
-    y = float(df[df["label"] == label].y)
-    z = float(df[df["label"] == label].z)
+    x = float(df[df["label"] == label]["x"].iloc[0])
+    y = float(df[df["label"] == label]["y"].iloc[0])
+    z = float(df[df["label"] == label]["z"].iloc[0])
     return x, y, z
 
 
