@@ -24,7 +24,7 @@ jobs:
     - name: Update pip, setuptools, and wheel
       run: python -m pip install --upgrade pip setuptools wheel build
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build sdist
       run: python -m build --sdist
     - name: Install sdist
@@ -36,7 +36,7 @@ jobs:
     - name: Remove sdist install
       run: pip uninstall -y eeg_positions
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build wheel
       run: python -m build --wheel
     - name: Install wheel
@@ -59,7 +59,7 @@ jobs:
     needs: [build]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -105,7 +105,7 @@ jobs:
     if: github.ref == 'refs/heads/main' # only run on main
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Download docsbuild artifacts
       uses: actions/download-artifact@v3
