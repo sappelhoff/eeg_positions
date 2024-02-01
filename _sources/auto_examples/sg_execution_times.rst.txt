@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:03.180** total execution time for 3 files **from auto_examples**:
+**00:03.227** total execution time for 3 files **from auto_examples**:
 
 .. container::
 
@@ -33,10 +33,10 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_use_mne.py` (``use_mne.py``)
-     - 00:01.466
+     - 00:01.500
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_positions.py` (``plot_positions.py``)
-     - 00:01.331
+     - 00:01.344
      - 0.0
    * - :ref:`sphx_glr_auto_examples_use_elec_names.py` (``use_elec_names.py``)
      - 00:00.383
