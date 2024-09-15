@@ -11,7 +11,7 @@ Compute and plot standard EEG electrode positions.
 
 Please see the [**Documentation**](https://stefanappelhoff.com/eeg_positions/).
 
-# Quickstart
+## Quickstart
 
 There are two common ways to make use of this repository:
 
@@ -23,9 +23,8 @@ There are two common ways to make use of this repository:
    See the [Examples](https://stefanappelhoff.com/eeg_positions/auto_examples/index.html)
    and [API documentation](https://stefanappelhoff.com/eeg_positions/api.html).
 
-# Cite
+## Cite
 
 If you find this repository useful and want to cite it in your work, please go
 to the [Zenodo record](https://doi.org/10.5281/zenodo.3718568) and obtain the
 appropriate citation from the *"Cite as"* section there.
-

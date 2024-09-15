@@ -1,6 +1,8 @@
 docs/auto_examples
 docs/generated
 .vscode
+.ruff_cache
+sg_execution_times.rst
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

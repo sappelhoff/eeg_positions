@@ -5,7 +5,6 @@ See: https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
 import sys
-from datetime import date
 
 import eeg_positions
 
@@ -65,8 +64,8 @@ autosummary_generate = True
 
 # General information about the project.
 project = "eeg_positions"
-copyright = (
-    f"2018-{date.today().year}, Stefan Appelhoff et al. (see "
+copyright = (  # noqa: A001
+    "2018, Stefan Appelhoff et al. (see "
     "<a href='https://github.com/sappelhoff/eeg_positions/blob/main/CITATION.cff'"
     ">CITATION.cff</a>)"
 )

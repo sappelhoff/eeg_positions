@@ -5,12 +5,10 @@ import os
 
 import numpy as np
 import pandas as pd
-from packaging.version import Version
 
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
     LANDMARKS,
-    MNE_REQUIREMENT,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
@@ -87,11 +85,11 @@ def get_alias_mapping():
             name, mod = val.split("+")
             # the modifier must be a tuple of 3 ints/floats
             mod = ast.literal_eval(mod)
-            isinstance(mod, tuple)
-            len(mod) == 3
-            isinstance(mod[0], (int, float))
-            isinstance(mod[1], (int, float))
-            isinstance(mod[2], (int, float))
+            assert isinstance(mod, tuple)
+            assert len(mod) == 3
+            assert isinstance(mod[0], (int, float))
+            assert isinstance(mod[1], (int, float))
+            assert isinstance(mod[2], (int, float))
         else:
             name = val
         assert name in (SYSTEM1005 + LANDMARKS)
@@ -464,26 +462,16 @@ def get_elec_coords(
     if as_mne_montage:
         # check that we have an appropriate version
         try:
-            __import__("mne")
+            import mne
         except ImportError:
             raise ImportError(
                 "if `as_mne_montage` is True, you must have mne installed."
             )
-        else:
-            import mne
-
-            mne_version = mne.__version__
-            msg = (
-                f"You need to update your mne installation. Version {MNE_REQUIREMENT} "
-                f"or higher is required, but you have {mne_version}."
-            )
-            if Version(mne_version) < Version(MNE_REQUIREMENT):
-                raise RuntimeError(msg)
 
         # now convert to DigMontage
         # NOTE: set to MNE default head size radius (in meters)
         # drop potential duplicates first
-        df_selection = df_selection.drop_duplicates(subset=["label"])
+        df_selection = df_selection.drop_duplicates(subset=["label"], keep="last")
         ch_pos_from_df = df_selection.set_index("label").to_dict("index")
         ch_pos = {}
         for key, val in ch_pos_from_df.items():
@@ -523,7 +511,7 @@ def get_elec_coords(
         df_selection.loc[:, "x"] = xs
         df_selection.loc[:, "y"] = ys
 
-    df_selection = df_selection.drop_duplicates(subset=["label"])
+    df_selection = df_selection.drop_duplicates(subset=["label"], keep="last")
     if sort:
         df_selection = df_selection.sort_values(by="label")
     coords = df_selection.reset_index(drop=True)

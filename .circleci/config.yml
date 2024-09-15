@@ -3,7 +3,7 @@ version: "2.1"
 jobs:
   docs-build:
     machine:
-        image: ubuntu-2004:202111-01
+        image: default
     steps:
       - checkout
       - run:
@@ -14,11 +14,12 @@ jobs:
       - run:
           name: Install Python packages
           command: |
-            make inplace
+            python -m pip install --upgrade pip
+            python -m pip install --editable ".[dev]"
       - run:
           name: Build documentation
           command: |
-            make build-doc
+            make -C docs html
       - store_artifacts:
           path: docs/_build/html/
           destination: dev
