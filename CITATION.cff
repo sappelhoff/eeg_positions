@@ -14,7 +14,7 @@ authors:
 type: software
 repository-code: "https://github.com/sappelhoff/eeg_positions"
 url: "https://stefanappelhoff.com/eeg_positions/"
-license: BSD-3-Clause
+license: MIT
 identifiers:
   - description: "Code archive on Zenodo"
     type: doi
@@ -23,9 +23,12 @@ keywords:
 - "EEG"
 - "neuroscience"
 - "electrophysiology"
-- "electrodes"
-- "coordinates"
-- "positions"
+- "electrode"
+- "sensor"
+- "coordinate"
+- "position"
+- "location"
+- "xyz"
 - "10-20 system"
 - "10-10 system"
 - "10-05 system"
