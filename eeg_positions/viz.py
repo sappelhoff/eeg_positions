@@ -134,7 +134,7 @@ def _plot_2d_head(radius_inner_contour=None, show_axis=False):
     ax.set_xlim([-head_radius * 1.1, head_radius * 1.1])
     ax.set_ylim([-head_radius * 1.1, head_radius * 1.1])
 
-    fig.set_tight_layout(True)
+    fig.set_layout_engine("constrained")
     if not show_axis:
         ax.set_axis_off()
 

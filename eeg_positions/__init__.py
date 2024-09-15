@@ -1,8 +1,5 @@
 """Compute and plot standard EEG electrode positions."""
 
-__version__ = "2.2.0.dev0"
-
-
 from eeg_positions.compute import (
     get_alias_mapping,
     get_available_elec_names,
@@ -18,3 +15,10 @@ __all__ = (
     "get_alias_mapping",
     "plot_coords",
 )
+
+try:
+    from importlib.metadata import version
+
+    __version__ = version("eeg_positions")
+except Exception:
+    __version__ = "0.0.0"

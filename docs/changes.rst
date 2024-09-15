@@ -4,17 +4,18 @@
 Changelog
 =========
 
-.. _Stefan Appelhoff: https://stefanappelhoff.com/
-.. _Clemens Brunner: https://github.com/cbrnr
-
 2.2.0 (unreleased)
 ------------------
-- Nothing yet
+- update packaging infrastructure to use `pyproject.toml`, by `Stefan Appelhoff`_ (:github:`#21`)
+- change build backend from setuptools to hatching and hatch-vcs, by `Stefan Appelhoff`_ (:github:`#21`)
+- change license from BSD-3-Clause to MIT, by `Stefan Appelhoff`_ (:github:`#21`)
+- move tests to root directory, pulling them out of the package, by `Stefan Appelhoff`_ (:github:`#21`)
+- fix an issue where A1 and A2 electrode positions could be NaN, by `Stefan Appelhoff`_ (:github:`#21`)
 
 2.1.0 (2022-06-15)
 ------------------
 - Add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
-- Add a ``sort`` parameter to :func:`eeg_positions.get_coords`, by `Clemens Brunner`_ (:github:`#12`)
+- Add a ``sort`` parameter to :func:`eeg_positions.get_elec_coords`, by `Clemens Brunner`_ (:github:`#12`)
 - Allow passing a list of colors to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#12`)
 - General maintenance and code review, by `Stefan Appelhoff`_
 
@@ -36,3 +37,5 @@ Changelog
 0.0.0 (2018-06-05)
 ------------------
 - initial commit to the repository, by `Stefan Appelhoff`_
+
+.. include:: authors.rst

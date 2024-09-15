@@ -20,7 +20,7 @@ Highlights
 
 
 - **Get pre-computed electrode positions from the repository /data directory**
-    - See in `GitHub <https://github.com/sappelhoff/eeg_positions/tree/main/data>`_
+    - See on `GitHub <https://github.com/sappelhoff/eeg_positions/tree/main/data>`_
 
 
 - **Look through the well-commented and documented code base to understand what's going on**

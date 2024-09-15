@@ -2,7 +2,6 @@
 
 import itertools
 import sys
-from unittest import mock
 
 import pytest
 
@@ -31,7 +30,7 @@ def test_get_elec_coords(
     system, elec_names, drop_landmarks, dim, as_mne_montage, equator, sort
 ):
     """Smoke test the get_elec_coords function."""
-    get_elec_coords(
+    out = get_elec_coords(
         system=system,
         elec_names=elec_names,
         drop_landmarks=drop_landmarks,
@@ -40,6 +39,9 @@ def test_get_elec_coords(
         equator=equator,
         sort=sort,
     )
+
+    if not as_mne_montage:
+        assert (out.isnull().sum() == 0).all()
 
 
 def test_get_elec_coords_io():
@@ -84,15 +86,6 @@ def test_get_elec_coords_io():
     assert coords.label.to_list() == elec_names
     coords = get_elec_coords(elec_names=elec_names, sort=True)
     assert coords.label.to_list() == sorted(elec_names)
-
-    # Mock a too-low version of mne
-    mock_mne = mock.MagicMock()
-    mock_mne.__version__ = "0.19.0"
-    sys.modules["mne"] = mock_mne
-    match = ".*update your mne.* but you have 0.19.0."
-    with pytest.raises(RuntimeError, match=match):
-        get_elec_coords(as_mne_montage=True)
-    del sys.modules["mne"]
 
     # mock mne not present at all
     sys.modules["mne"] = None
