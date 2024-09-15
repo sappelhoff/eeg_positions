@@ -38,7 +38,7 @@ The release protocol can be briefly described as follows:
    (This assumes that you have a git remote configured with the name "origin" and
    pointing to https://github.com/sappelhoff/eeg_positions).
    **NOTE: Make sure you have your `main` branch up to date for this step!**
-1. `git push --follow-tags upstream`
+1. `git push --follow-tags origin`
 1. Make a [release on GitHub](https://help.github.com/en/articles/creating-releases),
    using the git tag from the previous step (e.g., `1.2.3`).
    Fill the tag name into the "Release title" field, and fill the "Description" field

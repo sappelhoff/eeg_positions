@@ -17,13 +17,17 @@ readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.9"
 keywords = [
     "EEG",
+    "neuroscience",
+    "electrophysiology",
     "electrode",
     "sensor",
     "coordinate",
     "position",
     "location",
     "xyz",
-    "neuroscience",
+    "10-20 system",
+    "10-10 system",
+    "10-05 system",
 ]
 classifiers = [
     "Topic :: Scientific/Engineering",

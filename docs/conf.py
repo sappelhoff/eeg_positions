@@ -5,6 +5,7 @@ See: https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
 import sys
+from datetime import datetime
 
 import eeg_positions
 
@@ -67,7 +68,7 @@ project = "eeg_positions"
 copyright = (  # noqa: A001
     "2018, Stefan Appelhoff et al. (see "
     "<a href='https://github.com/sappelhoff/eeg_positions/blob/main/CITATION.cff'"
-    ">CITATION.cff</a>)"
+    f">CITATION.cff</a>). Last updated {datetime.now().isoformat()}"
 )
 
 author = "Stefan Appelhoff"
