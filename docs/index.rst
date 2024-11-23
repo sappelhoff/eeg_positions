@@ -15,7 +15,7 @@ Highlights
 ==========
 
 - **Compute and plot standard EEG electrode positions using Python**
-    - Just ``pip install eeg_positions``
+    - Just ``python -m pip install eeg_positions``
     - Then take a look at the :ref:`examples <docs-examples>`
 
 

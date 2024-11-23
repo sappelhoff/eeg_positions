@@ -1,5 +1,9 @@
 name: Python tests
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [ main ]
@@ -32,19 +36,27 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - uses: actions/cache@v4
+      with:
+        path: ${{ env.pythonLocation }}
+        key: v-0-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install -e ".[dev]"
 
-    - name: Check installed versions
+    - name: Display versions and environment information
       run: |
+        echo $TZ
+        date
+        python --version
+        which python
         mne sys_info
 
     - name: Check formatting
       if: matrix.platform == 'ubuntu-latest'
       run: |
-        pre-commit install
         pre-commit run --all-files
 
     - name: Test with pytest
