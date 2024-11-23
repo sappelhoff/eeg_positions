@@ -10,7 +10,7 @@ from pathlib import Path
 import eeg_positions
 
 curdir = Path(__file__).parent
-sys.path.append((curdir / ".." / "eeg_positions").resolve())
+sys.path.append((curdir.parent / "eeg_positions").resolve().as_posix())
 
 # see: https://sphinx.readthedocs.io/en/1.3/extensions.html
 extensions = [
