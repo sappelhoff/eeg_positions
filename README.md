@@ -1,15 +1,15 @@
-[![DOI](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692)
-[![Python build and test and deploy](https://github.com/sappelhoff/eeg_positions/workflows/Python%20build%20and%20test%20and%20deploy/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build+and+test+and+deploy%22)
-[![Coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/main/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
+[![Python build](https://github.com/sappelhoff/eeg_positions/workflows/Python%20build/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build%22)
+[![Python tests](https://github.com/sappelhoff/eeg_positions/workflows/Python%20tests/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+tests%22)
+[![Test coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/main/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
 [![Documentation status](https://readthedocs.org/projects/eeg_positions/badge/?version=stable)](https://eeg_positions.readthedocs.io/en/stable/?badge=stable)
 [![Latest PyPI release](https://img.shields.io/pypi/v/eeg_positions.svg)](https://pypi.org/project/eeg_positions/)
-
+[![Zenodo archive](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692)
 
 # eeg_positions
 
 Compute and plot standard EEG electrode positions.
 
-Please see the [**Documentation**](https://stefanappelhoff.com/eeg_positions/).
+Please see the [**Documentation**](https://eeg_positions.readthedocs.io/en/stable/).
 
 ## Quickstart
 
