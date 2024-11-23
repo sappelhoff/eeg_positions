@@ -89,7 +89,6 @@ jobs:
         pre-commit install
         pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
 
-
     - name: Test with pytest
       # config in pyproject.toml
       run: pytest
@@ -97,6 +96,7 @@ jobs:
     - name: Upload coverage report
       uses: codecov/codecov-action@v5
       with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         files: ./coverage.xml
 
     - name: build docs
@@ -110,29 +110,4 @@ jobs:
       with:
         name: docs-artifact
         path: docs/_build/html
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build, test]
-    if: github.ref == 'refs/heads/main' # only run on main
-
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        fetch-tags: true
-
-    - name: Download docsbuild artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: docs-artifact
-        path: docs/_build/html
-
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages # The branch the action should deploy to.
-        folder: docs/_build/html # The folder the action should deploy.
-        clean: true # Automatically remove deleted files from the deploy branch
-        commit-message: "deploy to gh-pages [skip ci] [ci skip]"
+        include-hidden-files: true
