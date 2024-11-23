@@ -3,14 +3,14 @@
 See: https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
 
-import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 import eeg_positions
 
-curdir = os.path.dirname(__file__)
-sys.path.append(os.path.abspath(os.path.join(curdir, "..", "eeg_positions")))
+curdir = Path(__file__).parent
+sys.path.append((curdir / ".." / "eeg_positions").resolve())
 
 # see: https://sphinx.readthedocs.io/en/1.3/extensions.html
 extensions = [
