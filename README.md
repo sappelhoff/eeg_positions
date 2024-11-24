@@ -1,7 +1,7 @@
 [![Python build](https://github.com/sappelhoff/eeg_positions/workflows/Python%20build/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+build%22)
 [![Python tests](https://github.com/sappelhoff/eeg_positions/workflows/Python%20tests/badge.svg)](https://github.com/sappelhoff/eeg_positions/actions?query=workflow%3A%22Python+tests%22)
 [![Test coverage](https://codecov.io/gh/sappelhoff/eeg_positions/branch/main/graph/badge.svg)](https://codecov.io/gh/sappelhoff/eeg_positions)
-[![Documentation status](https://readthedocs.org/projects/eeg-positions/badge/?version=stable)](https://eeg-positions.readthedocs.io/en/stable/?badge=stable)
+[![Documentation status](https://readthedocs.org/projects/eeg-positions/badge/?version=latest)](https://eeg-positions.readthedocs.io/en/latest/?badge=latest)
 [![PyPi version](https://img.shields.io/pypi/v/eeg_positions.svg)](https://pypi.org/project/eeg_positions/)
 [![Zenodo archive](https://zenodo.org/badge/136149692.svg)](https://zenodo.org/badge/latestdoi/136149692)
 
@@ -9,7 +9,7 @@
 
 Compute and plot standard EEG electrode positions.
 
-Please see the [**Documentation**](https://eeg-positions.readthedocs.io/en/stable/).
+Please see the [**Documentation**](https://eeg-positions.readthedocs.io/en/latest/).
 
 ## Quickstart
 
@@ -20,8 +20,8 @@ There are two common ways to make use of this repository:
 
 1. Use `eeg_positions` as a Python package (install through `pip install eeg_positions`),
    and then obtain the EEG electrode positions through the `get_elec_coords` function.
-   See the [Examples](https://eeg-positions.readthedocs.io/en/stable/auto_examples/index.html)
-   and [API documentation](https://eeg-positions.readthedocs.io/en/stable/api.html).
+   See the [Examples](https://eeg-positions.readthedocs.io/en/latest/auto_examples/index.html)
+   and [API documentation](https://eeg-positions.readthedocs.io/en/latest/api.html).
 
 ## Contributing
 
