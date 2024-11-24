@@ -6,7 +6,6 @@ Use ``eeg_positions`` with MNE-Python
 For more information, check out these MNE resources:
 
 - https://mne.tools/dev/auto_tutorials/intro/plot_40_sensor_locations.html
-- https://mne.tools/dev/auto_examples/visualization/plot_eeglab_head_sphere.html
 
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
@@ -31,8 +30,8 @@ coords.plot()
 
 # %%
 # Now let's have a look at plotting this in 3D.
+# But let's pick a system that has fewer electrodes.
 
-# but let's pick a system that has fewer electrodes
 coords = get_elec_coords(system="1010", as_mne_montage=True)
 
 fig = coords.plot(kind="3d")

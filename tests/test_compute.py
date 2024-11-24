@@ -41,6 +41,7 @@ def test_get_elec_coords(
     )
 
     if not as_mne_montage:
+        # out is pd.DataFrame, assert there are no NaNs in any cell
         assert (out.isnull().sum() == 0).all()
 
 

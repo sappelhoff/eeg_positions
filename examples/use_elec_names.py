@@ -7,7 +7,7 @@ Get specific electrodes and use aliases
 """  # noqa: D400 D205
 
 # %%
-# We need to import some functions
+# We need to import some functions:
 
 from pprint import pprint
 
@@ -27,11 +27,10 @@ pprint(elec_names[::-1])
 
 # %%
 # A keen eye may have identified some "odd" electrodes, that are not really part
-# of the 10-20, 10-10, or 10-05 systems: ``'A1', 'A2', 'M1', 'M2'``
+# of the 10-20, 10-10, or 10-05 systems. For example: ``'A1', 'M1'``
 #
-# These are supplied with ``eeg_positions`` for convenience as so-called "alias"
-# positions. See below:
-
+# These and others are supplied with ``eeg_positions`` for convenience as so-called
+# "alias" positions. See below:
 
 alias_mapping = get_alias_mapping()
 for key, val in alias_mapping.items():
@@ -49,13 +48,14 @@ for key, val in alias_mapping.items():
 # electrodes!**
 
 # Just use `elec_names`
+elec_names = ["A1", "A2", "FC3", "CP4", "M1", "LPA", "RPA", "T10"]
 coords = get_elec_coords(
-    elec_names=["A1", "A2", "FC3", "CP4", "M1", "LPA", "RPA", "T10"],
+    elec_names=elec_names,
     drop_landmarks=False,
     dim="3d",
 )
 
-coords.head()
+coords.head(n=len(elec_names))
 
 # %%
 # Plot it, and see how close LPA and A1 (and RPA and A2) are in space.

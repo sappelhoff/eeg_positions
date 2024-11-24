@@ -341,7 +341,7 @@ def get_elec_coords(
             elec_names_replaced[alias] = name
         else:
             # however, some cases are specified using an "alias+(x, y, z)" format
-            # we compute these electrode as the last positions (special treatment)
+            # we compute these electrodes as the last positions (special treatment)
             assert "+(" in alias
             elec_names_special.append(alias)
             alias_name, _ = alias.split("+")
