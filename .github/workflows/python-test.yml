@@ -1,0 +1,83 @@
+name: Python tests
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: "0 4 * * MON"
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.12"]
+
+    runs-on: ${{ matrix.platform }}
+
+    env:
+        TZ: Europe/Berlin
+        FORCE_COLOR: true
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - uses: actions/cache@v4
+      with:
+        path: ${{ env.pythonLocation }}
+        key: v-0-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -e ".[dev]"
+
+    - name: Display versions and environment information
+      run: |
+        echo $TZ
+        date
+        python --version
+        which python
+        mne sys_info
+
+    - name: Check formatting
+      if: matrix.platform == 'ubuntu-latest'
+      run: |
+        pre-commit run --all-files
+
+    - name: Test with pytest
+      # Options defined in pyproject.toml
+      run: pytest
+
+    - name: build docs
+      run: |
+        make -C docs/ clean
+        make -C docs/ html
+
+    - name: Upload docs build artifacts
+      if: matrix.platform == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: docs-artifact
+        path: docs/_build/html
+        include-hidden-files: true
+
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml

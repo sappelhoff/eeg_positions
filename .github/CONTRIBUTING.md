@@ -6,6 +6,52 @@ or pull requests for changes to the code.
 Once the implementation of a piece of functionality is considered to be free of
 bugs and properly documented, it can be incorporated into the `main` branch.
 
+To help developing `eeg_positions`,
+you will need a few adjustments to your installation as shown below.
+
+## Install the development version
+
+First make a fork of the repository under your `USERNAME` GitHub account.
+Then, in your Python environment follow these steps:
+
+```Shell
+git clone https://github.com/USERNAME/eeg_positions
+cd eeg_positions
+git fetch --tags --prune --prune-tags
+python -m pip install -e ".[dev]"
+pre-commit install
+```
+
+You may also clone the repository via ssh, depending on your preferred workflow
+(`git clone git@github.com:USERNAME/eeg_positions.git`).
+
+Note that we are working with "pre-commit hooks".
+See https://pre-commit.com/ for more information.
+
+## Running tests and coverage
+
+If you have followed the steps to get the development version,
+you can run tests as follows.
+From the project root, call:
+
+- `pytest` to run tests and coverage
+- `pre-commit run -a` to run style checks (Ruff and some additional hooks)
+
+## Building the documentation
+
+The documentation can be built using [Sphinx](https://www.sphinx-doc.org).
+
+The publicly accessible documentation is built and hosted by
+[Read the Docs](https://readthedocs.org/).
+Credentials for Read the Docs are currently held by:
+
+- [@sappelhoff](https://github.com/sappelhoff/)
+
+## Info about versioning
+
+We follow a [semantic versioning scheme](https://semver.org/).
+This is implemented via [hatch-vcs](https://github.com/ofek/hatch-vcs).
+
 ## Making a release on GitHub and PyPi
 
 `eeg_positions` is regularly released on
@@ -16,11 +62,11 @@ and
 Credentials are currently held by:
 
 - GitHub
-    - Admin
-      - [@sappelhoff](https://github.com/sappelhoff/)
+  - Admin
+    - [@sappelhoff](https://github.com/sappelhoff/)
 - PyPi
-    - Owner
-        - [@sappelhoff](https://github.com/sappelhoff/)
+  - Owner
+    - [@sappelhoff](https://github.com/sappelhoff/)
 
 Releasing on GitHub will automatically trigger a release on PyPi via a GitHub Action
 (see `.github/workflows/release.yml`).

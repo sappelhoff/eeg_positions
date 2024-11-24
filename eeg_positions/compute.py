@@ -1,7 +1,7 @@
 """Calculate standard EEG electrode positions on a sphere."""
 
 import ast
-import os
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -538,9 +538,7 @@ def _produce_files_and_do_x(x="save"):
     # which decimal precision to use for saving the data
     precision = 4
 
-    fpath = os.path.dirname(os.path.realpath(__file__))
-    fname_template = os.path.join(fpath, "..", "data", "{}", "standard_{}_{}.tsv")
-
+    fpath = Path(__file__).resolve().parent / ".." / "data"
     # For each equator for each system for both 2D and 3D
     for equator in ACCEPTED_EQUATORS:
         for system in ["1020", "1010", "1005"]:
@@ -555,10 +553,10 @@ def _produce_files_and_do_x(x="save"):
                     sort=True,
                 )
 
-                fname = fname_template.format(equator, system, dim)
+                fname = fpath / f"{equator}" / f"standard_{system}_{dim}.tsv"
 
                 if x == "save":
-                    os.makedirs(os.path.split(fname)[0], exist_ok=True)
+                    Path(fname).parent.mkdir(parents=True, exist_ok=True)
                     coords.to_csv(
                         fname,
                         sep="\t",
