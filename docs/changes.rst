@@ -4,7 +4,7 @@
 Changelog
 =========
 
-2.2.0 (unreleased)
+2.1.1 (2024-11-24)
 ------------------
 - update packaging infrastructure to use `pyproject.toml`, by `Stefan Appelhoff`_ (:github:`#21`)
 - change build backend from setuptools to hatching and hatch-vcs, by `Stefan Appelhoff`_ (:github:`#21`)
