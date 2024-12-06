@@ -30,10 +30,11 @@ jobs:
     - uses: pyvista/setup-headless-display-action@v3
 
     # Needed for examples/plot_on_surface.py
-    - name: Check formatting
+    - name: Install packages ubuntu
       if: matrix.platform == 'ubuntu-latest'
       run: |
-        apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+        sudo apt-get update
+        sudo apt-get install ffmpeg libsm6 libxext6  -y
 
     - uses: actions/checkout@v4
       with:
