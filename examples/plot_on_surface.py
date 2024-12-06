@@ -24,7 +24,25 @@ info.set_montage(montage)
 
 # %%
 # Plot
-trans = "fsaverage"
+
+# get an automatic transformation
+fiducials = "estimated"  # taken from fsaverage
+subject = "fsaverage"
+coreg = mne.coreg.Coregistration(info, subject, subjects_dir, fiducials=fiducials)
+coreg.set_scale_mode("3-axis")
+coreg.fit_fiducials(verbose=True)
+coreg.fit_icp(
+    n_iterations=40,
+    lpa_weight=1.0,
+    nasion_weight=1.0,
+    rpa_weight=1.0,
+    hsp_weight=0,
+    eeg_weight=1.0,
+    hpi_weight=0,
+    verbose=True,
+)
+trans = coreg.trans
+
 
 fig = mne.viz.plot_alignment(
     info=info,
