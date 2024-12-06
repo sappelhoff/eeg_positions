@@ -68,7 +68,18 @@ docs = [
   "sphinx-copybutton",
   "sphinx-gallery",
   "sphinxcontrib-bibtex",
-  "sphinx_github_role"
+  "sphinx_github_role",
+  "eeg_positions[surface3d]"
+]
+# only needed for examples/plot_on_surface.py
+surface3d = [
+  "pyvistaqt",
+  "ipyevents",
+  "ipywidgets",
+  "trame",
+  "trame-vtk",
+  "trame-vuetify",
+  "nibabel"
 ]
 dev = [
   "eeg_positions[test,docs]",
