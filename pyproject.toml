@@ -79,7 +79,8 @@ surface3d = [
   "trame",
   "trame-vtk",
   "trame-vuetify",
-  "nibabel"
+  "nibabel",
+  "PyQt6"
 ]
 dev = [
   "eeg_positions[test,docs]",
