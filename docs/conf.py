@@ -7,7 +7,6 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-import mne
 import pyvista
 
 import eeg_positions
@@ -47,7 +46,6 @@ numpydoc_xref_ignore = {
     "shape",
 }
 
-mne.viz.set_3d_backend("pyvistaqt")
 pyvista.OFF_SCREEN = False
 pyvista.BUILDING_GALLERY = True
 
