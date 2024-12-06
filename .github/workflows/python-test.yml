@@ -25,6 +25,7 @@ jobs:
     env:
         TZ: Europe/Berlin
         FORCE_COLOR: true
+        MNE_DATA: mne_data_1
     steps:
     - uses: actions/checkout@v4
       with:
@@ -40,6 +41,12 @@ jobs:
       with:
         path: ${{ env.pythonLocation }}
         key: v-0-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
+
+    - uses: actions/cache@v4
+      with:
+        key: ${{ env.MNE_DATA }}
+        path: ~/mne_data
+      name: 'Cache mne_data'
 
     - name: Install dependencies
       run: |

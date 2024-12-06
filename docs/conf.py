@@ -7,6 +7,9 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+import mne
+import pyvista
+
 import eeg_positions
 
 curdir = Path(__file__).parent
@@ -44,8 +47,13 @@ numpydoc_xref_ignore = {
     "shape",
 }
 
+mne.viz.set_3d_backend("pyvistaqt")
+pyvista.OFF_SCREEN = False
+pyvista.BUILDING_GALLERY = True
+
 # configure sphinx-gallery
 sphinx_gallery_conf = {
+    "image_scrapers": ("matplotlib", "pyvista"),
     "doc_module": ("eeg_positions"),
     "reference_url": {
         "eeg_positions": None,
