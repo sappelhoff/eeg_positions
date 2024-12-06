@@ -25,7 +25,6 @@ jobs:
     env:
         TZ: Europe/Berlin
         FORCE_COLOR: true
-        MNE_DATA: mne_data_1
     steps:
     # Needed for examples/plot_on_surface.py
     - uses: pyvista/setup-headless-display-action@v3
@@ -45,11 +44,12 @@ jobs:
         path: ${{ env.pythonLocation }}
         key: v-0-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
 
-    - uses: actions/cache@v4
+    - name: Cache mne_data
+      uses: actions/cache@v4
       with:
-        key: ${{ env.MNE_DATA }}
         path: ~/mne_data
-      name: 'Cache mne_data'
+        key: v-0-${{ hashFiles('pyproject.toml') }}
+
 
     - name: Install dependencies
       run: |
