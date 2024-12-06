@@ -28,6 +28,8 @@ jobs:
     steps:
     # Needed for examples/plot_on_surface.py
     - uses: pyvista/setup-headless-display-action@v3
+      with:
+        qt: true
 
     # Needed for examples/plot_on_surface.py
     - name: Install packages ubuntu
