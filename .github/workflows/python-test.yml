@@ -29,6 +29,12 @@ jobs:
     # Needed for examples/plot_on_surface.py
     - uses: pyvista/setup-headless-display-action@v3
 
+    # Needed for examples/plot_on_surface.py
+    - name: Check formatting
+      if: matrix.platform == 'ubuntu-latest'
+      run: |
+        apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
