@@ -27,6 +27,9 @@ jobs:
         FORCE_COLOR: true
         MNE_DATA: mne_data_1
     steps:
+    # Needed for examples/plot_on_surface.py
+    - uses: pyvista/setup-headless-display-action@v3
+
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
