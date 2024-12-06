@@ -31,7 +31,7 @@ build:
     - mesa-utils
     - x11-utils
   jobs:
-    post_system_dependencies:
+    pre_build:
       - export DISPLAY=:99.0
       - which Xvfb
       - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
