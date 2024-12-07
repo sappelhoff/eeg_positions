@@ -31,13 +31,6 @@ jobs:
       with:
         qt: true
 
-    # Needed for examples/plot_on_surface.py
-    - name: Install packages ubuntu
-      if: matrix.platform == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install ffmpeg libsm6 libxext6  -y
-
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
