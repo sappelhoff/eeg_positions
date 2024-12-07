@@ -46,6 +46,7 @@ numpydoc_xref_ignore = {
     "shape",
 }
 
+pyvista.OFF_SCREEN = False
 pyvista.BUILDING_GALLERY = True
 
 # configure sphinx-gallery
