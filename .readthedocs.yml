@@ -7,6 +7,7 @@ build:
   os: ubuntu-lts-latest
   tools:
     python: "3.12"
+  # needed for examples/plot_on_surface.py
   # following https://github.com/pyvista/setup-headless-display-action/blob/v3/action.yml
   apt_packages:
     - libglx-mesa0
@@ -31,6 +32,8 @@ build:
     - mesa-utils
     - x11-utils
   jobs:
+    # needed for examples/plot_on_surface.py
+    # env variables must also be defined in the readthedocs web dashboard
     pre_build:
       - export DISPLAY=:99.0
       - which Xvfb
