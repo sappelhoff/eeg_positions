@@ -6,7 +6,7 @@ Changelog
 
 2.2.0 (unreleased)
 ------------------
-- nothing yet
+- add example on how to plot positions on a realistic surface (``fsaverage``), by `Stefan Appelhoff`_ (:github:`#24`)
 
 2.1.1 (2024-11-24)
 ------------------
@@ -18,10 +18,10 @@ Changelog
 
 2.1.0 (2022-06-15)
 ------------------
-- Add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
-- Add a ``sort`` parameter to :func:`eeg_positions.get_elec_coords`, by `Clemens Brunner`_ (:github:`#12`)
-- Allow passing a list of colors to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#12`)
-- General maintenance and code review, by `Stefan Appelhoff`_
+- add a ``show_axis`` parameter to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#7`)
+- add a ``sort`` parameter to :func:`eeg_positions.get_elec_coords`, by `Clemens Brunner`_ (:github:`#12`)
+- allow passing a list of colors to :func:`eeg_positions.plot_coords`, by `Clemens Brunner`_ (:github:`#12`)
+- general maintenance and code review, by `Stefan Appelhoff`_
 
 2.0.0 (2021-02-13)
 ------------------
