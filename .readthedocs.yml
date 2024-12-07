@@ -35,10 +35,10 @@ build:
   jobs:
     # needed for examples/plot_on_surface.py
     # env variables must also be defined in the readthedocs web dashboard
-    # this uses https://nightly.link for alternative to fsaverage download from OSF.io
+    # this tries to use https://nightly.link for alternative to fsaverage download from OSF.io
     post_install:
-      - wget -O mne_data.zip https://nightly.link/sappelhoff/eeg_positions/workflows/python-test/main/docs-artifact.zip
-      - unzip mne_data.zip -d ~/mne_data
+      - wget -O mne_data.zip https://nightly.link/sappelhoff/eeg_positions/workflows/python-test/main/mne-data-artifact.zip || true
+      - unzip mne_data.zip -d ~/mne_data || true
     pre_build:
       - export DISPLAY=:99.0
       - which Xvfb
@@ -46,7 +46,7 @@ build:
       - sleep 30
       - export PYVISTA_OFF_SCREEN=true
     post_build:
-      - tree ~/mne_data
+      - tree ~/mne_data || true
 
 sphinx:
   configuration: docs/conf.py
