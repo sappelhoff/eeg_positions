@@ -52,7 +52,6 @@ jobs:
         path: ~/mne_data
         key: v-0-${{ hashFiles('pyproject.toml') }}
 
-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -86,6 +85,14 @@ jobs:
       with:
         name: docs-artifact
         path: docs/_build/html
+        include-hidden-files: true
+
+    - name: Upload mne_data as artifact
+      if: matrix.platform == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: mne_data
+        path: ~/mne_data
         include-hidden-files: true
 
     - name: Upload coverage report
