@@ -81,7 +81,8 @@ surface3d = [
   "trame-vuetify",
   "nibabel",
   "PyQt6",
-  "scikit-learn"
+  "scikit-learn",
+  "darkdetect"
 ]
 dev = [
   "eeg_positions[test,docs]",

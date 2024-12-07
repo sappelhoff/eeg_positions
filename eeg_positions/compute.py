@@ -488,7 +488,7 @@ def get_elec_coords(
         RPA = landmark_pos["RPA"] * mne.defaults.HEAD_SIZE_DEFAULT
 
         coords = mne.channels.make_dig_montage(
-            ch_pos=ch_pos, nasion=NAS, lpa=LPA, rpa=RPA
+            ch_pos=ch_pos, nasion=NAS, lpa=LPA, rpa=RPA, coord_frame="head"
         )
 
         # return early
