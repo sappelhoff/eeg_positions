@@ -34,8 +34,11 @@ build:
   jobs:
     # needed for examples/plot_on_surface.py
     # env variables must also be defined in the readthedocs web dashboard
+    # this uses https://nightly.link for alternative to fsaverage download from OSF.io
+    post_install:
+      - wget -O mne_data.zip https://nightly.link/sappelhoff/eeg_positions/workflows/python-test/main/docs-artifact.zip
+      - unzip mne_data.zip -d ~/mne_data
     pre_build:
-      - python -c "import mne; mne.datasets.fetch_fsaverage()"
       - export DISPLAY=:99.0
       - which Xvfb
       - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
