@@ -7,6 +7,46 @@ build:
   os: ubuntu-lts-latest
   tools:
     python: "3.12"
+  # needed for examples/plot_on_surface.py
+  # following https://github.com/pyvista/setup-headless-display-action/blob/v3/action.yml
+  apt_packages:
+    - libglx-mesa0
+    - libgl1
+    - xvfb
+    - x11-xserver-utils
+    - libdbus-1-3
+    - libegl1
+    - libopengl0
+    - libosmesa6
+    - libxcb-cursor0
+    - libxcb-icccm4
+    - libxcb-image0
+    - libxcb-keysyms1
+    - libxcb-randr0
+    - libxcb-render-util0
+    - libxcb-shape0
+    - libxcb-xfixes0
+    - libxcb-xinerama0
+    - libxcb-xinput0
+    - libxkbcommon-x11-0
+    - mesa-utils
+    - x11-utils
+    - tree
+  jobs:
+    # needed for examples/plot_on_surface.py
+    # env variables must also be defined in the readthedocs web dashboard
+    # this tries to use https://nightly.link for alternative to fsaverage download from OSF.io
+    post_install:
+      - wget -O mne_data.zip https://nightly.link/sappelhoff/eeg_positions/workflows/python-test/main/mne-data-artifact.zip || true
+      - unzip mne_data.zip -d ~/mne_data || true
+    pre_build:
+      - export DISPLAY=:99.0
+      - which Xvfb
+      - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+      - sleep 30
+      - export PYVISTA_OFF_SCREEN=true
+    post_build:
+      - tree ~/mne_data || true
 
 sphinx:
   configuration: docs/conf.py

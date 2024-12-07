@@ -26,6 +26,11 @@ jobs:
         TZ: Europe/Berlin
         FORCE_COLOR: true
     steps:
+    # Needed for examples/plot_on_surface.py
+    - uses: pyvista/setup-headless-display-action@v3
+      with:
+        qt: true
+
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -40,6 +45,12 @@ jobs:
       with:
         path: ${{ env.pythonLocation }}
         key: v-0-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
+
+    - name: Cache mne_data
+      uses: actions/cache@v4
+      with:
+        path: ~/mne_data
+        key: v-0-${{ hashFiles('pyproject.toml') }}
 
     - name: Install dependencies
       run: |
@@ -74,6 +85,14 @@ jobs:
       with:
         name: docs-artifact
         path: docs/_build/html
+        include-hidden-files: true
+
+    - name: Upload mne_data as artifact
+      if: matrix.platform == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: mne-data-artifact
+        path: ~/mne_data
         include-hidden-files: true
 
     - name: Upload coverage report
