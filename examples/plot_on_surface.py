@@ -16,8 +16,6 @@ For more information, check out these MNE resources:
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
 
-# sphinx_gallery_thumbnail_number = 3
-
 # %%
 # We start by importing what we need.
 #
@@ -29,12 +27,12 @@ import numpy as np
 from eeg_positions import get_elec_coords
 
 # %%
-# Get fsaverage data via MNE-Python, this will download some data
+# Get fsaverage data via MNE-Python, this will download some data.
 subjects_dir = mne.datasets.fetch_fsaverage().parent
 
 # %%
 # Get idealized sensor positions that were computed on a sphere
-# and export as :class:`mne.channels.DigMontage`
+# and export as :class:`mne.channels.DigMontage`.
 montage = get_elec_coords(as_mne_montage=True)
 
 # %%
@@ -109,6 +107,7 @@ mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
 # surface, while still trying to have the landmarks (LPA, RPA, NAS) aligned between MRI
 # and montage.
 
+# sphinx_gallery_thumbnail_number = 3
 fiducials = "estimated"  # taken from fsaverage
 subject = "fsaverage"
 
