@@ -31,6 +31,7 @@ build:
     - libxkbcommon-x11-0
     - mesa-utils
     - x11-utils
+    - tree
   jobs:
     # needed for examples/plot_on_surface.py
     # env variables must also be defined in the readthedocs web dashboard
@@ -44,6 +45,8 @@ build:
       - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
       - sleep 30
       - export PYVISTA_OFF_SCREEN=true
+    post_build:
+      - tree ~/mne_data
 
 sphinx:
   configuration: docs/conf.py
