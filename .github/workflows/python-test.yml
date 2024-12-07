@@ -91,7 +91,7 @@ jobs:
       if: matrix.platform == 'ubuntu-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: mne_data
+        name: mne-data-artifact
         path: ~/mne_data
         include-hidden-files: true
 
