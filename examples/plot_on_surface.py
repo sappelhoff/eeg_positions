@@ -182,4 +182,21 @@ fig
 # Fortuntely, the inbuilt mne montage will give us a much better fit on a realistic
 # surface, see below, and compare to the two plots above.
 
+trans = "fsaverage"
+
+fig = mne.viz.plot_alignment(
+    info=info_mne,
+    trans=trans,
+    subject="fsaverage",  # this is fsaverage
+    subjects_dir=subjects_dir,  # directory of fsaverage
+    surfaces={"head": 0.8},  # alpha value
+    coord_frame="head",
+    eeg=["original", "projected"],
+    dig="fiducials",
+    show_axes=True,
+    mri_fiducials=True,
+)
+
+mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
+
 # %%
