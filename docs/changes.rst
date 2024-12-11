@@ -4,9 +4,10 @@
 Changelog
 =========
 
-2.2.0 (unreleased)
+2.1.2 (2024-12-11)
 ------------------
 - add example on how to plot positions on a realistic surface (``fsaverage``), by `Stefan Appelhoff`_ (:github:`#24`)
+- add option to install via ``conda``, by `Stefan Appelhoff`_
 
 2.1.1 (2024-11-24)
 ------------------
