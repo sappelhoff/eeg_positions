@@ -27,7 +27,7 @@ jobs:
         FORCE_COLOR: true
     steps:
     # Needed for examples/plot_on_surface.py
-    - uses: pyvista/setup-headless-display-action@v3
+    - uses: pyvista/setup-headless-display-action@v4
       with:
         qt: true
 
