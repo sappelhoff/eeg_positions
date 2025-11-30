@@ -27,7 +27,7 @@ def test_plot_coords():
         plot_coords([1, 2, 3])
 
     with pytest.raises(
-        ValueError, match=f'`coords` does not have a required column {"y"}.'
+        ValueError, match=f"`coords` does not have a required column {'y'}."
     ):
         plot_coords(pd.DataFrame(columns=["label", "x"]))
 
