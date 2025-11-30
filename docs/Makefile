@@ -2,7 +2,7 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    = -nWT --keep-going
+SPHINXOPTS    = -nWT --keep-going -vvv
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = eeg_positions
 SOURCEDIR     = .
