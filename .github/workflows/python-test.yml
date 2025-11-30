@@ -75,6 +75,8 @@ jobs:
       run: pytest
 
     - name: build docs
+      # plot_on_surface.py takes too long on macos
+      if: matrix.platform != 'macos-latest'
       run: |
         make -C docs/ clean
         make -C docs/ html
