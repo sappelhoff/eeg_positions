@@ -14,7 +14,7 @@ maintainers = [
 ]
 license = {file = "LICENSE"}
 readme = {file = "README.md", content-type = "text/markdown"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = [
   "EEG",
   "neuroscience",
@@ -39,9 +39,9 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13"
 ]
 dependencies = [
@@ -62,7 +62,7 @@ test = [
   "twine"
 ]
 docs = [
-  "sphinx",
+  "sphinx<9",
   "mne",
   "numpydoc",
   "sphinx-copybutton",
