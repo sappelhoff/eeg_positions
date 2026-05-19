@@ -4,7 +4,7 @@
 [![Documentation status](https://readthedocs.org/projects/eeg-positions/badge/?version=latest)](https://eeg-positions.readthedocs.io/en/latest/?badge=latest)
 [![PyPi version](https://img.shields.io/pypi/v/eeg_positions.svg)](https://pypi.org/project/eeg_positions/)
 [![Conda version](https://img.shields.io/conda/vn/conda-forge/eeg_positions.svg)](https://anaconda.org/conda-forge/eeg_positions)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14383723.svg)](https://doi.org/10.5281/zenodo.14383723)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14383723.svg)](https://doi.org/10.5281/zenodo.3718568)
 
 # eeg_positions
 
