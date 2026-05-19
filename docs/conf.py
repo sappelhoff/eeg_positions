@@ -72,7 +72,7 @@ autosummary_generate = True
 # General information about the project.
 project = "eeg_positions"
 copyright = (  # noqa: A001
-    "2018, Stefan Appelhoff et al. (see "
+    "2026, Stefan Appelhoff et al. (see "
     "<a href='https://github.com/sappelhoff/eeg_positions/blob/main/CITATION.cff'"
     f">CITATION.cff</a>). Last updated {datetime.now().isoformat()}"
 )

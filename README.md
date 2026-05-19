@@ -8,25 +8,25 @@
 
 # eeg_positions
 
-Compute and plot standard EEG electrode positions.
+Compute and plot standard EEG electrode positions on a spherical head model.
 
-Please see the [**Documentation**](https://eeg-positions.readthedocs.io/en/latest/).
+Check out the [**Documentation**](https://eeg-positions.readthedocs.io/en/latest/) for more details.
 
 ## Quickstart
 
-There are two common ways to make use of this repository:
+There are two common ways to use this repository:
 
 1. Go to the `data/` directory and download the EEG electrode position files you need
-   (see the [README](https://github.com/sappelhoff/eeg_positions/tree/main/data) there).
+   (see the corresponding [README](https://github.com/sappelhoff/eeg_positions/tree/main/data)).
 
 1. Use `eeg_positions` as a Python package (install instructions below),
    and then obtain the EEG electrode positions through the `get_elec_coords` function.
-   See the [Examples](https://eeg-positions.readthedocs.io/en/latest/auto_examples/index.html)
-   and [API documentation](https://eeg-positions.readthedocs.io/en/latest/api.html).
+   Check out the [examples](https://eeg-positions.readthedocs.io/en/latest/auto_examples/index.html)
+   and [API documentation](https://eeg-positions.readthedocs.io/en/latest/api.html) for more details.
 
 ## Installation
 
-For installing the **stable** version of `eeg_positions`, call:
+To install the **stable** version of `eeg_positions`, use:
 
 `python -m pip install --upgrade eeg_positions`
 
@@ -34,7 +34,7 @@ Or if you use [conda](https://docs.conda.io/en/latest/miniconda.html):
 
 `conda install --channel conda-forge eeg_positions`
 
-For installing the **latest (development)** version of `eeg_positions`, call:
+To install the **latest development** version of `eeg_positions`, use:
 
 `python -m pip install --upgrade https://github.com/sappelhoff/eeg_positions/archive/refs/heads/main.zip`
 
