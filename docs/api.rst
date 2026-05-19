@@ -25,7 +25,7 @@ but it is still made available over the API and the documentation for its key ro
    find_point_at_fraction
 
 The practically most useful functions are listed below.
-These will help you to get the electrode positions you need in a usable format
+These will help you to get the electrode positions you need in a usable format.
 
 .. autosummary::
    :toctree: generated/
