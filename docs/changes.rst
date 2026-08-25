@@ -7,6 +7,7 @@ Changelog
 2.2.0 (unreleased)
 ------------------
 - drop support for Python 3.9, by `Stefan Appelhoff`_ (:github:`#36`)
+- document MNE-Python integration of spherical montages and update montage compatibility for upcoming MNE releases, by `Stefan Appelhoff`_
 
 2.1.2 (2024-12-11)
 ------------------

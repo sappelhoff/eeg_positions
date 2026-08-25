@@ -152,14 +152,20 @@ mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
 # positions that are measured (digitized), rather than computed on a sphere
 # (idealized).
 #
-# The 1005 system eeg electrode positions shipped with MNE-Python happen to not be
-# calculated on a sphrere (idealized), so they should be a better fit on a realistic
-# surface.
+# The 1005 system EEG electrode positions shipped with MNE-Python as "colin27_1005"
+# (formerly "standard_1005") were fitted to a realistic head model (Colin27 MRI scan),
+# rather than computed on an idealized sphere, so they provide a closer fit on a
+# realistic head surface.
 #
 # Let's have a look, first in 2D, then in 3D
 
 # Getting the MNE-Python inbuilt 1005 system positions
-montage_mne = mne.channels.make_standard_montage(kind="standard_1005")
+montage_kind = (
+    "colin27_1005"
+    if "colin27_1005" in mne.channels.get_builtin_montages()
+    else "standard_1005"
+)
+montage_mne = mne.channels.make_standard_montage(kind=montage_kind)
 info_mne = mne.create_info(ch_names=montage_mne.ch_names, sfreq=1, ch_types="eeg")
 info_mne.set_montage(montage_mne)
 
@@ -174,13 +180,13 @@ for i, this_info in enumerate([info, info_mne]):
 
 fig
 # %%
-# As is maybe apparent from the plot above, the inbuilt mne 1005 montage does not
-# look as clear when projected to a spherical 2D head model. The inbuilt
+# As is maybe apparent from the plot above, the inbuilt mne Colin27 montage does
+# not look as clear when projected to a spherical 2D head model. The inbuilt
 # ``eeg_positions`` montage, on the other hand, can really shine in this situation
 # (because that is what it was designed for).
 #
-# Fortuntely, the inbuilt mne montage will give us a much better fit on a realistic
-# surface, see below, and compare to the two plots above.
+# Fortunately, the inbuilt mne Colin27 montage will give us a much better fit on a
+# realistic surface, see below, and compare to the two plots above.
 
 trans = "fsaverage"
 
