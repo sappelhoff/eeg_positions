@@ -53,7 +53,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
   "build",
-  "mne",
+  "mne>=1.13",
   "pre-commit",
   "pytest-cov",
   "pytest-sugar",
@@ -63,7 +63,7 @@ test = [
 ]
 docs = [
   "sphinx",
-  "mne",
+  "mne>=1.13",
   "numpydoc",
   "sphinx-copybutton",
   "sphinx-gallery",
