@@ -24,6 +24,8 @@ There are two common ways to make use of this repository:
    See the [Examples](https://eeg-positions.readthedocs.io/en/latest/auto_examples/index.html)
    and [API documentation](https://eeg-positions.readthedocs.io/en/latest/api.html).
 
+> **Note on MNE-Python integration:** The idealized spherical montages computed by this package (`spherical_1005`, `spherical_1010`, and `spherical_1020`) are shipped directly in [MNE-Python](https://mne.tools) via `mne.channels.make_standard_montage` (added in [mne-tools/mne-python#13903](https://github.com/mne-tools/mne-python/pull/13903)).
+
 ## Installation
 
 For installing the **stable** version of `eeg_positions`, call:

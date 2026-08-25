@@ -26,6 +26,10 @@ Highlights
 - **Look through the well-commented and documented code base to understand what's going on**
     - Start here: :ref:`API documentation <docs-api>`
 
+
+- **Integrated into MNE-Python**
+    - The idealized spherical montages computed by this package (``spherical_1005``, ``spherical_1010``, ``spherical_1020``) are shipped natively in `MNE-Python <https://mne.tools>`_ via ``mne.channels.make_standard_montage`` (see `mne-tools/mne-python#13903 <https://github.com/mne-tools/mne-python/pull/13903>`_)
+
 Introduction
 ============
 
