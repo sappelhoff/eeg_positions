@@ -7,6 +7,11 @@ For more information, check out these MNE resources:
 
 - https://mne.tools/dev/auto_tutorials/intro/plot_40_sensor_locations.html
 
+Note that MNE-Python also ships these idealized spherical montages
+(``"spherical_1005"``, ``"spherical_1010"``, and ``"spherical_1020"``)
+computed with ``eeg_positions`` as built-in standard montages via
+:func:`mne.channels.make_standard_montage`.
+
 .. currentmodule:: eeg_positions
 """  # noqa: D400 D205
 
