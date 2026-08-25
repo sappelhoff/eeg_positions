@@ -4,6 +4,10 @@
 Changelog
 =========
 
+2.1.3 (unreleased)
+------------------
+- document MNE-Python integration of spherical montages and update montage compatibility for upcoming MNE releases, by `Stefan Appelhoff`_
+
 2.1.2 (2024-12-11)
 ------------------
 - add example on how to plot positions on a realistic surface (``fsaverage``), by `Stefan Appelhoff`_ (:github:`#24`)
