@@ -153,19 +153,13 @@ mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
 # (idealized).
 #
 # The 1005 system EEG electrode positions shipped with MNE-Python as "fsaverage_1005"
-# (in MNE <= 1.12 "standard_1005", based on Colin27) were fitted to a realistic head
-# model rather than computed on an idealized sphere, so they provide a closer fit on a
-# realistic head surface.
+# were fitted to a realistic head model rather than computed on an idealized sphere,
+# so they provide a closer fit on a realistic head surface.
 #
 # Let's have a look, first in 2D, then in 3D
 
 # Getting the MNE-Python inbuilt 1005 system positions
-montage_kind = (
-    "fsaverage_1005"
-    if "fsaverage_1005" in mne.channels.get_builtin_montages()
-    else "standard_1005"
-)
-montage_mne = mne.channels.make_standard_montage(kind=montage_kind)
+montage_mne = mne.channels.make_standard_montage(kind="fsaverage_1005")
 info_mne = mne.create_info(ch_names=montage_mne.ch_names, sfreq=1, ch_types="eeg")
 info_mne.set_montage(montage_mne)
 
