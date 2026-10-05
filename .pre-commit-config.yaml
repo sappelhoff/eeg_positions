@@ -14,14 +14,14 @@ repos:
       - id: check-docstring-first
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.7
+    rev: v0.16.10
     hooks:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.24.3
+    rev: v0.25.0
     hooks:
       - id: toml-sort-fix
         files: pyproject.toml
