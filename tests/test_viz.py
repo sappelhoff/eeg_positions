@@ -34,3 +34,9 @@ def test_plot_coords():
     coords = get_elec_coords()
     fig, ax = plot_coords(coords)
     fig, ax = plot_coords(coords[["label", "x", "y"]])
+
+    # Test cEEGrid
+    coords_ceegrid_3d = get_elec_coords(system="ceegrid", dim="3d")
+    fig, ax = plot_coords(coords_ceegrid_3d)
+    coords_ceegrid_2d = get_elec_coords(system="ceegrid", dim="2d")
+    fig, ax = plot_coords(coords_ceegrid_2d)

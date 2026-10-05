@@ -618,6 +618,53 @@ for contour in CONTOUR_ORDER_Nz_EQUATOR:
 
 LANDMARKS = ["LPA", "RPA", "NAS"]
 
+SYSTEM_CEEGRID = [
+    "ceegrid_L01",
+    "ceegrid_L02",
+    "ceegrid_L03",
+    "ceegrid_L04",
+    "ceegrid_L04a",
+    "ceegrid_L04b",
+    "ceegrid_L05",
+    "ceegrid_L06",
+    "ceegrid_L07",
+    "ceegrid_L08",
+    "ceegrid_R01",
+    "ceegrid_R02",
+    "ceegrid_R03",
+    "ceegrid_R04",
+    "ceegrid_R04a",
+    "ceegrid_R04b",
+    "ceegrid_R05",
+    "ceegrid_R06",
+    "ceegrid_R07",
+    "ceegrid_R08",
+]
+
+# BESA spherical coordinates (phi, theta) in degrees from elec_cEEGrid.elp
+CEEGRID_SPHERICAL = {
+    "ceegrid_L01": (-102.0, -18.0),
+    "ceegrid_L02": (-92.0, -9.0),
+    "ceegrid_L03": (-92.0, 9.0),
+    "ceegrid_L04": (-102.0, 18.0),
+    "ceegrid_L04a": (-109.0, 19.0),
+    "ceegrid_L04b": (-115.0, 19.0),
+    "ceegrid_L05": (-122.0, 18.0),
+    "ceegrid_L06": (-132.0, 9.0),
+    "ceegrid_L07": (-132.0, -9.0),
+    "ceegrid_L08": (-122.0, -18.0),
+    "ceegrid_R01": (102.0, 18.0),
+    "ceegrid_R02": (92.0, 9.0),
+    "ceegrid_R03": (92.0, -9.0),
+    "ceegrid_R04": (102.0, -18.0),
+    "ceegrid_R04a": (109.0, -19.0),
+    "ceegrid_R04b": (115.0, -19.0),
+    "ceegrid_R05": (122.0, -18.0),
+    "ceegrid_R06": (132.0, -9.0),
+    "ceegrid_R07": (132.0, 9.0),
+    "ceegrid_R08": (122.0, 18.0),
+}
+
 ACCEPTED_EQUATORS = ["Nz-T10-Iz-T9", "Fpz-T8-Oz-T7"]
 
 RADIUS_INNER_CONTOUR = 0.72658518

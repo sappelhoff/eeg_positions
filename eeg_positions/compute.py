@@ -8,10 +8,12 @@ import pandas as pd
 
 from eeg_positions.config import (
     ACCEPTED_EQUATORS,
+    CEEGRID_SPHERICAL,
     LANDMARKS,
     SYSTEM1005,
     SYSTEM1010,
     SYSTEM1020,
+    SYSTEM_CEEGRID,
     CONTOUR_ORDER_Fpz_EQUATOR,
     CONTOUR_ORDER_Nz_EQUATOR,
 )
@@ -64,20 +66,40 @@ def get_alias_mapping():
         M2="TP10",
     )
 
+    # cEEGrid aliases
+    for ch in [
+        "01",
+        "02",
+        "03",
+        "04",
+        "04a",
+        "04b",
+        "05",
+        "06",
+        "07",
+        "08",
+    ]:
+        alias_mapping[f"L{ch}"] = f"ceegrid_L{ch}"
+        alias_mapping[f"R{ch}"] = f"ceegrid_R{ch}"
+        unpadded = ch.lstrip("0")
+        if unpadded != ch:
+            alias_mapping[f"L{unpadded}"] = f"ceegrid_L{ch}"
+            alias_mapping[f"R{unpadded}"] = f"ceegrid_R{ch}"
+
     # sanity checks
     for key, val in alias_mapping.items():
         # a value must not be a key
         assert val not in alias_mapping
 
-        # a key must not be in the 10-05 namespace + landmarks
-        assert key not in (SYSTEM1005 + LANDMARKS)
+        # a key must not be in the 10-05 namespace + landmarks + ceegrid
+        assert key not in (SYSTEM1005 + LANDMARKS + SYSTEM_CEEGRID)
 
         # a key must not contain certain characters
         # so that the names do not collide with the alias+(x, y, z) syntax
         for char in "+":
             assert char not in key
 
-        # a value must be in the 10-05 namespace + landmarks
+        # a value must be in the 10-05 namespace + landmarks + ceegrid
         # or be based on such a position, if it is modified via "+(...)"
         if "+(" in val:
             # this will raise a ValueError if more than one "+" is in the str,
@@ -92,9 +114,27 @@ def get_alias_mapping():
             assert isinstance(mod[2], (int, float))
         else:
             name = val
-        assert name in (SYSTEM1005 + LANDMARKS)
+        assert name in (SYSTEM1005 + LANDMARKS + SYSTEM_CEEGRID)
 
     return alias_mapping
+
+
+def _compute_ceegrid_coords(equator):
+    """Compute cEEGrid 3D coordinates on a unit sphere for a given equator."""
+    shift = 22.0 if equator == "Nz-T10-Iz-T9" else 0.0
+    records = []
+    for label, (phi_b, theta_b) in CEEGRID_SPHERICAL.items():
+        if shift != 0.0:
+            phi = phi_b + shift if phi_b < 0 else phi_b - shift
+        else:
+            phi = phi_b
+        phi_rad = np.deg2rad(phi)
+        theta_rad = np.deg2rad(theta_b)
+        z = np.cos(phi_rad)
+        x = np.sin(phi_rad) * np.cos(theta_rad)
+        y = np.sin(phi_rad) * np.sin(theta_rad)
+        records.append({"label": label, "x": x, "y": y, "z": z})
+    return pd.DataFrame(records)
 
 
 def get_available_elec_names(system="all"):
@@ -102,7 +142,7 @@ def get_available_elec_names(system="all"):
 
     Parameters
     ----------
-    system : "1020" | "1010" | "1005" | "landmarks" | "all"
+    system : "1020" | "1010" | "1005" | "ceegrid" | "landmarks" | "all"
         Specify for which system to return the electrode names.
         If ``"landmarks"``, return the anatomical landmark names.
         If ``"all"``, return all electrode names for which positions
@@ -135,9 +175,13 @@ def get_available_elec_names(system="all"):
         "1010": SYSTEM1010,
         "1005": SYSTEM1005,
         "landmarks": LANDMARKS,
-        "all": (SYSTEM1005 + LANDMARKS + list(get_alias_mapping().keys())),
+        "ceegrid": SYSTEM_CEEGRID,
+        "all": (
+            SYSTEM1005 + LANDMARKS + SYSTEM_CEEGRID + list(get_alias_mapping().keys())
+        ),
     }
-    elec_names = elec_names.get(system, None)
+    system_key = system.lower() if isinstance(system, str) else system
+    elec_names = elec_names.get(system_key, None)
     if elec_names is None:
         raise ValueError(f"Unknown input for `system`: {system}")
     return elec_names
@@ -158,7 +202,7 @@ def get_elec_coords(
 
     Parameters
     ----------
-    system : "1020" | "1010" | "1005"
+    system : "1020" | "1010" | "1005" | "ceegrid"
         Specify the electrodes for which to return coordinates.
         ``"1020"`` returns all electrodes of the 10-20 system, and so on.
         For an overview of the systems, see [1]_.
@@ -277,8 +321,14 @@ def get_elec_coords(
     if equator not in ACCEPTED_EQUATORS:
         raise ValueError(f"`equator` must be one of {ACCEPTED_EQUATORS}.")
 
-    systems = {"1020": SYSTEM1020, "1010": SYSTEM1010, "1005": SYSTEM1005}
-    system = systems.get(system, None)
+    systems = {
+        "1020": SYSTEM1020,
+        "1010": SYSTEM1010,
+        "1005": SYSTEM1005,
+        "ceegrid": SYSTEM_CEEGRID,
+    }
+    system_key = system.lower() if isinstance(system, str) else system
+    system = systems.get(system_key, None)
     if system is None:
         raise ValueError(f"`system` must be one of {list(systems.keys())}.")
 
@@ -412,6 +462,10 @@ def get_elec_coords(
     )
     df = pd.concat([df, tmp], ignore_index=True)
 
+    # add ceegrid coordinates
+    ceegrid_df = _compute_ceegrid_coords(equator)
+    df = pd.concat([df, ceegrid_df], ignore_index=True)
+
     # if we need to return an mne montage, we need the actual coordinates
     # as ndarrays
     if as_mne_montage:
@@ -541,7 +595,7 @@ def _produce_files_and_do_x(x="save"):
     fpath = Path(__file__).resolve().parent / ".." / "data"
     # For each equator for each system for both 2D and 3D
     for equator in ACCEPTED_EQUATORS:
-        for system in ["1020", "1010", "1005"]:
+        for system in ["1020", "1010", "1005", "ceegrid"]:
             for dim in ["2D", "3D"]:
                 coords = get_elec_coords(
                     system=system,
@@ -563,6 +617,7 @@ def _produce_files_and_do_x(x="save"):
                         na_rep="n/a",
                         index=False,
                         float_format=f"%.{precision}f",
+                        lineterminator="\n",
                     )
                 else:
                     assert x == "compare"
