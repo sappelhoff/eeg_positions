@@ -142,6 +142,15 @@ def test_ceegrid_alias_mapping():
     with pytest.raises(ValueError, match=match):
         get_elec_coords(elec_names=["L04a", "L04A"])
 
+    # Test that elec_names input list is not mutated in place
+    input_list = ["L01", "R08"]
+    get_elec_coords(elec_names=input_list, dim="3d")
+    assert input_list == ["L01", "R08"]
+
+    # Test that MNE montage preserves alias names
+    montage = get_elec_coords(elec_names=input_list, as_mne_montage=True)
+    assert montage.ch_names == ["L01", "R08"]
+
 
 def test_ceegrid_unit_sphere_and_symmetry():
     """Test that all cEEGrid 3D positions lie on the unit sphere and are symmetric."""

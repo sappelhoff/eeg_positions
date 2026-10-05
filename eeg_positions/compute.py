@@ -331,11 +331,21 @@ def get_elec_coords(
     The units of the coordinate system are arbitrary, because all coordinates
     are computed on a unit sphere (that is, a sphere with radius 1).
 
+    For the cEEGrid array (``system="ceegrid"``), idealized coordinates are
+    derived from the BESA spherical coordinates in Martin Bleichner's
+    cEEGrid EEGLAB plugin (``elec_cEEGrid.elp``; [2]_).
+
     References
     ----------
     .. [1] R. Oostenveld and P. Praamstra. The five percent electrode system for
        high-resolution EEG and ERP measurements. Clin Neurophysiol, 112:713-719, 2001.
        https://doi.org/10.1016/S1388-2457(00)00527-7
+    .. [2] M. G. Bleichner and S. Debener. Concealed, unobtrusive ear-centered EEG
+       acquisition: cEEGrids for transparent EEG. Front Hum Neurosci, 11:160, 2017.
+       https://doi.org/10.3389/fnhum.2017.00160
+    .. [3] S. Debener, R. Emkes, M. De Vos, and M. Bleichner. Unobtrusive ambulatory
+       EEG using a smartphone and flexible printed electrodes around the ear.
+       Sci Rep, 5:16743, 2015. https://doi.org/10.1038/srep16743
 
     """
     # perform input checks
@@ -356,8 +366,10 @@ def get_elec_coords(
 
     if elec_names is None:
         elec_names = []
-    if not isinstance(elec_names, (list, type(None))):
+    elif not isinstance(elec_names, list):
         raise ValueError("`elec_names` must be a list of str or None.")
+    else:
+        elec_names = list(elec_names)
 
     available_elec_names = get_available_elec_names()
     bad_elec_names = set(elec_names) - set(available_elec_names)
