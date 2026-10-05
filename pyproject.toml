@@ -7,14 +7,14 @@ name = "eeg_positions"
 description = "Compute and plot standard EEG electrode positions."
 dynamic = ["version"]
 authors = [
-  {name = "eeg_positions developers"}
+  { name = "eeg_positions developers" }
 ]
 maintainers = [
-  {name = "Stefan Appelhoff", email = "stefan.appelhoff@mailbox.org"}
+  { name = "Stefan Appelhoff", email = "stefan.appelhoff@mailbox.org" }
 ]
-license = {file = "LICENSE"}
-readme = {file = "README.md", content-type = "text/markdown"}
-requires-python = ">=3.10"
+license = { file = "LICENSE" }
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.11"
 keywords = [
   "EEG",
   "neuroscience",
@@ -39,10 +39,10 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13"
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14"
 ]
 dependencies = [
   "numpy",
@@ -53,7 +53,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
   "build",
-  "mne",
+  "mne>=1.13",
   "pre-commit",
   "pytest-cov",
   "pytest-sugar",
@@ -63,7 +63,7 @@ test = [
 ]
 docs = [
   "sphinx<9",
-  "mne",
+  "mne>=1.13",
   "numpydoc",
   "sphinx-copybutton",
   "sphinx-gallery",
@@ -117,7 +117,7 @@ allow-direct-references = true # allow specifying URLs in our dependencies
 
 [tool.hatch.version]
 source = "vcs"
-raw-options = {version_scheme = "release-branch-semver"}
+raw-options = { version_scheme = "release-branch-semver" }
 
 [tool.pytest.ini_options]
 addopts = """. --cov=eeg_positions/ --cov-report=xml --cov-config=pyproject.toml --verbose -s"""
