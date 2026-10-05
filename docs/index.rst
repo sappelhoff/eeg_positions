@@ -48,7 +48,8 @@ or directly from electrode cap manufacturers such as
 it is rarely specified and documented how these electrode locations are actually calculated.
 
 The ``eeg_positions`` package contains code to compute the standard EEG electrode locations
-on a spherical head model for the 10–20, 10–10, and 10–05 systems. It also includes utility functions
+on a spherical head model for the 10–20, 10–10, and 10–05 systems, as well as the around-the-ear
+cEEGrid array. It also includes utility functions
 to project the 3D locations to 2D space and to plot them.
 
 Details
@@ -98,6 +99,21 @@ Based on these known points, and the known distribution of EEG electrodes in the
 10–20, 10–10, and 10–05 systems,
 we then use the function :func:`find_point_at_fraction` to calculate the remaining points.
 
+cEEGrid electrode positions
+===========================
+
+In addition to standard scalp EEG systems, ``eeg_positions`` provides idealized
+spherical coordinates for the cEEGrid around-the-ear electrode array
+:footcite:`debener2015unobtrusive,bleichner2017concealed`.
+
+The idealized coordinates originate from the BESA spherical format in
+Martin Bleichner's cEEGrid EEGLAB plugin (``elec_cEEGrid.elp``; :footcite:`bleichner2017concealed`),
+where the coronal angles span 92° to 132° (midpoint 112°, sitting below the equator at
+elevation z ≈ -0.36 in the ``Fpz-T8-Oz-T7`` equator system).
+In the default ``Nz-T10-Iz-T9`` equator system, coronal angles are shifted by 22°
+to place the array symmetrically around the preauricular points (LPA and RPA at z = 0).
+See the :ref:`cEEGrid example <sphx_glr_auto_examples_plot_ceegrid.py>` for details and usage.
+
 Cite
 ====
 
@@ -118,6 +134,9 @@ Thanks to:
 
 - "Nominal Animal" who helped figure out the math for
   the ``find_point_at_fraction`` function :footcite:`stackexchange-nominal`.
+
+- Martin Bleichner for developing the `cEEGrid EEGLAB plugin <https://gitlab.com/mgbleichner/ceegridplugin>`_
+  and providing the original BESA spherical coordinates for the cEEGrid array.
 
 References
 ==========

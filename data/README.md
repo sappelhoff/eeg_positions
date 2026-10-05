@@ -9,7 +9,7 @@ Here you find standard EEG electrode coordinates in several formats.
 - Each of the subfolders contains the coordinate files
     - in 2D
     - in 3D
-    - for different "systems" (10-20, 10-10, 10-05)
+    - for different "systems" (10-20, 10-10, 10-05, and cEEGrid)
 - All files contain the anatomical landmarks: nasion (NAS), left- and right preauricular point (LPA, RPA)
 
 
