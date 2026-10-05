@@ -48,7 +48,8 @@ or directly from electrode cap manufacturers such as
 it is rarely specified and documented how these electrode locations are actually calculated.
 
 The ``eeg_positions`` package contains code to compute the standard EEG electrode locations
-on a spherical head model for the 10–20, 10–10, and 10–05 systems. It also includes utility functions
+on a spherical head model for the 10–20, 10–10, and 10–05 systems, as well as the around-the-ear
+cEEGrid array. It also includes utility functions
 to project the 3D locations to 2D space and to plot them.
 
 Details

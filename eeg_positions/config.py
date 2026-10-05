@@ -618,6 +618,19 @@ for contour in CONTOUR_ORDER_Nz_EQUATOR:
 
 LANDMARKS = ["LPA", "RPA", "NAS"]
 
+# The cEEGrid is an around-the-ear electrode array (Debener et al., 2015;
+# Bleichner & Debener, 2017).
+#
+# Provenance:
+# Spherical coordinates (phi, theta) in degrees originate from `elec_cEEGrid.elp`
+# in Martin Bleichner's cEEGrid EEGLAB plugin:
+# https://gitlab.com/mgbleichner/ceegridplugin/-/blob/master/elec_cEEGrid.elp
+#
+# These coordinates use BESA spherical format:
+# - phi: coronal angle measured from the vertical vertex (Cz = 0 deg;
+#   positive toward right ear, negative toward left ear).
+# - theta: azimuthal angle in horizontal plane (0 deg toward right ear,
+#   +90 deg toward nose / anterior, -90 deg toward occiput / posterior).
 SYSTEM_CEEGRID = [
     "ceegrid_L01",
     "ceegrid_L02",

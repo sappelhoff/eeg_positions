@@ -40,3 +40,5 @@ def test_plot_coords():
     fig, ax = plot_coords(coords_ceegrid_3d)
     coords_ceegrid_2d = get_elec_coords(system="ceegrid", dim="2d")
     fig, ax = plot_coords(coords_ceegrid_2d)
+    # Check that 2D limits expand to fit sub-equatorial cEEGrid electrodes
+    assert ax.get_xlim()[1] > 1.4

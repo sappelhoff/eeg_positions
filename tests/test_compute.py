@@ -108,6 +108,13 @@ def test_ceegrid_alias_mapping():
         if unpadded != ch:
             assert aliases[f"L{unpadded}"] == f"ceegrid_L{ch}"
             assert aliases[f"R{unpadded}"] == f"ceegrid_R{ch}"
+        if ch.endswith(("a", "b")):
+            upper = ch.upper()
+            assert aliases[f"L{upper}"] == f"ceegrid_L{ch}"
+            assert aliases[f"R{upper}"] == f"ceegrid_R{ch}"
+            unpadded_upper = unpadded.upper()
+            assert aliases[f"L{unpadded_upper}"] == f"ceegrid_L{ch}"
+            assert aliases[f"R{unpadded_upper}"] == f"ceegrid_R{ch}"
 
     # Requesting via alias returns user-requested labels
     coords = get_elec_coords(elec_names=["L01", "R08"], dim="3d")
@@ -121,6 +128,19 @@ def test_ceegrid_alias_mapping():
         coords[["x", "y", "z"]].to_numpy(),
         coords_canonical[["x", "y", "z"]].to_numpy(),
     )
+
+    # Test uppercase alias query
+    coords_upper = get_elec_coords(elec_names=["L4A", "R04B"], dim="3d")
+    assert coords_upper.label.to_list() == ["L4A", "R04B"]
+
+    # Test duplicate alias error detection for cEEGrid
+    match = "You specified the same electrode position using two aliases"
+    with pytest.raises(ValueError, match=match):
+        get_elec_coords(elec_names=["L01", "ceegrid_L01"])
+    with pytest.raises(ValueError, match=match):
+        get_elec_coords(elec_names=["L01", "L1"])
+    with pytest.raises(ValueError, match=match):
+        get_elec_coords(elec_names=["L04a", "L04A"])
 
 
 def test_ceegrid_unit_sphere_and_symmetry():

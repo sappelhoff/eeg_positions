@@ -85,6 +85,13 @@ def get_alias_mapping():
         if unpadded != ch:
             alias_mapping[f"L{unpadded}"] = f"ceegrid_L{ch}"
             alias_mapping[f"R{unpadded}"] = f"ceegrid_R{ch}"
+        if ch.endswith(("a", "b")):
+            upper = ch.upper()
+            alias_mapping[f"L{upper}"] = f"ceegrid_L{ch}"
+            alias_mapping[f"R{upper}"] = f"ceegrid_R{ch}"
+            unpadded_upper = unpadded.upper()
+            alias_mapping[f"L{unpadded_upper}"] = f"ceegrid_L{ch}"
+            alias_mapping[f"R{unpadded_upper}"] = f"ceegrid_R{ch}"
 
     # sanity checks
     for key, val in alias_mapping.items():
@@ -120,7 +127,22 @@ def get_alias_mapping():
 
 
 def _compute_ceegrid_coords(equator):
-    """Compute cEEGrid 3D coordinates on a unit sphere for a given equator."""
+    """Compute cEEGrid 3D coordinates on a unit sphere for a given equator.
+
+    Notes
+    -----
+    In `elec_cEEGrid.elp`, the BESA coronal angles span from 92 to 132 degrees
+    with a midpoint of 112 degrees. In the `Fpz-T8-Oz-T7` equator model, the
+    preauricular points (LPA/RPA) sit below the equator at elevation z = -0.36
+    (coronal angle ~111.2 degrees), so the native angles are already centered
+    around the ear.
+
+    In the default `Nz-T10-Iz-T9` model, the equator passes directly through
+    LPA/RPA at z = 0 (coronal angle 90 degrees). Shifting the coronal angle by
+    (132 + 92) / 2 - 90 = 22 degrees centers the cEEGrid array symmetrically
+    around the LPA/RPA ear plane at z = 0.
+
+    """
     shift = 22.0 if equator == "Nz-T10-Iz-T9" else 0.0
     records = []
     for label, (phi_b, theta_b) in CEEGRID_SPHERICAL.items():

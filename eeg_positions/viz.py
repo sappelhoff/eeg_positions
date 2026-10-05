@@ -185,6 +185,12 @@ def plot_coords(coords, scatter_kwargs={}, text_kwargs={}):
 
     if dim == "2d":
         fig, ax = _plot_2d_head(RADIUS_INNER_CONTOUR)
+        if not coords.empty:
+            max_coord = max(coords["x"].abs().max(), coords["y"].abs().max())
+            if max_coord > 1.0:
+                max_extent = max_coord * 1.15
+                ax.set_xlim([-max_extent, max_extent])
+                ax.set_ylim([-max_extent, max_extent])
         ax.scatter(coords["x"], coords["y"], zorder=2.5, **scatter_settings)
         for _, row in coords.iterrows():
             ax.text(row["x"], row["y"], row["label"], **text_settings)
