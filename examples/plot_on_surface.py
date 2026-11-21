@@ -102,11 +102,11 @@ mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
 # to the fsaverage head.
 #
 # However, we can try to "scale" fsaverage in three dimensions to make the fit
-# slightly better.
+# better.
 #
-# Below we will try to scale fsaverage to minimize the distance of sensors to the scalp
-# surface, while still trying to have the landmarks (LPA, RPA, NAS) aligned between MRI
-# and montage.
+# Below we will rotate and translate our montage relative to fsaverage, and scale
+# fsaverage along each of its three axes, to minimize the distance of the sensors and
+# landmarks (LPA, RPA, NAS) of our montage to the scalp surface.
 
 # sphinx_gallery_thumbnail_number = 3
 fiducials = "estimated"  # taken from fsaverage
@@ -119,7 +119,7 @@ coreg.set_scale_mode("3-axis")  # can also be "uniform", but the fit would be wo
 coreg.fit_fiducials(verbose=True)
 
 coreg.fit_icp(
-    n_iterations=40,
+    n_iterations=100,
     lpa_weight=1.0,
     nasion_weight=1.0,
     rpa_weight=1.0,
@@ -128,29 +128,50 @@ coreg.fit_icp(
     hpi_weight=0,
     verbose=True,
 )
-trans = coreg.trans
+
+# scaling factors along the x (left-right), y (back-front), and z (bottom-top) axes
+print(coreg.scale)
+
+# The transform in coreg.trans only contains the rotation and translation.
+# The scaling applies to the MRI, so we scale the head surface and the MRI
+# landmarks ourselves before plotting.
+head_fname = subjects_dir / subject / "bem" / f"{subject}-head.fif"
+head = mne.read_bem_surfaces(head_fname)[0]
+head["rr"] *= coreg.scale
+# surface normals scale inversely; update them so the head is shaded correctly
+head["nn"] /= coreg.scale
+head["nn"] /= np.linalg.norm(head["nn"], axis=1, keepdims=True)
+
+# copy the landmarks (in MRI coordinates), so that those in coreg remain unscaled
+mri_fiducials = coreg.fiducials.copy().dig
+for dig_point in mri_fiducials:
+    dig_point["r"] *= coreg.scale
 
 fig = mne.viz.plot_alignment(
     info=info,
-    trans=trans,  # this is the optimized transform based on scaling fsaverage
-    subject="fsaverage",
+    trans=coreg.trans,
+    subject=subject,
     subjects_dir=subjects_dir,
+    bem=[head],  # the scaled head surface
     surfaces={"head": 0.8},  # alpha value
     coord_frame="head",
     eeg=["original", "projected"],
     dig="fiducials",
     show_axes=True,
-    mri_fiducials=True,
+    # a list of landmark points works here, but is not documented in MNE (as of 1.13)
+    mri_fiducials=mri_fiducials,
 )
 
 mne.viz.set_3d_view(figure=fig, azimuth=135, elevation=80)
 
 # %%
-# Luckily, the fit is now slightly better.
+# The sensors are now close to the scalp, but only after moving the montage relative
+# to fsaverage and squashing and stretching fsaverage along its axes (see the scaling
+# factors printed above), so it no longer resembles a realistic head. The landmarks of
+# the montage and the MRI are also further apart than in the previous plot.
 #
-# It is still not perfect, so for actual source reconstruction, you should use sensor
-# positions that are measured (digitized), rather than computed on a sphere
-# (idealized).
+# So for actual source reconstruction, you should use sensor positions that are
+# measured (digitized), rather than computed on a sphere (idealized).
 #
 # The 1005 system EEG electrode positions shipped with MNE-Python as "fsaverage_1005"
 # were fitted to a realistic head model rather than computed on an idealized sphere,
@@ -179,8 +200,9 @@ fig
 # montage, on the other hand, can really shine in this situation (because that is what
 # it was designed for).
 #
-# Fortunately, the inbuilt mne montage will give us a much better fit on a realistic
-# surface, see below, and compare to the two plots above.
+# Fortunately, the inbuilt mne montage fits the original, unscaled fsaverage head well,
+# including the landmarks, see below, and compare to the ``eeg_positions`` fits on
+# fsaverage above.
 
 trans = "fsaverage"
 
