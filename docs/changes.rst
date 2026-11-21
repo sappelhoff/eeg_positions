@@ -9,6 +9,7 @@ Changelog
 - add idealized electrode positions, aliases, and example for cEEGrid, by `Stefan Appelhoff`_ (:github:`#51`)
 - drop support for Python 3.9 and 3.10, require Python >=3.11, by `Stefan Appelhoff`_ (:github:`#36`, :github:`#50`)
 - document MNE-Python integration of spherical montages and update montage compatibility for upcoming MNE releases, by `Stefan Appelhoff`_ (:github:`#50`)
+- fix the surface plotting example to show the 3-axis scaled ``fsaverage`` head that the coregistration was fitted to, by `Stefan Appelhoff`_ (:github:`#53`)
 
 2.1.2 (2024-12-11)
 ------------------
